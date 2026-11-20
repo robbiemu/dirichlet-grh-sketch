@@ -1,5 +1,7 @@
 # A prime sum and its zeros
 
+**Work in progress.** We are revising the examples and checking the estimates against Alpöge’s released sources.
+
 [Read the illustrated companion (PDF)](companion.pdf) · [Read the TeX source](companion.tex) · [Four-page sketch](https://github.com/robbiemu/dirichlet-grh-sketch/blob/67229c2f8412210e319691c1e4b45fde81027a0d/proof-sketch.pdf) · [Worked lift estimate](https://github.com/robbiemu/dirichlet-grh-sketch/blob/67229c2f8412210e319691c1e4b45fde81027a0d/lift-estimate.pdf)
 
 This companion to Levent Alpöge’s proposed proof of Dirichlet GRH assumes calculus, linear algebra and familiarity with finite groups. It begins by reading a character from a number line, using its weights in a series and locating the critical strip in the complex plane. Along the way readers compute a conductor from a character table, follow a prime in the Gaussian integers, extract a weight by integration and restrict a cohomology class to a subgroup.

@@ -15,7 +15,7 @@
 \definecolor{rulegray}{HTML}{CAD4D4}
 \definecolor{wash}{HTML}{EAF4F0}
 \hypersetup{colorlinks=true,linkcolor=sea,urlcolor=sea,
-  pdftitle={A prime sum and its zeros},
+  pdftitle={A prime sum and its zeros (work in progress)},
   pdfsubject={An illustrated companion to Levent Alpöge's proposed proof of Dirichlet GRH},
   pdfauthor={Codex, for the Dirichlet GRH sketch repository},bookmarksnumbered=false}
 \urlstyle{same}
@@ -37,7 +37,7 @@
 \renewcommand{\headrulewidth}{.4pt}
 \renewcommand{\headrule}{\hbox to\headwidth{\color{rulegray}\leaders\hrule height \headrulewidth\hfill}}
 \fancypagestyle{opening}{\fancyhead[L]{\sffamily\footnotesize\color{muted}Dirichlet GRH sketch repository}
-  \fancyhead[R]{\sffamily\footnotesize\color{muted}20 November 2026}}
+  \fancyhead[R]{\sffamily\footnotesize\color{muted}\textbf{Work in progress}\enspace\textbar\enspace20 November 2026}}
 \newcommand{\sheet}[3]{\clearpage\renewcommand{\partnamehere}{#1}\phantomsection
   \pdfbookmark[1]{#2}{bm-#3}\label{#3}
   {\sffamily\bfseries\fontsize{23}{26}\selectfont #2\par}\vspace{2pt}}
@@ -242,18 +242,17 @@ $\chi(1)=1$. Setting $\chi(n)=0$ on the other classes gives a Dirichlet
 character.
 
 \noindent\begin{minipage}[c]{.49\linewidth}
-\includegraphics[width=\linewidth]{figures/principal-extension.pdf}
+\includegraphics[width=\linewidth]{figures/principal-extension.pdf}\par\smallskip
+\illustrationcaption{A dash marks an undefined weight. The last row gives $\chi_{0,4}$.}
 \end{minipage}\hfill
 \begin{minipage}[c]{.48\linewidth}\raggedright
 Its nonzero values are roots of unity because each unit has
 some power $a^k=1$, giving $\chi(a)^k=1$.
 The \emph{principal} character has value $1$ on every unit.
-\par\medskip
-\illustrationcaption{A dash marks an undefined weight. The last row gives $\chi_{0,4}$.}
 \end{minipage}\par
 
 \smallskip
-The nonprincipal character $\chi_4$ above and the principal $\chi_{0,4}$ have the table
+The nonprincipal character $\chi_4$ from page~\pageref{firstweights} and the principal $\chi_{0,4}$ have the table
 \[
 \begin{array}{c|rrrr}
 n\bmod4&0&1&2&3\\\hline
@@ -266,7 +265,7 @@ Now $(\chi_{0,4}(n)+\chi_4(n))/2$ gives $1$ for $n\equiv1\bmod4$
 and $0$ in the other three columns. This recovers the indicator of one class.
 It is the finite Fourier calculation we will use again for primes.
 
-\subt{How small a modulus do the weights need?}
+\subt{What is the smallest modulus that still determines the weights on the units?}
 For a divisor $f$ of $q$, reduce the units modulo $q$ to units modulo $f$.
 A character $\psi$ modulo $f$ \emph{induces} $\chi$ modulo $q$ if its
 values give those of $\chi$ on these units. At every integer sharing a
@@ -274,8 +273,7 @@ prime factor with $q$ set $\chi(n)=0$. The \emph{conductor} is the smallest
 such $f$. A character whose modulus equals its conductor is \emph{primitive}.
 
 \noindent\begin{minipage}{.55\linewidth}
-For example, induce $\chi_4$ to modulus $12$. Remainder $1$ modulo $4$
-gives weight $+1$, and remainder $3$ gives weight $-1$.
+Induce $\chi_4$ to modulus $12$. On the four units modulo $12$, the weights are $+1$ at $1$ and $5$, and $-1$ at $7$ and $11$.
 \end{minipage}\hfill
 \begin{minipage}{.41\linewidth}\centering
 $\begin{array}{c|rrrr}
@@ -284,11 +282,7 @@ $\begin{array}{c|rrrr}
  \chi_{12}(n)&1&1&-1&-1
 \end{array}$
 \end{minipage}\par
-We can rule out the smaller divisors of $12$, namely $1,2,3$. Both $1$
-and $7$ leave remainder $0$ modulo $1$ and remainder $1$ modulo either
-$2$ or $3$. A character modulo any of the three must give both inputs
-the same weight. The table requires $+1$ at $1$ and $-1$ at $7$, so the
-conductor is $4$.
+One pair with opposite weights can rule out a modulus. Both $1$ and $7$ leave remainder $0$ modulo $1$ and remainder $1$ modulo $2$ or $3$. Each smaller divisor would therefore give them the same weight. Modulo $4$, the table checks all four units. The inputs $1,5$ share remainder $1$ and weight $+1$, while $7,11$ share remainder $3$ and weight $-1$. Thus the conductor is $4$.
 
 \sources{For induction and the unique primitive representative see
 \href{https://math.mit.edu/classes/18.785/2019fa/LectureNotes18.pdf\#page=7}{Andrew Sutherland's notes, Theorem 18.13 and Definition 18.14}.
@@ -297,22 +291,36 @@ The release uses the primitive representatives to build its
 \par\endgroup
 
 \sheet{I\enspace Prime sums}{From character weights to a prime product}{lseries}
+\begingroup
+\fontsize{11}{12.7}\selectfont
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}\setlength{\belowdisplayshortskip}{3pt}
 In the table on p.~\pageref{characters}, the principal character $\chi_{0,4}$
 assigns $1$ to both units. The single class modulo $1$ determines those
-values, so its conductor is $1$. Its primitive representative is the constant
-weight $\one(n)=1$, although $\chi_{0,4}$ vanishes on even integers.
+values, so its conductor is $1$. Its primitive representative is the constant character $\one(n)=1$.
+The two characters agree on odd integers. At the prime $2$, their weights
+are $\one(2)=1$ and $\chi_{0,4}(2)=0$, so only the first prime product
+includes a factor at $2$.
 Likewise, $\chi_{12}(3)=0$ because $3\mid12$, while $\chi_4(3)=-1$.
 These differences have a visible effect on the $L$-functions.
 
 \subt{Why a product over primes knows about their powers}
 Write $s=\sigma+it$ and $n^{-s}=\exp(-s\log n)$, using natural logarithms.
-For $\sigma>1$, absolute convergence and unique prime factorization give
+We want to see how each prime contributes to $L(s,\chi)$. When $\sigma>1$,
+the sum of the magnitudes of the terms is finite. This \emph{absolute convergence}
+lets us regroup the terms without changing their sum. Unique prime factorization then gives
 \[
 L(s,\chi)=\sum_{n\ge1}\frac{\chi(n)}{n^s}
-=\prod_p (1-\chi(p)p^{-s})^{-1}.
+=\prod_p\left(1-\frac{\chi(p)}{p^s}\right)^{-1}.
 \]
-The factor for $p$ is the geometric series in $\chi(p)p^{-s}$. For $\chi_4$
-the one for $3$ is $(1+3^{-s})^{-1}$. For $\chi_{12}$ it is $1$, and every
+The factor for $p$ is the geometric series in $\chi(p)p^{-s}$. For $\chi_4$, the factor at $3$ expands as
+\[
+ (1+3^{-s})^{-1}=1-3^{-s}+9^{-s}-27^{-s}+\cdots.
+\]
+This one factor accounts for every power of $3$. Multiplying the factors for different
+primes combines their powers to give each integer exactly once.
+For $\chi_{12}$, the factor at $3$ reduces to $1$, and every
 other prime has the same weight for the two characters. Hence
 \[
              L(s,\chi_{12})=(1+3^{-s})L(s,\chi_4).
@@ -322,15 +330,20 @@ $L(s,\chi_{0,4})=(1-2^{-s})\zeta(s)$. The modulus tells us which
 prime factors to omit when using the primitive representative.
 
 \subt{A logarithmic derivative picks out powers of primes}
-Take the logarithmic derivative $L'/L$, the derivative divided by the
-function. Expand the logarithm of each prime factor and differentiate. Cancelling
-the $r$ from the derivative of $p^{-rs}$ against the $1/r$ in the logarithm gives
+For a fixed prime $p$, the $r$-th term in the logarithm expansion is
+$\chi(p)^r p^{-rs}/r$. Differentiating that term gives
+\[
+ \frac{d}{ds}\left(\frac{\chi(p)^r}{r}\,p^{-rs}\right)
+ =\frac{\chi(p)^r}{r}(-r\log p)\,p^{-rs}
+ =-\frac{\chi(p)^r\log p}{p^{rs}}.
+\]
+Summing over $r$ and $p$ and reversing the sign gives the negative logarithmic derivative
 \[
  -\Lder(s,\chi)=\sum_p\sum_{r\ge1}\frac{\chi(p)^r\log p}{p^{rs}}
  =\sum_{n\ge1}\frac{\Lambda(n)\chi(n)}{n^s}.
 \]
 Here $\Lambda(p^r)=\log p$ for $r\ge1$ and $\Lambda(n)=0$ otherwise, including
-at $n=1$. Thus $9$ carries weight $\log3$, and $6$ carries weight zero.
+at $n=1$. For $\chi_4$, the term at $15$ in the original product comes from multiplying the terms at $3$ and $5$. After taking the logarithm, the outer sum adds the contributions from each prime separately. The inner sum for $p=3$ still contains $9=3^2$, but no inner sum contains $15$.
 
 \subt{What happens beyond convergence}
 The series $1+z+z^2+\cdots$ converges for $|z|<1$. There it equals
@@ -339,34 +352,42 @@ Extending an analytic function by agreement on an overlap is
 \emph{analytic continuation}. Dirichlet $L$-functions similarly have a
 continuation into the critical strip. At $s=1$, $\zeta(s)$ has a simple
 pole. Subtracting $1/(s-1)$ leaves a function analytic there. For a
-nonprincipal $\chi$, $L(s,\chi)$ is analytic and nonzero at $1$. These
-different behaviors determine the centerings of the prime sum.
+nonprincipal $\chi$, $L(s,\chi)$ is analytic and nonzero at $1$. The behavior at $s=1$ tells us which main term to subtract from each prime sum so we can study its fluctuations.
 
 \sources{For the character expansion, continuation and functional equation see the
 \href{https://dlmf.nist.gov/25.15}{NIST Digital Library of Mathematical Functions, §25.15}.
 For the exact strip statement used in the release see \src{Statements}{10}{Statements.lean}.}
 
+\par\endgroup
+
 \sheet{I\enspace Prime sums}{Giving each prime power a ramp}{ramp}
-A sharp cutoff includes a new term in a sum the instant $x$ reaches $n$.
-Instead, give that term a weight that starts at zero and increases linearly.
-For $x\ge1$ the resulting continuous, piecewise linear function is
+\begingroup
+\fontsize{11.5}{13.3}\selectfont
+\setlength{\parskip}{3pt plus .4pt minus .5pt}
+Earlier we added the signs of the odd primes through $13$. Now let the endpoint
+move. Call it $x$, and add the prime-power weights $\Lambda(n)\chi(n)$ for
+$n\le x$. For $\chi_4$, the term at $5$ contributes nothing while $x<5$.
+The moment $x$ reaches $5$, the total jumps by $\log 5$. Including the
+whole term at once makes the cutoff sharp.
+
+Alpöge instead gives each term a ramp. The contribution at $5$ starts at
+zero when $x=5$ and then grows as $(x/5-1)\log 5$. Applying the same rule
+to every prime power gives, for $x\ge1$,
 \[
  R_\chi(x)=\sum_{n\le x}\Lambda(n)\chi(n)(x/n-1).
 \]
 Its slope changes by $\Lambda(n)\chi(n)/n$ at $n$. This choice of shape will
 make its integral transform a particularly simple multiple of $-L'/L$.
 
-\subt{Two sums that can be checked by hand}
-At $x=4$ the ramp for the constant character $\one$ has received contributions from $2$ and $3$.
+For example, at $x=4$ the ramp for the constant character $\one$ has received contributions from $2$ and $3$.
 The term for $4$ is still zero, so $R_{\one}(4)=\log2+\tfrac13\log3$.
 For $\chi_4$ at $x=10$, the contributing prime powers are $3,5,7,9$. Thus
 \[
  R_{\chi_4}(10)
  =-\tfrac73\log3+\log5-\tfrac37\log7+\tfrac19\log3 .
 \]
-The $9$ term has positive sign because $\chi_4(3)^2=1$.
 
-\subt{The fluctuation we want to bound}
+\subt{The fluctuation in the ramp sum}
 Let $\gamma=\lim_{n\to\infty}(\sum_{j=1}^n1/j-\log n)$. For the conductor-one
 character $\one$ and for nonprincipal $\chi$, respectively, put
 \[
@@ -383,13 +404,15 @@ subtractions come from a pole cancellation (p.~\pageref{transform}).
 The ramps are linear between integers. In the right panel the segments join
 samples of a curved function on a longer interval.}
 
-These samples show the fluctuation on a finite range. The proof needs bounds at unbounded $x$.
+The figure shows the fluctuation over a finite range. To use it in the proof, we need an estimate of how large it can be as $x$ ranges arbitrarily far along the real line.
 
 \sources{The released definitions are \src{\dcDir CharFamily}{10}{ramp and Gchi}.
 The accompanying \texttt{figures/figure\_data.py} generates the numerical table
 by sieving for prime powers.}
 
-\sheet{I\enspace Prime sums}{One fixed sum, an entire window}{window}
+\par\endgroup
+
+\sheet{I\enspace Prime sums}{One fixed sum, bounded throughout a window}{window}
 Fix a primitive target $\psi$ of order $h$, the least positive power
 giving the principal character. Raise $\psi$ to each of its powers in turn,
 then reduce each power to its primitive representative as on p.~\pageref{characters}. The resulting set

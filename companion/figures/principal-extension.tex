@@ -4,25 +4,14 @@
 \begin{tikzpicture}[x=1cm,y=1cm,
   row name/.style={anchor=west,inner sep=0pt},
   heading/.style={row name,font=\sffamily\bfseries,text=sea}]
-\node[heading] at (0,0) {Multiplication modulo $4$};
-\node[anchor=east,inner sep=0pt,text=muted,font=\sffamily\footnotesize]
-  at (7.92,0) {$b$ is any integer};
-\node[row name] at (0,-.48) {Residue class $a$};
-\node[row name] at (0,-.92) {Product};
-\node[row name] at (0,-1.36) {Remainder};
-\draw[rulegray] (0,-1.68) -- (7.92,-1.68);
-\node[heading] at (0,-2.00) {Weights of the principal character};
+\node[heading] at (0,-1.50) {Weights of the principal character modulo $4$};
+\node[row name] at (0,-2.00) {Residue class};
+\foreach \x/\residue in {3.25/0,4.65/1,6.05/2,7.45/3}
+  \node at (\x,-2.00) {$\residue$};
 \node[row name] at (0,-2.49) {On the units};
 \node[row name,font=\sffamily\footnotesize,text=sea] at (0,-2.93) {Fill the blanks with $0$};
 \node[row name] at (0,-3.37) {On all four classes};
 
-\foreach \x/\residue/\factor/\remainder in {
-  3.25/0/b/{$0$},4.65/1/1/{$1$},
-  6.05/2/b/{$0$ or $2$},7.45/3/3/{$1$}}{
-  \node at (\x,-.48) {$\residue$};
-  \node at (\x,-.92) {$\residue\times\factor$};
-  \node at (\x,-1.36) {\remainder};
-}
 \foreach \x in {3.25,6.05}{
   \node[text=muted] at (\x,-2.49) {\textemdash};
   \draw[-{Stealth[length=1.7mm]},draw=sea,line width=.7pt]
