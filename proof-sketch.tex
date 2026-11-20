@@ -1,0 +1,184 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=0.87in,top=0.86in,bottom=0.76in,headheight=23pt,headsep=15pt,footskip=28pt]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{newpxtext,newpxmath}
+\usepackage[semibold]{sourcesans}
+\usepackage[varqu]{inconsolata}
+\usepackage{microtype,xcolor,enumitem,fancyhdr}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{172A38}
+\definecolor{accent}{HTML}{176866}
+\definecolor{pale}{HTML}{EFF7F5}
+\definecolor{muted}{HTML}{526570}
+\hypersetup{colorlinks=true,urlcolor=accent,linkcolor=accent,
+  pdftitle={How the proposed proof of Dirichlet GRH fits together},
+  pdfauthor={Codex},pdfsubject={A mathematical reconstruction of the November 2026 announcement}}
+\urlstyle{same}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5.5pt plus 0.5pt minus 0.5pt}
+\setlength{\abovedisplayskip}{6pt plus 1pt minus 1pt}
+\setlength{\belowdisplayskip}{6pt plus 1pt minus 1pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[enumerate]{leftmargin=1.55em,itemsep=3pt,topsep=2pt,parsep=0pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{muted}Dirichlet GRH}
+\fancyhead[R]{\small\sffamily\color{muted}Mathematical reconstruction}
+\fancyfoot[L]{\footnotesize\sffamily\color{muted}20 November 2026}
+\fancyfoot[R]{\footnotesize\sffamily\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{muted!45}\leaders\hrule height \headrulewidth\hfill}}
+\newcommand{\heading}[1]{{\sffamily\bfseries\fontsize{22}{25}\selectfont #1\par}\vspace{3pt}}
+\newcommand{\subhead}[1]{\par\addvspace{5pt}{\sffamily\bfseries\large\color{accent}#1\par}\nobreak\vspace{-2pt}}
+\newcommand{\notes}[1]{{\small\sffamily\color{muted}#1}}
+\newcommand{\repobase}{https://github.com/TomasOrtega/RH/blob/a6ac91a412dcbaab31801355ec5707024a71bf65/extracted/lean/src/}
+\newcommand{\src}[3]{\href{\repobase#1.lean\#L#2}{#3}}
+\newcommand{\aaDir}{Development/AutomorphicArithmetic/}
+\newcommand{\chars}{Development/AutomorphicArithmetic/CharacterBoxes/}
+\newcommand{\prim}{Development/AutomorphicArithmetic/PrimitiveCosets/}
+\newcommand{\ded}{Development/AutomorphicArithmetic/DedekindLFunctions/}
+\newcommand{\landau}{Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/}
+\newcommand{\frames}{Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/}
+\newcommand{\note}[2]{\href{https://alpo.ge/remark.pdf\#page=#1}{#2}}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\F}{\mathbb F}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\re}{\operatorname{Re}}
+\newcommand{\Res}{\operatorname*{Res}}
+\newtcolorbox{keybox}{enhanced,breakable=false,sharp corners,boxrule=0pt,
+  colback=pale,colframe=pale,borderline west={2pt}{0pt}{accent},
+  left=9pt,right=9pt,top=5pt,bottom=5pt,before skip=5pt,after skip=4pt}
+\begin{document}
+\pdfbookmark[1]{The argument in one page}{overview}
+{\sffamily\bfseries\fontsize{25}{28}\selectfont How the proposed proof of\\Dirichlet GRH fits together\par}
+\vspace{2pt}
+Dirichlet GRH says that every zero $\rho$ of a Dirichlet $L$-function in the strip $0<\re\rho<1$ has $\re\rho=\tfrac12$. A zero to the right would force a weighted sum over prime powers to be large somewhere in \emph{every} sufficiently late interval $[Y,Y^{3/2}]$. Levent Alpöge's construction is meant to produce arbitrarily late intervals on which the same sum stays small \emph{everywhere}. These statements give the contradiction. The difficult direction is producing the intervals with a bound arbitrarily close to the square-root scale. \notes{\note{3}{Announcement, pp.\ 3--4}.}
+
+\subhead{The prime sum}
+Write $\Lambda(p^a)=\log p$ for primes $p$ and integers $a\geq1$, and $\Lambda(n)=0$ otherwise. For $x\geq1$, define the weighted sum and its centered version by
+\[
+ R_\chi(x)=\sum_{n\leq x}\Lambda(n)\chi(n)(x/n-1),\qquad
+ G_\chi(x)=
+ \begin{cases}
+ R_\chi(x)-x\log x+(1+\gamma)x,&\chi=\mathbf1\ \text{of conductor }1,\\
+ R_\chi(x)+x\,L'(1,\chi)/L(1,\chi),&\chi\ \text{nonprincipal}.
+ \end{cases}
+\]
+Here $\gamma$ is Euler's constant. For conductor one, $G_{\mathbf1}$ measures the fluctuation after the expected main term of the prime sum has been subtracted. The corrections remove the singularity at $s=1$ in the transform on page 2. Fix a primitive character $\psi$. Take the primitive characters inducing the powers of $\psi$, counting each distinct character once, and call this finite set $F_\psi$. For $h=\operatorname{ord}(\psi)$ the release uses
+\[
+ H_\psi(x)=G_{\mathbf1}(x)+\frac{1}{3h+1}
+              \sum_{\chi\in F_\psi\setminus\{\mathbf1\}}\re G_\chi(x).
+\]
+For instance, the nontrivial character modulo $4$ has order two, so its family sum is $G_{\mathbf1}+\tfrac17\re G_{\chi}$. The family and its positive weights stay fixed as $Y$ varies. \notes{\src{\ded CharFamily}{10}{Prime sums} $\cdot$ \src{\frames ExplicitFormulaErrorOfHostConditions}{105}{cyclic family} $\cdot$ \src{\prim LevelFamily}{27}{weights}.}
+
+\begin{keybox}
+\textbf{\sffamily The required window estimate.}
+For every primitive $\psi$, every $\tfrac12<\theta<1$, and every $Y_0\geq2$, there is a $Y\geq Y_0$ such that
+\[
+       H_\psi(x)\leq x^\theta\qquad\text{for every }Y\leq x\leq Y^{3/2}. \tag{W}
+\]
+\end{keybox}
+
+\subhead{From the estimate to GRH}
+Suppose $L(\rho,\psi)=0$ with $\tfrac12<\beta=\re\rho<1$. Choose $\tfrac12<\theta<\beta$. The window criterion on page 2 forces a violation of (W) in every sufficiently late window. This rules out $\rho$. A primitive zero with $\re\rho<\tfrac12$ in the open strip would give a zero of $L(1-\rho,\bar\psi)$ on the right by the functional equation. For an imprimitive character the extra Euler factors are nonzero when $\re s>0$, since $|\chi^*(p)p^{-s}|<1$ for its inducing primitive character $\chi^*$. The conductor-one case gives classical RH. \notes{\src{\chars ClaimStrip}{20}{Primitive reduction and reflection} $\cdot$ \src{Main}{4}{released conclusions}.}
+
+\newpage
+\pdfbookmark[1]{Why a zero forces a large prime sum}{zeros}
+\heading{Why a zero forces a large prime sum}
+\subhead{The smoothing gives each zero a pole}
+Write $\widehat f(s)=\int_1^\infty f(x)x^{-s-1}\,dx$. For $\re s>1$, the contribution of a single ramp follows by integration,
+\[
+ \int_n^\infty (x/n-1)x^{-s-1}\,dx
+   =n^{-s}\!\left(\frac1{s-1}-\frac1s\right)=\frac{n^{-s}}{s(s-1)} .
+\]
+Summing using the Euler product gives $\widehat R_\chi(s)=-(L'/L)(s,\chi)/[s(s-1)]$ by absolute convergence. For the conductor-one character this yields
+\[
+ \widehat G_{\mathbf1}(s)=
+ -\frac{(\zeta'/\zeta)(s)}{s(s-1)}
+ -\frac{1}{(s-1)^2}+\frac{1+\gamma}{s-1}.
+\]
+Indeed $-\zeta'/\zeta=1/(s-1)-\gamma+O(s-1)$ at $1$, so the two singular terms cancel. For nonprincipal $\chi$ the correction adds $(L'/L)(1,\chi)/(s-1)$ and again removes the pole at $1$. At a strip zero $\rho$ of multiplicity $r$, the continued transform has residue
+\[
+       \Res_{s=\rho}\widehat G_\chi(s)=-\frac{r}{\rho(\rho-1)}.
+\]
+Under Mellin inversion a pole at $\rho=\beta+it$ contributes a multiple of $x^\beta e^{it\log x}$. This explains why an exponent $\beta>\theta$ is detectable. Other zeros can interfere in the prime sum, so a single term does not yet locate a large value on the real $x$-axis.
+
+Taking $\re G_\chi$ averages the transforms for $\chi$ and $\bar\chi$. At any common zero, all nonzero residues are positive multiples of $-1/[\rho(\rho-1)]$. Thus a zero of the target character survives the family average. At a real strip zero the residue is positive. \notes{\src{\landau MellinRamp}{10}{Ramp integral} $\cdot$ \src{\landau mellinGchiModOne}{115}{zeta centering} $\cdot$ \src{\landau poleData}{248}{family poles}.}
+
+\subhead{Why control on windows suffices}
+The release uses a Landau-type lemma. Set $H_F=\sum_{\chi\in F}a_\chi\re G_\chi$ for a fixed finite family with $a_\chi>0$ and the principal character represented at conductor one. For $0<\theta<1$ and $\lambda>1$, an upper bound $H_F(x)\leq Cx^\theta$ on arbitrarily late whole intervals $[Y,Y^\lambda]$ excludes every strip zero of every member with $\re\rho>\theta$.
+
+Put $u=\log x$, $g(u)=H_F(e^u)$ and $\Phi(s)=\widehat H_F(s)$. A window becomes $[U,\lambda U]$. For $\sigma>2$, the normalized $k$th derivative $A_k(s)=(-1)^k\Phi^{(k)}(s)/k!$ is a Fourier integral at $s=\sigma+it$ with weight $w_k(u)=u^k e^{-\sigma u}/k!$. The triangle inequality gives
+\[
+ |A_k(\sigma+it)|+\re A_k(\sigma)
+ \ \leq\ \int_0^\infty (|g(u)|+g(u))\,w_k(u)\,du.
+\]
+The integrand only sees the positive part of $g$. One chooses $\sigma$ and then $k\geq U$ so that the tails outside the window are small even using the crude bound $|g(u)|\ll e^{2u}$. For every $\eta>0$ this gives an upper bound $\ll e^{\eta U}(\sigma-\theta)^{-k}$ on the left along arbitrarily late windows.
+
+A pole to the right of $\theta$ gives a conflicting lower bound. The source isolates a nearest pole at distance $d<\sigma-\theta$ from a suitable center $\sigma+it$, or treats a real pole using its positive residue. Its derivative contribution grows like $d^{-k-1}$ relative to an analytic remainder of strictly smaller exponential rate. Taking $\eta$ small gives the contradiction. The tail estimate and pole isolation are substantive parts of this analytic lemma. \notes{\src{\landau landauTails}{80}{Tails} $\cdot$ \src{\landau landauWindow}{83}{pole argument} $\cdot$ \src{\landau ZeroFreeOfRpowWindow}{11}{window criterion}.}
+
+\newpage
+\pdfbookmark[1]{What the theta lifts contribute}{lifts}
+\heading{What the theta lifts are meant to do}
+\subhead{An exact calculation in the finite-field model}
+Let $e_q$ be a nontrivial additive character of $\F_q$, let $t:\F_q\to\C$, and put $M=\sum_x t(x)$. On $k\geq2$ variables take the path quadratic form $Q(\mathbf x)=\sum_{j=1}^{k-1}x_jx_{j+1}$ and $T(\mathbf x)=\prod_j t(x_j)$. Summing over the additive frequency first, or separating its zero term first, gives
+\[
+ q\!\sum_{Q(\mathbf x)=0}T(\mathbf x)
+ =\sum_{a\in\F_q}\sum_{\mathbf x} T(\mathbf x)e_q(aQ(\mathbf x))
+ =M^k+\sum_{a\ne0}\sum_{\mathbf x}T(\mathbf x)e_q(aQ(\mathbf x)).
+\]
+This recovers the announcement's $qN=M^k+R$. There is a concrete saving for each $a\ne0$. The matrix $(q^{-1/2}e_q(axy))_{x,y}$ is unitary by character orthogonality. Each of the $k-1$ edges contributes a factor $\sqrt q$. Multiplication by $t$ has operator norm at most one when $|t|\leq1$, and the two endpoint vectors each have norm at most $\sqrt q$. Hence each inner sum has absolute value at most $q^{(k+1)/2}$. Controlling $M$ also requires information about the constrained sum on the left. The announcement attributes a sign there to geometry. \notes{\note{3}{Announcement, footnote 3}.}
+
+\subhead{From vanishing order to arithmetic divisibility}
+In Stepanov's method a nonzero auxiliary function vanishing to order $m$ at each of $N$ points has at least $mN$ zeros counted with multiplicity. A degree bound then controls $N$. The proposed arithmetic analogue builds an auxiliary determinant from periods of automorphic forms. A period is an integral of a form over a subgroup. The determinant and the branching of representations are supposed to enforce simultaneous vanishing or divisibility conditions.
+
+One local prototype in the note is the congruence $D^p\equiv0\bmod p$ for an invariant derivation on a CM elliptic curve at a good inert prime. It gives a source of divisibility in high theta derivatives. The note reports multiplicity two on $\mathrm O(2,n)$, then iterates theta lifts between definite unitary groups $U(V_0),\ldots,U(V_m)$. A theta lift integrates a form against a theta kernel to obtain a form on the next group. Chaining $m$ lifts is supposed to accumulate $m$ conditions on the periods. For a prime sum of length $x$ the release uses
+\[
+                x^{1/2-\varepsilon}\ \leq\ m\ \leq\ x^{1/2+\varepsilon/2}.
+\]
+At this scale both $m$ and $x/m$ are at most $x^{1/2+\varepsilon}$. The cost from the norms, levels and denominators of the lifted forms has to fit at the same time. \notes{\note{3}{Announcement, items 2 and 7--14} $\cdot$ \src{Formalism/SizeWindowBrackets/SChain}{53}{lower scale} $\cdot$ \src{\landau ChCore}{343}{upper scale}.}
+
+\subhead{How the cost of a lift enters}
+For a nonzero algebraic integer $a$ in a number field $K$, finite divisibility and archimedean size are linked by the norm identity
+\[
+ \sum_{\mathfrak p}v_{\mathfrak p}(a)\log N\mathfrak p
+ =\sum_{\sigma:K\hookrightarrow\C}\log|\sigma(a)|.
+\]
+Bost's slope inequality makes a related comparison for lattices and determinants. The note says the first calculation of the cost of a lift reaches exponent $2/3$. Its proposed improvement uses a seesaw identity to express lifted periods through a Bessel period common to different Hecke characters. Placing the periods in one integral lattice is meant to permit division by a common factor. A relative trace formula controls correlations between columns, while congruence indices and lattice covolumes enter the remaining loss. \notes{\note{4}{Announcement, items 9--18}.}
+
+\newpage
+\pdfbookmark[1]{The arithmetic estimate and its status}{arithmetic}
+\heading{The arithmetic estimate behind the claim}
+\subhead{Two inputs must hold at the same scales}
+Fix $\psi$ and its cyclic character family. Write $S_\varepsilon$ for the scales of a chosen auxiliary family where the field, character data and chain estimates can be used together.
+\begin{enumerate}
+\item \textbf{Construct the families.} There exist constants $e_D,e_L$ and $\varepsilon_0>0$ such that, for each $0<\varepsilon<\varepsilon_0$, one can choose a compatible family. Its admissible scales contain an entire interval $[Y,Y^{3/2}]$ above each prescribed starting point. On all sufficiently large scales in this set the divisibility, level and norm estimates apply to the same chain.
+\item \textbf{Compare with the prime sum.} With these data, at every sufficiently large $x\in S_\varepsilon$ the arithmetic comparison yields
+\[
+                      H_\psi(x)\ \leq\ x^{1/2+(e_D+e_L+7)\varepsilon}. \tag{1}
+\]
+The connection with primes is finite Fourier inversion. In a finite abelian group $A$,
+\[
+  \mathbf1_{g=a}=\frac1{|A|}\sum_{\xi\in\widehat A}\overline{\xi(a)}\,\xi(g).
+\]
+At an unramified prime, inserting $g=\mathrm{Frob}_p^r$ converts a condition on a Frobenius class into character weights on $p^r$. The arithmetic side bounds the excess of such weighted counts over their main term. Averaging the resulting identities gives (1). \notes{\src{\chars ZeroFreeAllOfTopG}{12}{Compatible families} $\cdot$ \src{\landau ChBalance}{42}{orthogonality} $\cdot$ \src{\landau ChTop}{37}{excess bound} $\cdot$ \src{\prim CoreGm}{12}{comparison}.}
+\end{enumerate}
+The order of quantifiers matters. The two loss exponents are fixed \emph{before} $\varepsilon$ is chosen. Given $\theta>\tfrac12$, take $\varepsilon$ small enough that $(e_D+e_L+7)\varepsilon<\theta-\tfrac12$, then choose the whole interval beyond the comparison threshold. Equation (1) now gives (W). A bound with a loss of $1/6$ independent of $\varepsilon$ would only reach $2/3$. \notes{\src{\frames TopWin}{68}{Exponent choice} $\cdot$ \src{\chars EveryCharacter}{8}{the choice $3/2$}.}
+
+\subhead{An example of what the construction has to prove}
+The announcement mentions a weakening of Vandiver. Its role can be stated quantitatively. For specified auxiliary cyclotomic subfields $E$, write $b_{\ell,j}(E)$ for the $\Z_\ell$-length of the locally trivial subgroup of the relevant $H^1$ with coefficients $\Q_\ell/\Z_\ell(-j)$. On certain auxiliary windows the release requires these lengths to be finite and, for every finite set $P$ of primes, requires
+\[
+ \sum_{\ell\in P}(\log\ell)\!\!\sum_{1\leq j<\lfloor x^{401}\rfloor}
+             b_{\ell,j}(E)\ \leq\ \exp(x^\varepsilon/2).
+\]
+The source specifies the fields and the allowed levels in \texttt{VWinAt}, with its own auxiliary intervals $[Z,Z^2]$. This bound controls the contribution of the surviving cohomology classes to the cost of division. The announcement also singles out a Behrend construction in choosing its Iwasawa tower. \notes{\src{Formalism/GaloisCohomology/Statement}{67}{Cohomology group} $\cdot$ \src{\chars ExistsPageN}{12}{field and window conditions} $\cdot$ \src{\chars DivinNOfHypV}{17}{use in divisibility}.}
+
+\subhead{What was reproduced}
+I worked out the finite Fourier identity, the Mellin transform and its residues, and the deduction of Dirichlet GRH from (W) and the analytic window criterion. I traced the latter criterion and the arithmetic inputs in the released source. The uniform construction of the theta-lift families, their divisibility and covolume estimates, and the full Lean kernel check remain unverified in this reconstruction. The extended Riemann hypothesis is mentioned in the announcement as a future direction. \notes{\note{1}{Original release} $\cdot$ \src{\chars MainConclusion}{7}{assembly} $\cdot$ \src{Statements}{3}{formal statements}.}
+\end{document}

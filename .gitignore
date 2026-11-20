@@ -1,0 +1,12 @@
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+.DS_Store
+
+# Local copies of the announcement and its accompanying Lean release
+/remark.pdf
+/lean.tar.gz
+/lean/
