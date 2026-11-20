@@ -163,12 +163,13 @@ record the weight of a prime?
 
 \noindent\begin{minipage}[c]{.56\linewidth}\raggedright
 Take the square-lattice theta series $F$, written out on p.~\pageref{lifts}
-when we discuss theta lifts. Its symmetries act in the \emph{upper half-plane},
-above the real axis. Write $w=e^{\pi iz}$. Each integer pair $(a,b)$ contributes
-one copy of $w^{a^2+b^2}$ to $F$. Collect like powers. The number in front of
-$w^p$, its Fourier coefficient $c_p$, counts the pairs with $a^2+b^2=p$.
-For odd primes $p$, the two-squares formula gives $c_p=4(1+\chi_4(p))$.
-To recover the signs at $5$ and $3$, divide each count by four and subtract one.
+when we discuss theta lifts.
+For $z$ in the \emph{upper half-plane}, above the real axis, put $w=e^{\pi iz}$.
+Each integer pair $(a,b)$ with $a^2+b^2=n$ contributes one copy of $e^{\pi inz}=w^n$. If there
+are $c_n$ such pairs, their terms add to $c_n w^n$. Thus
+$F(z)=\sum_{n\ge0}c_n w^n$. At an odd prime $p$, the term is $c_p w^p$.
+The two-squares formula gives the Fourier coefficient $c_p=4(1+\chi_4(p))$.
+Divide the count by four and subtract one to recover the sign.
 \end{minipage}\hfill
 \begin{minipage}[c]{.42\linewidth}
 \ill[1]{theta-plane}{A shift by $2$ preserves $F$, just as a shift by $4$ preserves $\chi_4$. Inversion gives $F(-1/z)=-izF(z)$ and takes $1+i$ to $(-1+i)/2$.}
@@ -176,10 +177,10 @@ To recover the signs at $5$ and $3$, divide each count by four and subtract one.
 
 {\small\noindent\begin{tabularx}{\linewidth}{@{}lXll@{}}
 \toprule
-Prime $p$ & Pairs with $a^2+b^2=p$ & Count $c_p$ & Weight $\chi_4(p)=c_p/4-1$\\
+Prime $p$ & Pairs with $a^2+b^2=p$ & Term $c_p w^p$ & Weight $\chi_4(p)=c_p/4-1$\\
 \midrule
-$5$ & $1^2+2^2$ in two orders, four sign choices each & $2\times4=8$ & $8/4-1=+1$\\
-$3$ & The only squares available are $0$ and $1$, and $1+1<3$. & $0$ & $0/4-1=-1$\\
+$5$ & $1^2+2^2$ in two orders, four sign choices each & $(2\times4)w^5=8w^5$ & $8/4-1=+1$\\
+$3$ & Squares $\le3$ are $0,1$, and $1+1<3$. & $0w^3=0$ & $0/4-1=-1$\\
 \bottomrule
 \end{tabularx}\par}
 
@@ -785,9 +786,8 @@ law for integer matrices of determinant $1$ in its group is
 \[
  f\!\left(\frac{az+b}{cz+d}\right)=(cz+d)^k f(z).
 \]
-At principal \emph{level} $N$ those matrices are congruent to the identity
-entry by entry modulo $N$. Taking $a=d=1$, $b=N$, $c=0$ gives
-$f(z+N)=f(z)$. Level selects the symmetries a form is required to have.
+At principal \emph{level} $N$ the matrices equal the identity modulo $N$, entry by
+entry. Taking $a=d=1$, $b=N$, $c=0$ gives one required symmetry, $f(z+N)=f(z)$.
 
 In the proposed lifts a group $U(V)$ consists of the linear changes of
 variables preserving a Hermitian form on $V$. For the usual form on
@@ -800,23 +800,27 @@ unitary groups there are compact. At finite places, level again specifies
 subgroups under which a form is invariant.
 
 \subt{A kernel that can see two groups}
-The series on p.~\pageref{openingclaims} is $F(z)=\sum_{(a,b)\in\Z^2}e^{\pi iz(a^2+b^2)}$
-for $\operatorname{Im}z>0$. Shifting $z$ by $2$ multiplies each term by
-$e^{2\pi i(a^2+b^2)}=1$. At $z=1+i$, inversion gives $(-1+i)/2$
-and the factor $-iz=1-i$. The coefficient of $e^{5\pi iz}$ is eight,
-from $(\pm1,\pm2)$ and their swaps.
-A theta kernel also sums over rational vectors, now with actions of two
-groups on the underlying data. If $g$ and $h$ are variables on the old and
-new groups, an integral transform has the schematic shape
+For $\operatorname{Im}z>0$, set $w=e^{\pi iz}$. Group the pairs on
+p.~\pageref{openingclaims} by $n=a^2+b^2$, counting $c_n$ pairs for each $n$.
+\[
+ F(z)=\sum\nolimits_{(a,b)\in\Z^2} e^{\pi iz(a^2+b^2)}
+      =\sum\nolimits_{(a,b)\in\Z^2} w^{a^2+b^2}
+      =\sum\nolimits_{n\ge0} c_n w^n .
+\]
+At a prime $p$ the term is $c_p w^p=c_p e^{\pi ipz}$. For $p=5$,
+$(\pm1,\pm2)$ and their swaps give $8w^5=8e^{5\pi iz}$.
+Shifting $z$ by $2$ fixes $w$ since $e^{2\pi i}=1$.
+Inversion takes $1+i$ to $(-1+i)/2$ with factor $-iz=1-i$.
+A theta kernel also sums over rational vectors. Two groups act on its data.
+With $g$ in the old group and $h$ in the new one, the transform has the schematic form
 \[
         f_{j+1}(h)=\int_{[U(V_j)]} f_j(g)\,\Theta_{j+1}(g,h)\,dg .
 \]
-Here $[U(V_j)]$ identifies two tuples of local group elements that differ
-by left multiplication by one global group element. This is the group
-version of taking a periodic integral over a single copy of $\R/\Z$.
-The function $\Theta_{j+1}$ is the integral kernel. In the figure, each
-arrow integrates in the old variable $g$, leaving a form in the new variable
-$h$. After the last lift one more integral gives the period of $f_m$.
+In $[U(V_j)]$ we identify tuples of local group elements related by left
+multiplication by a global element, just as $\R/\Z$ identifies $t$ with $t+1$
+in a periodic integral. Each arrow integrates against the kernel $\Theta_{j+1}$ in
+the old variable $g$, leaving a form in $h$. One last integral gives the
+period of $f_m$.
 
 \ill{lift}{The proposed chain contains $m$ transforms. The diagram records the
 groups and the order of integration. Nonvanishing and integrality at the
