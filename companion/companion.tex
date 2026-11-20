@@ -1,0 +1,1207 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper,left=1in,right=1in,top=.94in,bottom=.86in,
+  headheight=23pt,headsep=15pt,footskip=29pt]{geometry}
+\usepackage{amsmath,amssymb,mathtools,newpxtext,newpxmath}
+\usepackage[semibold]{sourcesans}
+\usepackage[varqu]{inconsolata}
+\usepackage{microtype,xcolor,graphicx,booktabs,tabularx,array,enumitem,fancyhdr}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{19303A}
+\definecolor{sea}{HTML}{00675E}
+\definecolor{clay}{HTML}{A24725}
+\definecolor{muted}{HTML}{4C636C}
+\definecolor{rulegray}{HTML}{CAD4D4}
+\definecolor{wash}{HTML}{EAF4F0}
+\hypersetup{colorlinks=true,linkcolor=sea,urlcolor=sea,
+  pdftitle={A prime sum and its zeros},
+  pdfsubject={An illustrated companion to Levent Alpöge's proposed proof of Dirichlet GRH},
+  pdfauthor={Codex, for the Dirichlet GRH sketch repository},bookmarksnumbered=false}
+\urlstyle{same}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus .4pt minus .5pt}
+\setlength{\abovedisplayskip}{6pt plus 1pt minus 2pt}
+\setlength{\belowdisplayskip}{6pt plus 1pt minus 2pt}
+\setlength{\abovedisplayshortskip}{4pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist{nosep,leftmargin=1.6em}
+\setlist[enumerate]{itemsep=3pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\sffamily\footnotesize\color{muted}A prime sum and its zeros}
+\newcommand{\partnamehere}{Reader's guide}
+\fancyhead[R]{\sffamily\footnotesize\color{muted}\partnamehere}
+\fancyfoot[L]{\sffamily\footnotesize\color{muted}Dirichlet GRH\enspace/\enspace An illustrated companion}
+\fancyfoot[R]{\sffamily\bfseries\small\color{sea}\thepage}
+\renewcommand{\headrulewidth}{.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{rulegray}\leaders\hrule height \headrulewidth\hfill}}
+\fancypagestyle{opening}{\fancyhead[L]{\sffamily\footnotesize\color{muted}Dirichlet GRH sketch repository}
+  \fancyhead[R]{\sffamily\footnotesize\color{muted}20 November 2026}}
+\newcommand{\sheet}[3]{\clearpage\renewcommand{\partnamehere}{#1}\phantomsection
+  \pdfbookmark[1]{#2}{bm-#3}\label{#3}
+  {\sffamily\bfseries\fontsize{23}{26}\selectfont #2\par}\vspace{2pt}}
+\newcommand{\subt}[1]{\par\addvspace{6pt}{\sffamily\bfseries\large\color{sea}#1\par}\nobreak\vspace{-2pt}}
+\newcommand{\smallhead}[1]{{\sffamily\bfseries\color{sea}#1}}
+\newcommand{\sources}[1]{\par\vfill\noindent{\color{rulegray}\rule{\linewidth}{.45pt}}\par
+  \vspace{-4pt}{\footnotesize\sffamily\color{muted}#1\par}}
+\newcommand{\mirror}{https://github.com/TomasOrtega/RH/blob/a6ac91a412dcbaab31801355ec5707024a71bf65/extracted/lean/}
+\newcommand{\src}[3]{\href{\mirror src/#1.lean\#L#2}{#3}}
+\newcommand{\pub}[2]{\href{https://alpo.ge/remark.pdf\#page=#1}{#2}}
+\newcommand{\aaDir}{Development/AutomorphicArithmetic/}
+\newcommand{\chDir}{Development/AutomorphicArithmetic/CharacterBoxes/}
+\newcommand{\dcDir}{Development/AutomorphicArithmetic/DedekindLFunctions/}
+\newcommand{\laDir}{Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/}
+\newcommand{\prDir}{Development/AutomorphicArithmetic/PrimitiveCosets/}
+\newcommand{\frDir}{Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/}
+\newcommand{\sizeDir}{Formalism/SizeWindowBrackets/}
+\newcommand{\growthDir}{Formalism/SharpRestriction/GrowthBounds/}
+\newcommand{\thirdDir}{Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/}
+\newcommand{\repo}{https://github.com/robbiemu/dirichlet-grh-sketch/}
+\newcommand{\sep}{\enspace{\color{rulegray}\textbar}\enspace}
+\newtcolorbox{statement}{enhanced,sharp corners,boxrule=0pt,colback=wash,
+  colframe=wash,borderline west={2pt}{0pt}{sea},left=9pt,right=9pt,top=6pt,
+  bottom=6pt,before skip=5pt,after skip=5pt}
+\newcounter{illustration}
+\newcommand{\ill}[3][.99]{\par\addvspace{5pt}\noindent
+  \begin{minipage}{\linewidth}\centering
+    \includegraphics[width=#1\linewidth]{figures/#2.pdf}\par\vspace{3pt}
+    \raggedright\refstepcounter{illustration}
+    {\footnotesize\sffamily\color{muted}\textbf{\color{sea}Figure \theillustration.}\enspace #3\par}
+  \end{minipage}\par}
+\newcommand{\R}{\mathbb R}\newcommand{\C}{\mathbb C}\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}\newcommand{\F}{\mathbb F}\newcommand{\one}{\mathbf1}
+\newcommand{\re}{\operatorname{Re}}\newcommand{\Res}{\operatorname*{Res}}
+\newcommand{\W}{\mathrm{W}}\newcommand{\e}{\varepsilon}
+\newcommand{\Lder}{\frac{L'}{L}}
+\newcommand{\pagego}[2]{\hyperref[#1]{#2}\hfill\pageref{#1}}
+\begin{document}
+\thispagestyle{opening}\pdfbookmark[1]{A prime sum and its zeros}{opening}
+{\sffamily\bfseries\fontsize{38}{42}\selectfont A prime sum and its zeros\par}
+{\sffamily\fontsize{16}{20}\selectfont\color{sea}
+An illustrated companion to Levent Alpöge's\\proposed proof of Dirichlet GRH\par}
+\vspace{7pt}
+The generalized Riemann hypothesis for Dirichlet $L$-functions (Dirichlet
+GRH) says that for every character $\chi$, every zero $\rho$ of $L(s,\chi)$
+in the strip $0<\re\rho<1$ has $\re\rho=\tfrac12$. At conductor one this
+is the Riemann hypothesis for the zeta function.
+
+Can a sum over ordinary prime powers detect a zero off that line?
+In this argument it would detect one by how often the sum rises above a threshold.
+A second construction, using automorphic forms, is meant to keep the same sum
+below the threshold across some very long intervals. The contradiction is about
+\emph{where} a large value must occur.
+
+\ill{windows}{The horizontal coordinate is $u=\log x$. The dot marks a possible
+  location of a violation. Both rows concern the same sum and threshold.}
+
+\subt{How to read the argument}
+The first part constructs the sum and explains why a zero has consequences on
+every sufficiently late interval. The second asks what arithmetic information
+could produce even one good interval beyond each prescribed starting point.
+A reader familiar with calculus, linear algebra and finite groups can begin at the
+first line. Complex analysis first enters in the discussion of the transform.
+
+{\sffamily\small
+\begin{tabularx}{\linewidth}{@{}p{1.52in}X@{}}
+\toprule
+Prime sums & \pagego{characters}{Characters, ramps and the window estimate}\\
+Complex analysis & \pagego{transform}{How a zero survives smoothing and averaging}\\
+Arithmetic & \pagego{finite}{From a finite Fourier calculation to iterated lifts}\\
+Assembly & \pagego{frobenius}{How the estimates reach the prime sum}\\
+Verification & \pagego{lean}{How to read and check the released statements}\\
+\bottomrule
+\end{tabularx}}
+
+\sources{This independent exposition expands the repository's
+\href{\repo blob/main/proof-sketch.pdf}{four-page sketch}. Alpöge describes the proposal and its
+formalization in his \pub{1}{announcement}. The calculations and models below can be
+reproduced. The uniform arithmetic construction and an end-to-end Lean kernel check
+remain outside the results established here.}
+
+\sheet{I\enspace Prime sums}{Characters and residue classes}{characters}
+Among the odd primes, $5$ and $13$ are $1$ modulo $4$, while $3$ and $7$ are
+$3$ modulo $4$. Give the first class weight $+1$ and the second weight $-1$.
+The resulting signed sum records the difference between the classes. Its
+weights multiply because $3\cdot3\equiv1\bmod4$.
+
+\subt{A finite Fourier coordinate}
+For an integer $q\ge1$, a Dirichlet character $\chi$ is a homomorphism from
+the units $(\Z/q\Z)^\times$ to $\C^\times$, extended periodically to the
+integers and set to zero on nonunits. The values on units are roots of unity.
+The \emph{principal} character has value $1$ on every unit. The nonprincipal
+character $\chi_4$ above and the principal $\chi_{0,4}$ have the table
+\[
+\begin{array}{c|rrrr}
+n\bmod4&0&1&2&3\\\hline
+\chi_{0,4}(n)&0&1&0&1\\
+\chi_4(n)&0&1&0&-1
+\end{array}
+\]
+For instance, $\one_{n\equiv1\,(4)}=(\chi_{0,4}(n)+\chi_4(n))/2$, including
+at even $n$. Character sums let us recover a count for an individual class.
+
+\subt{Why a product over primes knows about their powers}
+Write $s=\sigma+it$ and $n^{-s}=\exp(-s\log n)$, using natural logarithms.
+For $\sigma>1$, absolute convergence and unique prime factorization give
+\[
+L(s,\chi)=\sum_{n\ge1}\frac{\chi(n)}{n^s}
+=\prod_p (1-\chi(p)p^{-s})^{-1}.
+\]
+Expand the logarithm of each factor and differentiate term by term. Cancelling
+the $r$ from the derivative of $p^{-rs}$ against the $1/r$ in the logarithm gives
+\[
+ -\Lder(s,\chi)=\sum_p\sum_{r\ge1}\frac{\chi(p)^r\log p}{p^{rs}}
+ =\sum_{n\ge1}\frac{\Lambda(n)\chi(n)}{n^s}.
+\]
+Here $\Lambda(p^r)=\log p$ for $r\ge1$ and $\Lambda(n)=0$ otherwise, including
+at $n=1$. Thus $9$ carries weight $\log3$, and $6$ carries weight zero.
+
+\subt{What happens beyond convergence}
+Analytic continuation gives meaning to $L(s,\chi)$ in the strip $0<\sigma<1$.
+The conductor is the least modulus from which the character is induced. A
+character at its conductor is \emph{primitive}. The principal character of
+conductor one gives $\zeta(s)$, with a simple pole at $1$. A nonprincipal
+Dirichlet $L$-function is regular and nonzero at $1$. These classical facts
+determine what must be subtracted from the prime sum on the next page.
+
+\sources{For the character expansion, continuation and functional equation see the
+\href{https://dlmf.nist.gov/25.15}{NIST Digital Library of Mathematical Functions, §25.15}.
+For the exact strip statement used in the release see \src{Statements}{10}{Statements.lean}.}
+
+\sheet{I\enspace Prime sums}{Giving each prime power a ramp}{ramp}
+A sharp cutoff includes a new term in a sum the instant $x$ reaches $n$.
+Instead, give that term a weight that starts at zero and increases linearly.
+For $x\ge1$ the resulting continuous, piecewise linear function is
+\[
+ R_\chi(x)=\sum_{n\le x}\Lambda(n)\chi(n)(x/n-1).
+\]
+Its slope changes by $\Lambda(n)\chi(n)/n$ at $n$. This choice of shape will
+make its integral transform a particularly simple multiple of $-L'/L$.
+
+\subt{Two sums that can be checked by hand}
+At $x=4$ the conductor-one ramp has received contributions from $2$ and $3$.
+The term for $4$ is still zero, so $R_{\one}(4)=\log2+\tfrac13\log3$.
+For $\chi_4$ at $x=10$, the contributing prime powers are $3,5,7,9$. Thus
+\[
+ R_{\chi_4}(10)
+ =-\tfrac73\log3+\log5-\tfrac37\log7+\tfrac19\log3 .
+\]
+The $9$ term has positive sign because $\chi_4(3)^2=1$.
+
+\ill{prime-ramp}{Direct sums at quarter-integer spacings. At left, interpolation is
+exact between adjacent integers. At right, straight segments join samples of a
+curved function. The panels have different axes.}
+
+\subt{The fluctuation we want to bound}
+Let $\gamma=\lim_{n\to\infty}(\sum_{j=1}^n1/j-\log n)$. For the conductor-one
+character $\one$ and for nonprincipal $\chi$, respectively, put
+\[
+\begin{aligned}
+ G_{\one}(x)&=R_{\one}(x)-x\log x+(1+\gamma)x,\\
+ G_\chi(x)&=R_\chi(x)+x\,L'(1,\chi)/L(1,\chi).
+\end{aligned}
+\]
+For example $G_{\one}(4)\simeq1.82304$. Although $R_{\one}$ has grown past
+$12$ by $x=12$, its centered value is of order one in this example. The
+subtractions reflect an exact pole cancellation (p.~\pageref{transform}).
+The graph covers a finite range. An upper bound on arbitrarily late intervals
+demands an argument at unbounded $x$.
+
+\sources{The released definitions are \src{\dcDir CharFamily}{10}{ramp and Gchi}.
+The accompanying \texttt{figures/figure\_data.py} generates the numerical table
+by sieving for prime powers.}
+
+\sheet{I\enspace Prime sums}{One fixed sum, an entire window}{window}
+Fix a primitive target $\psi$ of order $h$, the least positive power
+giving the principal character. Take the inducing primitive characters
+of all powers of $\psi$ at its modulus. The resulting set
+$F_\psi$ contains $\psi$, its inverse and $\one$. The release measures
+\[
+ H_\psi(x)=G_{\one}(x)
+       +\frac1{3h+1}\sum_{\chi\in F_\psi\setminus\{\one\}}\re G_\chi(x).
+\]
+Taking real parts gives a sum we can order. The positive weights preserve a
+target pole and arise from averaging over residue classes (p.~\pageref{frobenius}).
+
+\subt{An example with a nonreal character}
+The units modulo $5$ are generated by $2$. Choose $\psi(2)=i$, so $\psi$
+has values $1,i,-1,-i$ on $1,2,4,3$ in that order. Its square is the
+quadratic character, its cube is $\bar\psi$, and its fourth power induces
+$\one$ at conductor one. Here $h=4$ and the weight is $1/13$ for each of
+the three nonprincipal characters. For $\chi_4$ the weight is $1/7$.
+The family and weights stay fixed as the window moves.
+
+\begin{statement}
+\smallhead{The window estimate $(\W)$}\quad
+For every primitive $\psi$, every real $\theta$ with
+$\tfrac12<\theta<1$, and every $Y_0\ge2$, there exists a real $Y\ge Y_0$
+such that
+\[
+           H_\psi(x)\le x^\theta \qquad\text{for every real }x\in[Y,Y^{3/2}].
+\]
+\end{statement}
+At $Y=100$ this covers every point of $[100,1000]$. The interval may be
+chosen after $\psi,\theta,Y_0$.
+
+\subt{What a contradiction would look like}
+Suppose $L(\rho,\psi)=0$ and $\tfrac12<\beta=\re\rho<1$. Fix, for example,
+$\theta=(\beta+\tfrac12)/2$. The analytic criterion implies that there is a
+$Y_*$ such that \emph{for every} $Y\ge Y_*$ there is \emph{some}
+$x\in[Y,Y^{3/2}]$ with $H_\psi(x)>x^\theta$. Apply $(\W)$ with
+$Y_0=\max(2,Y_*)$. The violating point lies inside the very interval on
+which the arithmetic upper bound holds.
+
+\ill[.84]{strip}{Critical strip with hypothetical $\rho=3/4+i/2$ and $\theta=5/8$.
+The functional equation pairs $\rho$ for $\psi$ with $1-\rho$ for $\bar\psi$
+(p.~\pageref{assembly}). The coordinates are chosen to show the symmetry.}
+
+\sources{The cyclic family is built in \src{\frDir ExplicitFormulaErrorOfHostConditions}{105}{Level.ofSub and Level.cyc}.
+See also its \src{\prDir LevelFamily}{41}{conversion to a positive family}.
+The exponent $3/2$ is chosen in \src{\chDir EveryCharacter}{8}{plugWin}.}
+
+\sheet{II\enspace The analytic argument}{Turning a ramp into a pole}{transform}
+The Mellin transform of a function on $[1,\infty)$ is
+$\widehat f(s)=\int_1^\infty f(x)x^{-s-1}\,dx$ wherever the integral converges.
+It converts powers of $x$ into simple fractions. For instance,
+$\widehat{x^\alpha}(s)=1/(s-\alpha)$ when $\re s>\re\alpha$.
+This is a way to read an exponent from a singularity. More generally,
+near a simple pole at $\rho$ a function has the form $c/(s-\rho)+h(s)$,
+where $h$ has a convergent local power series. The number $c$ is the
+\emph{residue}. A meromorphic continuation extends the function analytically
+while allowing isolated poles.
+
+\subt{Integrate one summand}
+For $\re s>1$, integrating the ramp that starts at $n$ gives
+\[
+\int_n^\infty(x/n-1)x^{-s-1}\,dx
+  =n^{-s}\left(\frac1{s-1}-\frac1s\right)
+  =\frac{n^{-s}}{s(s-1)}.
+\]
+The sum of the absolute integrals converges there because
+$|\chi(n)|\le1$ and $\sum\Lambda(n)n^{-\sigma}<\infty$ for $\sigma>1$.
+We can therefore interchange integration and summation and obtain
+\[
+  \widehat R_\chi(s)=-\frac{1}{s(s-1)}\Lder(s,\chi).
+\]
+The right-hand side gives a meromorphic continuation. Integrals will only be
+differentiated in a half-plane of convergence.
+
+\subt{Cancel the singularity at one}
+Put $z=s-1$. From $\zeta(1+z)=1/z+\gamma+O(z)$ we get
+$-\zeta'/\zeta=1/z-\gamma+O(z)$. Multiplication by
+$1/[s(s-1)]=1/z-1+O(z)$ gives the two singular terms
+$z^{-2}-(1+\gamma)z^{-1}$. The transforms of $x\log x$ and $x$ are $z^{-2}$
+and $z^{-1}$, respectively. This gives exactly the two corrections in
+$G_{\one}$. For nonprincipal $\chi$, regularity and nonvanishing at one leave
+just $-(L'/L)(1,\chi)/z$ to cancel. This explains the plus sign in $G_\chi$.
+
+\subt{Keep the singularity at a zero}
+At a strip zero $\rho$ of multiplicity $r$, write
+$L(s,\chi)=(s-\rho)^r h(s)$ with $h$ holomorphic and $h(\rho)\ne0$.
+Then $L'/L=r/(s-\rho)+h'/h$. Both centering terms are holomorphic at $\rho$,
+so the continued transform has a simple pole with residue
+\begin{statement}
+\[
+             \Res_{s=\rho}\widehat G_\chi(s)
+                 =-\frac{r}{\rho(\rho-1)}.
+\]
+\end{statement}
+For a real $0<\rho<1$ this number is positive. For a complex $\rho$ the
+phase depends on $\rho$, and all characters sharing that zero have the
+same phase. This fact is what allows the fixed family to keep the zero visible.
+
+\sources{Primary calculations in the release include \src{\laDir MellinRamp}{10}{the ramp integral},
+\src{\laDir mellinGchiModOne}{115}{conductor-one centering},
+\src{\laDir mellinGchiOfNeOne}{116}{nonprincipal centering} and
+\src{\laDir poleData}{137}{the local pole expansion}.}
+
+\sheet{II\enspace The analytic argument}{Why the average still detects a zero}{survival}
+Let $F$ be any fixed finite family with positive real weights $a_\chi$.
+Admit a principal character only at conductor one. Write
+$H_F=\sum_{\chi\in F}a_\chi\re G_\chi$ and $\Phi=\widehat H_F$. Since
+$G_{\bar\chi}(x)=\overline{G_\chi(x)}$ for real $x$, the transform of
+$\re G_\chi$ is $(\widehat G_\chi(s)+\widehat G_{\bar\chi}(s))/2$. The
+two transforms here are evaluated at the \emph{same} complex argument $s$.
+
+Let $r_\chi(\rho)$ be the order of vanishing, with value zero when
+$L(\rho,\chi)\ne0$. At a zero of a family member the residue in $\Phi$ is
+\[
+  \frac{-1}{\rho(\rho-1)}
+    \sum_{\chi\in F}\frac{a_\chi}{2}
+    \bigl(r_\chi(\rho)+r_{\bar\chi}(\rho)\bigr).
+\]
+The sum on the right is a positive real number. Thus $\rho$ persists in the
+transform and any real residue in the open strip is positive.
+
+\subt{An oscillation we can solve exactly}
+Take the model $f(x)=x^{3/4}\cos(2\pi\log x)$. Its Mellin transform has
+two poles, at $3/4\pm2\pi i$, since $f$ is the average of the two powers
+$x^{3/4\pm2\pi i}$. To compare $f$ with $x^{3/5}$, set $u=\log x$.
+The ratio is $e^{3u/20}\cos(2\pi u)$, and at each positive integer $u$ it
+exceeds $1$. Once $U\ge2$, the interval $[U,3U/2]$ contains an integer.
+Every such interval therefore supplies a violation.
+
+\ill{oscillation}{A two-pole model. Shading marks $[2,3]$ and $[4,6]$ in log coordinates.
+The curve plots $e^{3u/20}\cos(2\pi u)$. The dots mark integer values of $u$ inside the windows.}
+
+For an actual family the continued transform can have many poles. Their
+oscillations can interfere, and positivity of the residue coefficient at a
+given pole says nothing immediate about the sign of $H_F$ at a prescribed
+$x$. To obtain a statement on every late window, one needs both localization
+in $u$ and separation of poles in the $s$-plane.
+
+\sources{The source combines the transforms for a character and its inverse in
+\src{\laDir poleData}{248}{poleData}. The equality of the conjugated prime sums is
+recorded in \src{\laDir GchiConj}{38}{GchiConj}.}
+
+\sheet{II\enspace The analytic argument}{Localizing a one-sided bound}{kernel}
+Put $g(u)=H_F(e^u)$ for $u\ge0$. Then $\Phi(s)=\int_0^\infty g(u)e^{-su}\,du$.
+Summing $\log n/n$ up to $x$ gives $O((1+\log x)^2)$, so the ramps and their
+centerings give $|g(u)|\le B e^{2u}$ for some $B$ depending on $F$.
+For $\sigma>2$, differentiation under the integral gives
+\[
+ A_k(\sigma+it):=\frac{(-1)^k}{k!}\Phi^{(k)}(\sigma+it)
+ =\int_0^\infty g(u)e^{-itu}\,w_k(u)\,du,\qquad
+ w_k(u)=\frac{u^k e^{-\sigma u}}{k!}.
+\]
+The triangle inequality and the reality of $g$ give the one-sided test
+\[
+ |A_k(\sigma+it)|+\re A_k(\sigma)
+       \le \int_0^\infty (|g(u)|+g(u))w_k(u)\,du.
+\]
+The integrand on the right sees only positive values of $g$. On a good window
+$[U,3U/2]$, where $g(u)\le C e^{\theta u}$ with $C>0$, its integral is at
+most $2C/(\sigma-\theta)^{k+1}$, by integration of $u^k e^{-(\sigma-\theta)u}/k!$.
+
+\ill{kernel}{The weight divided by its maximum, at $u/U=5/4$, for two choices used
+in the tail estimate. The shaded window is fixed in these rescaled coordinates.}
+
+\subt{A tail calculation for this window length}
+The release's choices specialize to $\sigma=336$, $k=\lceil420U\rceil$ for
+$U\ge1$. Outside the window, multiplying the weight by the crude growth bound
+leaves $u^ke^{-334u}/k!$. On $u>3U/2$, majorize it by multiplying by
+$e^{14(u-3U/2)}$. On $u<U$, use $e^{14(U-u)}$. Extending the integrals of
+the resulting positive functions over all $u>0$ bounds their sum by
+\[
+      \frac{e^{-21U}}{320^{k+1}}+\frac{e^{14U}}{348^{k+1}}
+           \ \ll\ 336^{-k}.
+\]
+Indeed $420\log(336/320)<21$ and $420\log(348/336)>14$.
+Consequently $|A_k(\sigma+it)|+\re A_k(\sigma)\le C_1(\sigma-\theta)^{-k}$
+uniformly in $t$ along arbitrarily late good windows. Here $\ll$ hides a constant
+independent of $U,k,t$. On this sequence $k\to\infty$.
+
+\sources{The numerical choices come from \src{\laDir landauTails}{80}{landau\_tails}
+at $\delta=1/2$. Compare the \src{\laDir landauWindowIneq}{27}{one-sided integral inequality}
+and \src{\laDir landauWindow}{40}{its use for an integral majorant}.}
+
+\sheet{II\enspace The analytic argument}{A pole defeats the window bound}{separation}
+Why differentiate to high order? At a center $z$ the term $c/(s-\rho)$
+contributes exactly $c/(z-\rho)^{k+1}$ to $A_k(z)$. A holomorphic remainder
+on a closed disk of radius $r$ contributes at most $M/r^k$ by Cauchy's
+estimate. If $d=|z-\rho|<r$, the pole eventually dominates. The extra
+$\re A_k(\sigma)$ in our one-sided test also needs control.
+
+\subt{Choose the two centers together}
+Set $E=\sigma-\theta$ and assume there is a pole with real part $>\theta$.
+The poles form a locally finite set in $\re s>0$, and lie to the left of
+$\sigma$. Let $D$ be the distance from the real center $\sigma$ to the nearest
+pole in its closed disk of radius $E$, taking $D=E$ if the disk is empty.
+There are two possibilities.
+
+\begin{enumerate}
+\item If some pole $\rho_1$ satisfies $\sigma-\re\rho_1<D$, move the other
+center to $\sigma+i\operatorname{Im}\rho_1$ and perturb its height slightly.
+Its nearest pole then has distance $d<D$ and can be made unique. Only finitely
+many poles can compete in a small neighborhood of that center. Each pair
+ties at at most one height, since all poles lie to the left of the vertical line.
+Choose $d<r<D$ also smaller than the distance to any other pole there.
+The shifted center detects its single pole, while the disk of radius $r$
+at the real center is pole-free.
+\item Otherwise every pole has horizontal distance at least $D$. The assumed
+pole to the right of $\theta$ implies $D<E$. A nearest pole at distance $D$
+must therefore have zero vertical displacement. It is the unique real point
+$\beta=\sigma-D$. Isolate it at the real center with $d=D<r<E$.
+Its positive residue makes $\re A_k(\sigma)$ positive to leading order.
+\end{enumerate}
+In both cases the left side of the test on p.~\pageref{kernel} is bounded below
+by $c_0d^{-k}-M'r^{-k}$ with $c_0>0$. An upper bound $C'E^{-k}$ along
+unbounded $k$ would give
+\[
+        c_0\le M'(d/r)^k+C'(d/E)^k\longrightarrow0 .
+\]
+This proves the contradiction for the pointwise window bound used here.
+
+\begin{statement}
+\smallhead{Window criterion.}\quad For a fixed finite positive family as on
+p.~\pageref{survival}, $0<\theta<1$, a fixed $\lambda>1$ and a fixed $C>0$,
+an upper bound $H_F(x)\le Cx^\theta$ throughout arbitrarily late
+$[Y,Y^\lambda]$ excludes every strip zero of a member with $\re\rho>\theta$.
+\end{statement}
+For general $\lambda$, the release chooses $\sigma$ to fit $\lambda-1$.
+Its integral-majorant formulation allows a factor $e^{\eta U}$ for every
+$\eta>0$. Taking $\eta<\log(E/d)$ absorbs that factor since $k\ge U$.
+
+\sources{Follow \src{\laDir LandauDichotomy}{24}{the two cases},
+\src{\laDir LandauNearest}{36}{choice of a unique nearest pole},
+\src{\laDir landauWindow}{83}{pole comparison} and
+\src{\laDir ZeroFreeOfRpowWindow}{11}{the pointwise corollary}.}
+
+\sheet{III\enspace The arithmetic construction}{A Fourier calculation over a finite field}{finite}
+Why introduce a chain? The announcement starts with an identity in which
+neighboring variables interact. Over a field $\F_q$ of $q$ elements choose a
+nontrivial additive character $e_q$, so $\sum_a e_q(az)$ equals $q$ when
+$z=0$ and zero otherwise. For prime $q$ take $e_q(z)=e^{2\pi iz/q}$.
+For a function $t:\F_q\to\C$ let $M=\sum_x t(x)$. On $k\ge2$ variables set
+\[
+ Q(\mathbf x)=\sum_{j=1}^{k-1}x_jx_{j+1},\qquad
+ T(\mathbf x)=\prod_{j=1}^{k}t(x_j),\qquad N=\sum_{Q(\mathbf x)=0}T(\mathbf x).
+\]
+Summing over the frequency $a$ imposes the equation $Q=0$. Separating the
+frequency $a=0$ instead makes the variables independent. The same sum gives
+\[
+             qN=M^k+R,\qquad
+ R=\sum_{a\ne0}\sum_{\mathbf x}T(\mathbf x)e_q(aQ(\mathbf x)).
+\]
+
+\ill[.95]{path}{An exact example over $\F_5$. The right panel lists $Q$ modulo $5$ for
+$t=\one_{\{1,4\}}$ and $k=3$. Four triples give zero, hence $N=4$,
+$M=2$ and $R=5\cdot4-2^3=12$.}
+
+\subt{Why the edges of a path matter}
+For $a\ne0$ let $U_{xy}=q^{-1/2}e_q(axy)$. Orthogonality gives
+$(UU^*)_{xz}=q^{-1}\sum_y e_q(a(x-z)y)=\one_{x=z}$, so $U$ preserves
+Euclidean norm. Let $D=\operatorname{diag}(t)$, and let $v$ be the column of
+$t$-values. The inner sum is $q^{(k-1)/2}v^{\mathsf T}U(DU)^{k-2}v$.
+If $|t|\le1$, then $\|D\|\le1$ and $\|v\|\le\sqrt q$. Cauchy--Schwarz
+therefore bounds each nonzero-frequency sum by $q^{(k+1)/2}$.
+
+This calculation controls the remainder. To deduce cancellation in $M$
+one also needs information about $N$. For instance $t\equiv1$ gives $M=q$
+while satisfying exactly the same norm assumptions. The note describes a
+geometric sign for its special trace functions. The path identity and the
+eight-triple example establish no such sign. Over the integers, finding a
+replacement for this geometric input is the reason the construction turns
+to periods and divisibility.
+
+\sources{The finite-field identity, the path and the proposed role of geometry appear
+in the \pub{3}{announcement, p.~3, footnote 3}. The example evaluates its defining sum directly.}
+
+\sheet{III\enspace The arithmetic construction}{When a zero is worth more than one}{multiplicity}
+In a polynomial point count, an auxiliary polynomial can be made to vanish
+at every point being counted. Suppose $P$ is a nonzero polynomial in one
+variable of degree $d$, with $N$ distinct roots each of multiplicity at
+least $m$. The corresponding $m$th powers of the linear factors divide $P$,
+so $mN\le d$. Over $\F_5$, $P(X)=(X^2-1)^3$ counts $1$ and $4$ three
+times each. Its degree $6$ gives equality. The requirement $P\ne0$ matters.
+
+In Stepanov's method on a curve, one bounds the degree of a pole divisor of
+an auxiliary function. A nonzero rational function has zero and pole
+divisors of equal degree, giving the same kind of budget. Forcing larger
+orders is worth doing only if the cost of constructing the function grows
+slowly enough. This principle survives the passage to number fields.
+
+\subt{The norm measures divisibility}
+A number field $K$ is a finite extension of $\Q$. Its algebraic integers
+are the elements satisfying a monic polynomial with integer coefficients.
+Take a nonzero algebraic integer $a$.
+Factor $(a)$ into prime ideals $\mathfrak p$, writing $v_{\mathfrak p}(a)$
+for each exponent and $N\mathfrak p$ for the size of the residue field.
+Two evaluations of the absolute norm give
+\[
+ \sum_{\mathfrak p}v_{\mathfrak p}(a)\log N\mathfrak p
+       =\log|N_{K/\Q}(a)|=\sum_{\sigma:K\hookrightarrow\C}\log|\sigma(a)|.
+\]
+The last sum counts both members of a complex-conjugate pair. In $\Z[i]$
+take $a=3+4i=(2+i)^2$. The ideal $(2+i)$ has norm $5$. The left side is
+$2\log5$, and each of the two complex embeddings gives absolute value $5$.
+
+\subt{Where repeated divisibility might come from}
+The announcement gives a local prototype on a CM elliptic curve. Here CM
+means that the curve has extra endomorphisms from an imaginary quadratic
+field. At a good inert prime $p$, the note reports $D^p\equiv0\bmod p$ for
+the invariant derivation $D$ in its integral setting. Inert means that $p$
+stays prime in the quadratic field. Applied to an integral function, such a
+congruence makes a string of derivatives acquire a factor of $p$.
+
+The global proposal uses a determinant of periods. Linear relations modulo a
+prime make a determinant divisible there. High multiplicity calls for
+quantitative control of \emph{how many} relations, at which primes and to
+what orders. The determinant also has to survive over the number field so that
+its size can be compared with its divisibility. Alpöge reports first reaching
+multiplicity two on $\mathrm O(2,n)$, the group preserving a real quadratic
+form of signature $(2,n)$. The next construction tries to make this
+multiplicity grow with the number of lifts.
+
+\sources{Alpöge describes the differential congruence and the first determinant in
+the \pub{3}{announcement, items 1--4}, and the iterated version in
+\pub{4}{items 7--10}. The polynomial and Gaussian-integer computations are models
+with their own exact conclusions.}
+
+\sheet{III\enspace The arithmetic construction}{What travels through a theta lift}{lifts}
+An automorphic form is a function on a group with arithmetic symmetries and
+regularity conditions. A classical example lives on the upper half-plane
+and transforms with a prescribed weight under integral matrices. Here the
+groups are unitary groups $U(V)$ preserving a Hermitian form on a vector
+space over a CM field, a totally imaginary quadratic extension of a totally
+real number field. Total definiteness makes the unitary groups compact
+at the real places. The finite primes still carry arithmetic information.
+A \emph{level} specifies invariance under subgroups at those finite primes.
+
+\subt{A kernel that can see two groups}
+The classical series $\sum_{(a,b)\in\Z^2}e^{-\pi t(a^2+b^2)}$, $t>0$,
+records the number of lattice vectors on each circle. For instance the
+coefficient of $e^{-5\pi t}$ is eight, from $(\pm1,\pm2)$ and their swaps.
+A theta kernel also sums over rational vectors, now with actions of two
+groups on the underlying data. If $g$ and $h$ are variables on the old and
+new groups, an integral transform has the schematic shape
+\[
+        f_{j+1}(h)=\int_{[U(V_j)]} f_j(g)\,\Theta_{j+1}(g,h)\,dg .
+\]
+Brackets denote the quotient by rational points in the adelic group, which
+combines all completions of the number field. The kernel, pairings, measures
+and choices of test vectors must be specified to evaluate actual periods.
+
+\ill{lift}{The proposed chain contains $m$ transforms. The diagram records the
+groups and the order of integration. Nonvanishing and integrality at the
+successive stages are mathematical requirements.}
+
+\subt{From a function to a number}
+A period pairs a form with a character or another form and integrates along a
+subgroup. It probes how a representation behaves on restriction to that
+subgroup. Branching rules can force periods to vanish. For example in the
+classical $U(2)$ to $U(1)$ restriction, the representation with highest weight
+$(a,b)$, $a\ge b$, contains the weights $b,b+1,\ldots,a$ on
+$\operatorname{diag}(z,1)$. This follows by writing it as
+$\operatorname{Sym}^{a-b}(\C^2)\otimes\det^b$. A weight $c$ outside that interval
+cannot pair with the $c$-component. This illustrates the interlacing conditions
+in the note. The proposed chain uses such structure to accumulate multiplicity.
+
+\sources{The underlying suggestions about interlacing, definite groups and length
+appear in the \pub{4}{announcement, items 7--10}. The kernel above specifies
+the direction of the transform. The figure is a schematic of the proposed construction.}
+
+\sheet{III\enspace The arithmetic construction}{How one lift earns divisibility}{local}
+At a finite prime, how much of a lifted form can one divide out? Work in a
+discrete valuation ring. Choose a generator $\pi$ of its maximal ideal,
+called a uniformizer, so the valuation
+is normalized by $v(\pi)=1$, and write $e=v(p)$ for the ramification
+index above the rational prime $p$. A vector has normalized valuation at least
+$s$ in a lattice $\Lambda$ if it belongs to $\pi^{\lceil es\rceil}\Lambda$.
+If a linear map sends $\Lambda$ into $\pi^a\Lambda'$, it sends
+$\pi^b\Lambda$ into $\pi^{a+b}\Lambda'$. This addition is how successive
+lifts can earn a large common divisor.
+
+\subt{Why one coefficient matters}
+The construction uses Hecke operators, which sum a form over arithmetic
+translates. At one chosen local component it combines normalized operators
+$\widetilde T_i$ into
+\[
+            Z=\sum_{\ell=0}^{R}(-1)^\ell\beta_\ell\widetilde T_{R-\ell}.
+\]
+On the lifted vector the positive-index terms have the desired valuation
+bound and their coefficients are integral. The zero-index operator is the
+identity. For its vector the bound can be smaller by $\alpha$, computed from
+weight differences at even positions. Here the coefficient hypothesis is
+$v(\beta_R)/e\ge\alpha$. Multiplication restores the missing valuation.
+The valuation of a sum is at least the smallest valuation of its terms,
+so the entire $Z$-combination meets the stronger bound. This step needs both
+the theta-kernel estimates and the coefficient estimate.
+
+For an elementary model, take the vector $(1,1)$ at $p=3$. Suppose the
+positive-index term is $9(1,2)$. With identity coefficient $-3$ the sum
+is $(6,15)$, divisible by $3$ only once. With coefficient $-9$ it is
+$(0,9)$, divisible by $3^2$. The factor required on the identity term can
+determine the divisibility of the whole sum.
+
+\subt{Adding the local gains}
+Let $J$ index the local components at $p$ and let $V\subseteq J$ be
+the components with an auxiliary operator. At stage $j$, write $b_{ij}$
+for the basic bound, $g_{ij}$ for the improved bound, $c_{ij}$ for the
+cost of moving the operator through the lift, and $d_j$ for the denominator.
+On the prescribed input lattice the final normalized valuation is at least
+\[
+  \sum_{j=1}^{m}
+  \left(\sum_{i\in V}\max\{b_{ij},g_{ij}-c_{ij}\}
+       +\sum_{i\in J\setminus V}b_{ij}-d_j\right).
+\]
+To see why the lattice matters, put $s_i\ge\sum_j(g_{ij}-c_{ij}-b_{ij})_+$,
+where $z_+=\max(z,0)$. A generator uses an auxiliary operator $m$ times at
+each component in a subset of $V$. At each omitted $i\in V$ the input carries
+$\lceil es_i\rceil$ extra powers of $\pi$. These cover the possible shortfall
+there. The bound then passes to the integral span of the generators.
+
+\sources{The release specifies \src{\growthDir FormalGroupSystem}{352}{the Hecke combination},
+\src{\growthDir FormalGroupSystem}{361}{the input generators},
+\src{\growthDir FormalGroupSystem}{661}{the one-stage hypotheses} and
+\src{\growthDir FormalGroupSystem}{708}{the accumulated lower bound}.
+See also the \src{\growthDir MultisetValuation/AofUpdate}{172}{one-step argument}.}
+
+\sheet{III\enspace The arithmetic construction}{Why the periods must share a lattice}{division}
+An idele chooses a nonzero element of each completion of a number field,
+with a unit at all but finitely many finite places. A Hecke character is a
+continuous multiplicative character of the ideles that is trivial on the
+diagonally embedded nonzero field elements. It packages local character data
+into a global twist. The construction varies this twist while comparing
+periods. Rescaling each complex period would destroy the meaning of a
+common divisor. One needs a shared integral normalization.
+
+\subt{A division that can be computed}
+Take two period columns in the model lattice $\Z^2$ and form
+\[
+       A=\begin{pmatrix}6&3\\3&6\end{pmatrix}
+       =3\begin{pmatrix}2&1\\1&2\end{pmatrix}.
+\]
+Their determinant is $27$. Division of each column by the common factor $3$
+removes $3^2$ from the determinant. The new columns still span an index-$3$
+sublattice of $\Z^2$. Thus a residual covolume survives after exact division.
+For a column matrix $B$ of full rank, $\det(B^*B)=|\det B|^2$ in the square
+case. Pairings of the columns control the volume, and near dependence makes
+it small. Both the divisibility and the metric enter a determinant estimate.
+
+\subt{The proposed arithmetic operation}
+The note describes a \emph{seesaw} identity. The same integral containing a
+theta kernel can be evaluated in two orders on compatible subgroups. In
+this application the aim is to identify a Bessel period, a period against
+a chosen subgroup and character, shared as the Hecke character varies.
+The release makes the normalization precise. For each family member $u$,
+the twist $\mu$ must give a period pairing of the form
+\[
+    P_{u,\mu}(\phi,F)=\zeta_{u,\mu}B_u(\phi,A_\mu F).
+\]
+Here $B_u$ is a single bilinear form over a number field $K$ and $A_\mu$
+maps the test data into its common space. The reference twist has $\zeta=1$.
+At each finite place $w$, the scalar for the twist $\mu(w)$ used there is a
+unit. Its valuation is zero, so the local divisibility of the period passes
+to the common form. The complex comparison also involves isometries and a
+nonzero scalar. Its metric information enters the estimate at infinity.
+
+A relative trace formula compares pairings of periods with orbital integrals
+to control correlations among columns. A slope inequality of Bost's type compares degrees
+of metrized lattices with norms of maps between them. For rank $r$ over
+$\Z$, the elementary model of the mean slope is
+$-r^{-1}\log(\operatorname{covolume})$. Its sign explains why division and
+index losses have to be tracked together.
+
+\sources{See the \pub{4}{announcement, items 12--18},
+\src{\aaDir ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/SeesawFirstReductionLevel}{25}{the seesaw reduction with local hypotheses}
+and \src{Formalism/LocalToGlobal/IndefiniteForms/IndefSide}{383}{the common pairing and Bessel-period conditions}.}
+
+\sheet{III\enspace The arithmetic construction}{Dividing by a fractional ideal}{ideal}
+The common divisor has an ideal-theoretic form in the release. Over the
+ring of integers $\mathcal O_K$, an ideal need not have a single generator.
+Its exponent at each finite place $w$ still makes sense. For one choice $u$
+of arithmetic data, the local target accumulated over the lifts is
+\[
+ s_w(u)=\sum_{j=1}^m\bigl(g_{j,w}+F_{j,w}-E_{j,w}(u)\bigr).
+\]
+Here $g$ is the usable gain (zero at discarded primes), $F$ the
+twisting contribution and $E$ the loss. On the finite support the
+integer exponent is $\sigma_w(u)=\lfloor e_w s_w(u)\rfloor$, where
+$e_w$ is the ramification index. The floor is taken \emph{after} summation.
+Terms from rounding matter once weighted by the logarithmic norms of
+many places.
+
+\subt{What is divided and what remains}
+For finitely supported integers $\nu_w$ put
+$I(\nu)=\prod_w\mathfrak p_w^{\nu_w}$, a fractional ideal of $K$.
+The lattice entering the slope comparison is
+\[
+         N'=I(-\sigma)N_0,\qquad N_0\subseteq I(\tau)M,\qquad
+         \operatorname{rank}_K N_0=\operatorname{rank}_K M=r>0 .
+\]
+With the metrics and totally complex coefficient field of the source,
+let $d=[K:\Q]$, $\ell_w=\log N\mathfrak p_w/d$ and
+$S=2\sum_w\ell_w(\sigma_w-\tau_w)$. Its slope comparison reads
+\[
+  \mu_{\max}(N')\le\mu_{\max}(M)+S,\qquad
+  \mu(N')=\mu(M)+S-\frac{2}{dr}\log [I(\tau)M:N_0].
+\]
+Here rank means dimension after extending scalars to $K$.
+The symbol $\mu$ denotes the mean slope and $\mu_{\max}$ the maximal slope among
+sublattices. The factor $2$ follows the source's metric convention.
+The finite index measures what the local divisor has failed to remove.
+
+For example let $K=\Q(i)$, $\pi=2+i$, $M=\Z[i]^2$ and
+$N_0=\operatorname{diag}(\pi^3,\pi^2)M$. Take $\sigma=\tau=2$ at
+$(\pi)$ and zero elsewhere. Then $N'=\operatorname{diag}(\pi,1)M$,
+$S=0$ and the residual index is $5$. In the displayed normalization the
+mean slope decreases by $\tfrac12\log5$.
+
+For the actual pairing, each local evaluation must be zero or have valuation
+at least $\sigma_w$. An element of $I(-\sigma)$ costs at most $\sigma_w$
+powers of the local uniformizer. Their product is integral at $w$ and,
+when this holds at every finite place, globally integral. One must still
+establish the inclusion, full rank and a uniform bound for the residual index.
+
+\sources{See \src{Formalism/LocalRingCardinality/DataParams\%E2\%82\%82}{212}{the usable gain},
+\src{Formalism/LocalRingCardinality/DataDIVDefs}{15}{the exact fractional ideal},
+\src{\sizeDir Chain2aCoreNoAnalytic}{128}{the common lattice} and
+\src{\sizeDir SlopesHypothesisFinitePlaces}{15}{the slope and index formulas}.}
+
+\sheet{III\enspace The arithmetic construction}{Why the chain has square-root length}{scale}
+Consider one real scale $x>1$ in a proposed good family. The data require an
+integer $m$ and a small $\e>0$ such that
+\[
+                 x^{1/2-\e}\ \le m\ \le x^{1/2+\e/2}.
+\]
+The lower bound is what makes $x/m\le x^{1/2+\e}$. The upper bound limits
+terms that grow with $m$. If we put $m=x^\alpha$, the exponents of $m$ and
+$x/m$ are $\alpha$ and $1-\alpha$. Their maximum is smallest at $\alpha=1/2$.
+
+\ill{balance}{The solid line is $\max(\alpha,1-\alpha)$, the dashed line the smaller
+exponent. This is an exact calculation for two quantities. Additional errors
+in the arithmetic comparison are worked out on p.~\pageref{cost}.}
+
+For an example of this balance, take $x=10^6$ and $m=10^3$. Both quantities equal $10^3$.
+Shorten the chain to $m=10^2$, and $x/m$ rises to $10^4$. Lengthen it
+to $10^4$, and the expense proportional to $m$ is already $10^4$.
+
+\subt{The actual integer in the construction}
+Set $\delta_1=x^{-\e/8}$. The prescribed chain length is the smallest even
+integer at least $\sqrt{x\delta_1}$, namely
+\[
+              m=2\left\lceil\tfrac12 x^{1/2-\e/16}\right\rceil .
+\]
+It exceeds the unrounded power by less than two. For fixed small $\e>0$
+the lower bound above follows immediately, and the upper bound follows for
+large $x$ since $x^{9\e/16}$ eventually exceeds the rounding factor.
+The data, including this integer, may change as $x$ moves through a window.
+
+The announcement reports an exponent $2/3$ in an earlier calculation.
+Reaching $1/2+O(\e)$ requires more than choosing a suitable $m$. A fixed
+factor of two in an upper bound at \emph{each} step would multiply to
+$2^m$, eventually exceeding every fixed power of $x$. The lattice division
+on p.~\pageref{ideal} lets one compare the gains and costs at their
+actual places. The comparison has to account for the same main terms on
+the two sides.
+
+\sources{Compare \src{\sizeDir GrowthBoundGivesRiemannHypothesis}{109}{the admissible range},
+\src{Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil}{21}{the rank prescription},
+\src{Formalism/LocalRingCardinality/DataParams\%E2\%82\%82}{45}{the scale parameters}
+and the \pub{4}{announcement, items 8 and 14--16}.}
+
+\sheet{III\enspace The arithmetic construction}{What cancels in the height estimate}{cancel}
+At an ordinary place above $p$, a denominator already occurs in the final
+period integral. Let $D_\Gamma$ be a common multiple of the orders of the
+finite stabilizers in that sum. The terminal period can lose
+$v_p(D_\Gamma)$ in normalized valuation. The column supplied by the lifts
+must have valuation at least $s_w(u)+v_p(D_\Gamma)$. Multiplying the two
+leaves at least $s_w(u)$ before rounding. The level prime and the two
+distinguished type primes have their own local comparisons.
+
+\subt{Comparing the same main term twice}
+Write $\mathcal F$ and $\mathcal E$ for the weighted sums of the local
+twisting contributions and losses on p.~\pageref{ideal}. The lower bound on
+the quotient slope contains $+\mathcal F-\mathcal E$ alongside the
+divisibility gain. The upper bound on the dual slope plus the map height
+contains the same $+\mathcal F$. Subtraction removes the twisting term.
+Finite-place divisibility still leaves a height to estimate at the infinite
+places. There one must bound the norms of the composed maps for the same
+quotient metrics used to compute the slopes.
+
+For the next cancellation let $A=\sum_t a_t\ge0$ be the total weight,
+$\ell_g=\log(g_1g_2)$ for the two distinguished primes, and $T$ the chosen
+level. The count of levels involves an average over $f$ weight indices at
+each stage. In the source's notation set
+\[
+ W=\sum_{j=1}^m\frac1f\sum_\rho\log(w_{j\rho}v_0/\pi),\qquad
+ D_{\rm cnt}=c_{\rm cnt}L_a(1+m^2/k).
+\]
+Here $w_{j\rho}$ are weights, $v_0$ is a positive scale, $\pi$ in this
+display is the circle constant, and $L_a$ is a logarithmic allowance.
+The two required estimates, for every choice over a base index, give
+\[
+  |\mathcal E-mA\ell_g|\le c_E m B_0,\qquad
+  \log T\ge W+m\ell_g-D_{\rm cnt}.
+\]
+The height contains $\mathcal E-A\log T$. Use the upper bound for
+$\mathcal E$ and multiply the lower bound for $\log T$ by $-A$. Then
+\[
+        \mathcal E-A\log T\ \le\ -AW+c_E m B_0+A D_{\rm cnt}.
+\]
+The two occurrences of $mA\ell_g$ have exactly the same coefficient.
+The term $-AW$ now combines with the archimedean main term in the prime
+count. The remaining allowances still depend on $m$ and $k$. Their size
+after averaging is the calculation on p.~\pageref{cost}.
+
+\sources{See the \src{Formalism/LocalToGlobal/GroupLattices/AdmissibleAtGeneratorPlaces}{187}{ordinary-place calculation},
+\src{\sizeDir QuotientSlopeBoundsWith}{19}{quotient slope, loss and count estimates},
+\src{Formalism/RankGapBounds/MeanBoundSecondForm}{118}{dual slope and height},
+and \src{\sizeDir ChainSlopeWindows/LevelOfCongruence}{105}{the main-term identity}.
+The repository's \href{\repo blob/main/lift-estimate.pdf}{worked lift estimate} follows this calculation from the input lattice to the exponent.}
+
+\sheet{IV\enspace Back to the primes}{Frobenius turns a count into characters}{frobenius}
+How does a determinant bound say anything about the $\Lambda$-weighted sum
+from p.~\pageref{ramp}? An abelian extension of number fields supplies a
+finite abelian group $A$ of symmetries. An unramified rational prime $p$
+in an abelian extension of $\Q$ determines an element $\mathrm{Frob}_p$
+whose action on the residue field at a prime above $p$ is $z\mapsto z^p$.
+In $\Q(i)$ and at odd $p$, this sends $i$ to $i^p$. It is the identity at
+$5$, conjugation at $3$, and its square is the identity at $3$. This last
+observation accounts for the sign of the $9$ term in our earlier example.
+
+\subt{A prime-power identity}
+Let $\widehat A$ be the characters of $A$. For $a,g\in A$, orthogonality gives
+\[
+        \one_{g=a}=\frac1{|A|}
+           \sum_{\xi\in\widehat A}\overline{\xi(a)}\,\xi(g).
+\]
+When $g=a$ every summand is one. Otherwise multiplying the sum by
+$\xi_0(ga^{-1})\ne1$ for a separating character $\xi_0$ permutes its terms,
+so it vanishes. Set $g=\mathrm{Frob}_p^r$ and multiply by
+$(\log p)(x/p^r-1)$ for $p^r\le x$. A count of prime powers in a prescribed
+class becomes a linear combination of character ramps. At ramified primes
+there is inertia, the subgroup acting trivially on the residue field.
+The release handles those local terms separately in its balance identity.
+
+\subt{Where the fraction $1/(3h+1)$ comes from}
+The auxiliary group has a quotient of order $h$. The target proportions on
+its cosets are $4/(3h+1)$ at the identity and $3/(3h+1)$ at each other coset.
+Equivalently the measure is uniform mass $3/(3h+1)$ per coset plus one
+extra unit of mass $1/(3h+1)$ at the identity. Its trivial Fourier coefficient
+is $1$. For every nontrivial character the uniform part sums to zero and
+the coefficient is $1/(3h+1)$. For $h=2$ this is just $4/7-3/7=1/7$.
+In the finite sets used by the release, each observed coset fraction must
+differ from its target by at most $x^{-1+\e}$.
+
+In source notation \texttt{ch\_balance} identifies the measured quantity
+$\mathrm{ASK}$ minus its explicit main term with a sum of centered character
+contributions. The determinant estimates are applied to this difference.
+Terms from characters outside the retained family and the errors in the
+shares must also be bounded before the answer can be $H_\psi(x)$.
+
+\subt{Why the prime signal occurs $m$ times}
+At fixed group indices $u,t$, the comparison replaces each lift's expression
+by a common character sum evaluated at $a(t)/b$, within controlled errors.
+Call this common term $T(u,t)$. Summing over the $m$ lift labels gives
+$\sum_{j=1}^m\re T(u,t)=m\re T(u,t)$. Averaging over the subgroup kills
+characters nontrivial on it and supplies the density factor $\delta/2$ on
+the next page. This explains the multiplier on the prime sum while allowing
+the error to grow with the chain length.
+
+\sources{Compare \src{\laDir ChBalance}{200}{the balance identity and its local cases},
+\src{\frDir ExplicitFormulaErrorOfHostConditions}{135}{coset shares},
+\src{\prDir TopsSum}{75}{their Fourier coefficients}, \src{\laDir ChCore}{283}{averaging over lifts and group indices}
+and \src{\prDir SigALe}{38}{the bound on discarded characters}.}
+
+\sheet{IV\enspace Back to the primes}{Accounting for the four error terms}{cost}
+Here is the size calculation after the arithmetic data have supplied the
+bound on $\mathrm{ASK}-\mathrm{MAIN}$. Use the release's notation $n$ for
+the order of an auxiliary group, $n_T,n_2$ for the sizes of two chosen sets,
+$b>0$ for a scale factor, $k$ for a size parameter and $a_E$ for a
+nonnegative cost. This $k$ is independent of the derivative order on
+p.~\pageref{kernel}. Write $Q_0=n_Tmb$, $\delta=n_2/n$, and let $G$ be
+$H_\psi(x)$ with the outside-character contribution $\Sigma$ removed.
+The comparison gives
+\[
+ Q_0\,\frac{\delta}{2}\bigl(G-4x^{1/2+\e}\bigr)
+       \le \mathrm{Err}+2Q_0/x.
+\]
+For $x\ge3$, $\e>0$, $C\ge0$, the size hypotheses include the range of $m$
+on p.~\pageref{scale} and
+\[
+ a_E\le2xb,\quad n_T\ge\tfrac12 n x^{-\e/8},\quad
+ x^{-\e}\le\delta\le1,\quad xm\le k\le n^2 x^{1/2-\e}.
+\]
+With these data $Q_0>0$. The bound assumed for
+$\mathrm{Err}/(Q_0x^{C\e})$ is the sum of the four terms in the middle
+column. The right column follows by substitution.
+
+\medskip
+{\renewcommand{\arraystretch}{1.38}\begin{tabularx}{\linewidth}{@{}l>{\centering\arraybackslash}Xl@{}}
+\toprule
+\sffamily Source of bound & \sffamily Term after division & \sffamily Upper bound\\
+\midrule
+$a_E\le2xb$, lower $m$ & $a_E/(mb)$ & $2x^{1/2+\e}$\\
+$a_E\le2xb$, $xm\le k$ & $a_E m/(bk)$ & $2$\\
+upper $m$, lower $n_T$ & $2(n/n_T)m x^\e$ & $4x^{1/2+13\e/8}$\\
+upper $k$, $n_2\le n$ & $(n_2/n_T)(k/n^2)x^{2\e}$ & $2x^{1/2+9\e/8}$\\
+\bottomrule
+\end{tabularx}}\medskip
+
+For example the third row pays $\e/8$ for $n/n_T$, $\e/2$ for the upper
+bound on $m$, and $\e$ explicitly. Their sum is $13\e/8$.
+Thus $\mathrm{Err}/Q_0\le10x^{1/2+(C+13/8)\e}$. Dividing the comparison by
+$\delta/2$ costs at most $2x^\e$. Since $2/x\le1$, the resulting bound on
+$G$ is at most $26x^{1/2+(C+21/8)\e}$. At a sufficiently large scale,
+$26\le x^{3\e/8}$, hence $G\le x^{1/2+(C+3)\e}$.
+
+In the cyclic-family comparison one may use $C=e_D+e_L+3$ with
+$e_D+e_L\ge0$. The separate estimate is $\Sigma\le4h\,x^{1/2+\e}$.
+Once $1+4h\le x^\e$, their sum gives
+$H_\psi(x)\le x^{1/2+(e_D+e_L+7)\e}$. The release takes $e_D=2,e_L=0$,
+giving the conditional exponent $\tfrac12+9\e$.
+
+\sources{The inputs are \src{\sizeDir GrowthBoundGivesRiemannHypothesis}{109}{SizeWindows},
+\src{\laDir ChCore}{283}{the averaged inequality} and
+\src{\laDir ChTop}{37}{the pointwise gap estimate}. Compare the
+\src{\sizeDir ChainSlopeWindows/LipschitzWeightAndMinimum}{507}{four-term bound} and
+\src{\prDir CoreGm}{12}{core\_gm} and
+\src{\thirdDir TopShape}{52}{the chosen constants}.}
+
+\sheet{IV\enspace Back to the primes}{A cohomology bound on auxiliary windows}{cohomology}
+What could obstruct the division of a family of periods? The announcement
+identifies classes left over after twisting. The quantitative input in the
+release concerns number fields $E$ chosen inside cyclotomic fields. For a
+prime $\ell$ use Galois cohomology unramified away from the primes above
+$\ell$, with coefficients $\Q_\ell/\Z_\ell(-j)$. The twist means that Galois
+acts by the inverse $j$th power of the cyclotomic character, the character
+describing its action on $\ell$-power roots of unity.
+
+In degree one a class can be represented by a cocycle, a function satisfying
+$c(gh)=c(g)+g\,c(h)$, taken modulo functions $c(g)=g v-v$. Restriction to
+local groups tests whether a global class becomes trivial there. Write
+$b_{\ell,j}(E)$ for the $\Z_\ell$-length of the kernel of the release's
+localization map at the primes above $\ell$. For a finite module, length
+counts powers of $\ell$ in its order. For example
+$\Z/\ell^2\Z\oplus\Z/\ell\Z$ has length $3$ and contributes $3\log\ell$
+to a logarithmic size estimate.
+
+\begin{statement}
+\smallhead{The demanded bound.}\quad Put $t=\lfloor x^{401}\rfloor$.
+For the prescribed fields and scales, the lengths for all primes $\ell$
+and $1\le j<t$ must be finite and, for \emph{every finite set} $P$ of primes,
+\[
+      \sum_{\ell\in P}(\log\ell)\sum_{1\le j<t} b_{\ell,j}(E)
+                      \le \exp(x^\e/2).
+\]
+\end{statement}
+All terms are nonnegative, so the bound passes to their total $V$. Write
+$L=x^\e$, $b=e^L$ and $B_0=fmbL$. The inequality gives $V\le\sqrt b$.
+At lift $j$ the congruence correction is bounded by
+$d_0[C_0(L B_0+(\log x)^2N_c)+V]$, provided the base rank is $d_0$.
+Here $N_c\ge0$ is a second size allowance. Since $(\log x)^2\le L$
+eventually and $f,m,L\ge1$, the correction fits
+$d_0(|C_0|+1)L(B_0+N_c)$. It must be paid at every lift.
+
+\subt{Which fields, which scales?}
+Fix $\psi$, $0<\e<1/52$, and a choice of integers $e(x)$ with
+$x^{2+8\e}\le2^{e(x)}\le2x^{2+8\e}$ for $x\ge1$.
+The source asks for $J\ge1$ and $X_0$ so that for every $X\ge X_0$ and
+every admissible prime pair $q,d$ at scale $X^{1/J}$ there exists $Z$ with
+$X^{1/J}\le Z$ and $Z^2\le X$. The bound must hold for every
+$x\in[Z,Z^2]$ and every field meeting the prescribed conditions at
+$(\psi,e(x),q,d)$. All choices of algebraic closure and local data in the
+definition are quantified.
+
+Alpöge calls this a weakening of Vandiver. Classically Vandiver's conjecture
+says that a prime $\ell$ does not divide the class number of the maximal
+real subfield of $\Q(\zeta_\ell)$ for odd $\ell$. Here the imposed statement
+is a length bound for particular twisted groups in varying fields. The release
+uses its bound on square windows to supply hosts for the $3/2$-power windows.
+
+\sources{Exact field and prime-pair conditions are in
+\src{\chDir ExistsPageN}{12}{VVle, IsChiField, WinPair and VWinAt}.
+See \src{Formalism/GaloisCohomology/Statement}{67}{the twist and localization kernel},
+\src{Formalism/SharpRestriction/GlobalTheoremInputs}{36}{the per-lift correction},
+\src{\chDir DivinNOfHypV}{76}{its absorption} and
+\src{\chDir SupplyChi}{8}{the host supply}.}
+
+\sheet{IV\enspace Back to the primes}{Selecting primes and fields for a window}{selection}
+The lengths on p.~\pageref{cohomology} depend on the field. Merely choosing
+one convenient field would leave the growth in $x$ uncontrolled. The source
+makes the choice of auxiliary data quite restrictive.
+
+\subt{The admissible prime pairs}
+Write $Y=X^{1/J}$ and $B=Y^{\e/5}$. The primes $q,d$ obey
+\[
+ \tfrac12 B<\log q\le B,\qquad
+ \tfrac12 B(\log Y)^2<\log d\le B(\log Y)^2 .
+\]
+Further, $q\equiv3\bmod8$, $d\equiv7\bmod16$, $q\mid d+1$, and
+$p\mid d+1$ for every odd prime $p\le B$. The cohomological window
+statement is conditional on a pair satisfying these constraints. Producing
+the hosts used by the prime-sum argument also needs the corresponding
+existence and admissibility results.
+
+For the chosen $e=e(x)$, embed $E$ into a cyclotomic field $\Q(\zeta_N)$
+with $N$ divisible by $2^{e+2}$, the conductor of $\psi$, $q$ and $d$.
+An automorphism $\zeta_N\mapsto\zeta_N^a$ fixes $E$ pointwise precisely when
+\[
+ a\equiv\pm1\bmod 2^{e+2},\qquad \psi(a)=1,\qquad
+ \left(\frac{a}{q}\right)=\left(\frac{a}{d}\right)=1 .
+\]
+The last two symbols are quadratic characters for the odd primes $q,d$.
+This specifies the field used in the host's Frobenius comparisons.
+The growing real cyclotomic layers give a concrete example
+of a tower of fields in the construction.
+
+\subt{Why a Behrend set enters the picture}
+Inside a cyclic group one wants many allowable indices with few close
+encounters along certain orbits. The release formulates a Behrend condition
+on $T\subset\{0,\ldots,N-1\}$. For nonzero integers $a,b,c$ with
+$a+b+c=0$ and $|a|,|b|,|c|\le K$, the only solutions in $T$ to
+$a t_1+b t_2+c t_3=0$ must have $t_1=t_2=t_3$. With $K\ge2$ this
+excludes a nonconstant three-term arithmetic progression by taking $(1,-2,1)$.
+The size requested is at least $N\exp(-C\sqrt{\log N\,\log(K+1)})$ for
+an absolute $C>0$.
+
+One concrete use is the source's \texttt{WindowTwo} property. When
+$8Lt<n$ for every $t\in T$ and $T$ satisfies this condition at $K=2L$,
+a block of $2L$ successive positions in an orbit of additive order $>2L$
+in $\Z/n\Z$ hits a fixed translate of $T$ at most twice. A spacing property
+and a lower bound on the size of $T$ are both needed. The further transfer
+of all these choices into one admissible host family is an arithmetic input.
+
+\sources{See \src{\chDir ExistsPageN}{19}{IsChiField and WinPair},
+\src{Formalism/BehrendSets/Statement}{48}{BehrendFree, BehrendBound and WindowTwo},
+and the \pub{4}{announcement, items 11, 17 and 19}.}
+
+\sheet{IV\enspace Back to the primes}{Closing the argument at the same scales}{assembly}
+For the fixed target $\psi$, write $S_\e$ for the admissible scales of a
+chosen auxiliary family. A host supplies the field, characters and Frobenius
+data. Its estimates on the retained and discarded characters must refer to
+the very same host as the arithmetic chain. Otherwise the prime sum measured
+by the determinant comparison could differ from $H_\psi$.
+
+\subt{The order of choices}
+The required existence statement supplies constants $e_D,e_L$ and
+$\e_1>0$ \emph{before} choosing $\e$. For each $0<\e<\e_1$ it supplies a
+compatible family with these two properties.
+\begin{enumerate}
+\item For every lower cutoff $Y_0$ there is a $Y\ge Y_0$ with
+$[Y,Y^{3/2}]\subset S_\e$.
+\item There are constants for this family and a threshold $x_0$ such that
+the host and chain estimates needed in the comparison apply at every
+$x\in S_\e$ above $x_0$. Individual auxiliary objects may vary with $x$.
+\end{enumerate}
+The comparison of p.~\pageref{cost} supplies a threshold $x_1$ on these
+scales. With the release's $e_D=2$ and $e_L=0$, the exponent is
+$\tfrac12+9\e$. Given $\theta>\tfrac12$, choose
+\[
+        0<\e<\min\!\left(\e_1,\frac{\theta-\tfrac12}{9}\right).
+\]
+Use property 1 with lower cutoff $\max(2,Y_0,x_0,x_1)$. Every point of the
+selected window has $H_\psi(x)\le x^{1/2+9\e}\le x^\theta$. This proves
+$(\W)$ from the two inputs. If the only available loss exponent grew like
+$1/\e$, shrinking $\e$ would not close the exponent gap.
+
+\subt{From the right half of the strip to all characters}
+By the criterion of p.~\pageref{separation}, $(\W)$ excludes a zero
+$\rho$ of a primitive $\psi$ with $\tfrac12<\re\rho<1$. A primitive zero
+with $0<\re\rho<\tfrac12$ gives a zero for $\bar\psi$ at $1-\rho$ by the
+functional equation. The gamma and conductor factors are finite and
+nonzero in the open strip. Applying the same exclusion to $\bar\psi$ gives
+a contradiction. Finally, if $\chi$ modulo $q$ is induced by $\psi$ of
+conductor $f$, then
+\[
+       L(s,\chi)=L(s,\psi)
+       \prod_{\substack{p\mid q\\p\nmid f}}(1-\psi(p)p^{-s}).
+\]
+For $\re s>0$, $|\psi(p)p^{-s}|<1$ in the product. For example the character
+induced from $\chi_4$ at modulus $12$ contributes $1+3^{-s}$. This accounts
+for every modulus, including $1$, which gives the ordinary Riemann hypothesis.
+
+\sources{See \src{\frDir TopWin}{26}{the window and chain quantifiers},
+\src{\chDir ZeroFreeAllOfTopG}{26}{their assembly},
+\src{\frDir TopWin}{68}{the choice of $\e$} and
+\src{\chDir ClaimStrip}{23}{primitive reduction and reflection}.}
+
+\sheet{V\enspace Reading the release}{How to read the Lean statements}{lean}
+Lean represents a proposition as a type. A proof is a term of that type.
+The kernel checks the term against the definitions, earlier theorems and
+axioms in its environment. Short final declarations can have very long
+dependency chains. A useful starting point in this release is a single line
+from \texttt{Main.lean}.
+\begin{statement}
+{\small\ttfamily theorem LFunction\_eq\_zero\_re : DirichletLZerosOnLine\\
+\hspace*{1.5em}:= claimAll.2.1}
+\end{statement}
+The type after the colon names the statement. The expression after the
+assignment sign selects a component from the previously proved conjunction
+\texttt{claimAll}. To see what that component says, open
+\texttt{DirichletLZerosOnLine} in \texttt{Statements.lean}. In mathematical
+notation its type is
+\[
+\begin{gathered}
+ \forall N\in\Z_{\ge1},\quad
+ \forall\chi:(\Z/N\Z)^\times\to\C^\times\ \text{a character},\quad
+ \forall s\in\C,\\[-2pt]
+ 0<\re s\ \Longrightarrow\ \re s<1\ \Longrightarrow\
+ L(s,\chi)=0\ \Longrightarrow\ \re s=\tfrac12 .
+\end{gathered}
+\]
+In Lean, \texttt{[NeZero N]} supplies the nonzero-modulus condition and the
+arrows introduce successive hypotheses. The \texttt{LFunction} here is
+mathlib's Dirichlet $L$-function. Another declaration,
+\texttt{LFunction\_ne\_zero\_of\_half\_lt\_re}, states right-half-plane
+nonvanishing with the exception $\chi=\one$, $s=1$. The separate
+\texttt{riemannHypothesis} declaration has mathlib's type
+\texttt{RiemannHypothesis}.
+
+\subt{Follow one dependency chain}
+\begin{enumerate}
+\item \src{Supplements/Kernels/MainTheorems}{7}{MainTheorems} obtains
+\texttt{allChi} from \texttt{FinalTheorems.everyCharacter} and uses it for
+the strip statement. This is where to check the reduction back to every modulus.
+\item \src{\chDir MainConclusion}{7}{MainConclusion} supplies both the
+arithmetic inputs and \texttt{VWin} using a local--global Galois
+compatibility statement called \texttt{Row0b}.
+\item \src{\aaDir Foundations/GaloisRepresentations/IntegralStructures/RowSrc}{6}{RowSrc}
+obtains that compatibility from a theta-lift statement. Its short proof passes
+the problem to imported theorems. A reader auditing this route must examine
+the inputs that construct those lifts.
+\end{enumerate}
+A declaration beginning with \texttt{def} and ending in \texttt{: Prop} can
+package a demand as a proposition. Its definition alone gives no witness.
+For example, p.~\pageref{cohomology} expands the demand \texttt{VWinAt},
+while \texttt{vwin\_of\_row} gives a route to supplying it from another premise.
+
+\sources{Primary entry points include \src{Statements}{3}{Statements.lean},
+\src{Main}{4}{Main.lean}, and
+\src{\aaDir AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/VwinOfRow}{4}{vwin\_of\_row}.
+The announcement describes the extended Riemann hypothesis as a future direction.}
+
+\sheet{V\enspace Reading the release}{What has been checked, and what is open}{checks}
+\subt{Calculations reproduced here}
+The finite-field identity, the path norm bound and the small numerical
+examples follow from the sums displayed in the text. On the analytic side,
+we derived both centerings, the family residue, the localized tail estimate
+for $3/2$-power windows and the contradiction with a pole. On the arithmetic
+side, we traced the local coefficient and valuation sum, checked the two
+height cancellations and derived $\tfrac12+9\e$ from the size hypotheses.
+The final choice of $\e$ and the passage to all moduli follow
+once one family supplies the requisite estimates together.
+
+\subt{Questions an arithmetic verification must answer}
+\begin{enumerate}
+\item Do the chosen theta lifts and test vectors give the required common
+period with nonvanishing, compatible integral normalizations and the stated
+local factors at every stage? Which inclusions justify the integer exponents
+used to divide the period lattice?
+\item After division, do the residual lattice indices, correlations between
+columns and archimedean norms satisfy the simultaneous slope and error bounds
+as $m$ grows? A comparison at one fixed length leaves uniformity open.
+\item Does the construction produce hosts meeting the character, cohomology
+and chain conditions on each point of the \emph{same} whole window for
+arbitrarily small $\e$, with $e_D,e_L$ fixed first?
+\end{enumerate}
+
+\subt{What a formal build would check}
+The release pins Lean \texttt{v4.33.1} and mathlib revision
+\texttt{0df444a360ea}. In the extracted \texttt{lean/} project, the module
+target \texttt{lake build +Main} requests the final module and its imports.
+After a successful build, a separate file \texttt{Audit.lean} can contain
+\begin{statement}
+{\small\ttfamily import Main\\
+\#print DirichletLZerosOnLine\\
+\#print axioms LFunction\_eq\_zero\_re\\
+\#print axioms LFunction\_ne\_zero\_of\_half\_lt\_re\\
+\#print axioms riemannHypothesis}
+\end{statement}
+Run \texttt{lake env lean Audit.lean} from that project. The first print
+exposes the statement. The axiom queries report transitive dependencies,
+including \texttt{sorryAx} if an admitted proof is used. An independent
+verification would record the clean build, actual axiom output and a replay
+of the compiled proof terms, then compare the formal statements to the
+mathematics. This companion reports a source reading and hand calculations.
+A full kernel check and an independent derivation of the uniform lift
+and cohomological estimates remain open here.
+
+\sources{Links throughout point into the
+\href{https://github.com/TomasOrtega/RH/tree/a6ac91a412dcbaab31801355ec5707024a71bf65/extracted/lean}{pinned source mirror}.
+See the \href{https://lean-lang.org/doc/reference/latest/ValidatingProofs/}{Lean reference on validation}.
+The accompanying README gives the commands for rebuilding every figure and this PDF.}
+\end{document}
