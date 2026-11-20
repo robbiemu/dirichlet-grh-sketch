@@ -16,7 +16,6 @@ The figures are separate vector PDFs. Each has a standalone TeX source in the sa
 | [Where a zero could lie](figures/critical-plane.pdf) | The critical strip, its middle line and two sample inputs | [Diagram](figures/critical-plane.tex) |
 | [Symmetries in the upper half-plane](figures/theta-plane.pdf) | A shift by two preserves the theta value and inversion takes the input to a different point | [Diagram](figures/theta-plane.tex) |
 | [Two window claims](figures/windows.pdf) | The arithmetic window bound and the prediction from a zero on the same interval | [Diagram](figures/windows.tex) |
-| [Residue classes](figures/residue-classes.pdf) | Sorting odd primes through 13 modulo four gives a signed difference of two minus three | [Diagram](figures/residue-classes.tex) |
 | [Units modulo four](figures/units-modulo-four.pdf) | Multiplication gives an inverse for each of the classes 1 and 3 | [Diagram](figures/units-modulo-four.tex) |
 | [Extending the principal character](figures/principal-extension.pdf) | The weights on 1 and 3 carry over, and the classes 0 and 2 receive weight zero | [Diagram](figures/principal-extension.tex) |
 | [Prime ramps](figures/prime-ramp.pdf) | Prime-power sums for the character that gives every integer weight 1 | [Plot](figures/prime-ramp.tex) · [Data](figures/prime-ramp.dat) |
@@ -27,9 +26,11 @@ The figures are separate vector PDFs. Each has a standalone TeX source in the sa
 | [Theta-lift chain](figures/lift.pdf) | The groups, forms and direction of integration | [Diagram](figures/lift.tex) |
 | [Chain length](figures/balance.pdf) | The exponents of the two competing quantities as the length varies | [Plot](figures/balance.tex) |
 
+The signed count of odd primes through 13 from the opening of “Characters and residue classes” has a separate diagram. [Diagram (PDF)](figures/residue-classes.pdf) · [TeX source](figures/residue-classes.tex)
+
 ## Rebuild
 
-With a full TeX Live installation, Make and Python 3, run these commands from this directory. They regenerate both data tables, all fourteen figure PDFs and the companion, including internal page references.
+With a full TeX Live installation, Make and Python 3, run these commands from this directory. They regenerate both data tables, the thirteen figures in the companion and the companion PDF, including internal page references.
 
 ```sh
 make data

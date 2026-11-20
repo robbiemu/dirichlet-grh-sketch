@@ -1,4 +1,4 @@
-FIGURES = character-line critical-plane theta-plane windows residue-classes units-modulo-four principal-extension prime-ramp strip oscillation kernel path lift balance
+FIGURES = character-line critical-plane theta-plane windows units-modulo-four principal-extension prime-ramp strip oscillation kernel path lift balance
 VECTOR_PDFS = $(addprefix figures/,$(addsuffix .pdf,$(FIGURES)))
 LATEX_FLAGS = -interaction=nonstopmode -halt-on-error -file-line-error
 
@@ -8,7 +8,7 @@ export FORCE_SOURCE_DATE = 1
 
 .PHONY: all figures data
 all: companion.pdf
-figures: $(VECTOR_PDFS)
+figures: $(VECTOR_PDFS) figures/residue-classes.pdf
 data:
 	python3 figures/figure_data.py
 
