@@ -76,30 +76,102 @@
 \newcommand{\Lder}{\frac{L'}{L}}
 \newcommand{\pagego}[2]{\hyperref[#1]{#2, p.~\pageref*{#1}}}
 \begin{document}
-\thispagestyle{opening}\pdfbookmark[1]{A prime sum and its zeros}{opening}
+\thispagestyle{opening}\phantomsection\pdfbookmark[1]{A prime sum and its zeros}{opening}\label{firstweights}
 {\sffamily\bfseries\fontsize{38}{42}\selectfont A prime sum and its zeros\par}
 {\sffamily\fontsize{16}{20}\selectfont\color{sea}
 An illustrated companion to Levent Alpöge's\\proposed proof of Dirichlet GRH\par}
 \vspace{7pt}
-A Dirichlet character $\chi$ assigns periodic weights to integers, with
-$\chi(ab)=\chi(a)\chi(b)$. For complex $s$ with real part $\re s>1$ these give
-$L(s,\chi)=\sum_{n\ge1}\chi(n)n^{-s}$. The constant weight $1$ gives the
-Riemann zeta function $\zeta(s)$. These functions extend into the strip
-$0<\re s<1$. The generalized Riemann hypothesis for Dirichlet $L$-functions
-says every zero $\rho$ there has real part $1/2$. For $\zeta$ this is the
-classical Riemann hypothesis.
+The Riemann hypothesis concerns the zeros of a function built from the
+integers. To see how a whole family of such functions arises, start by
+giving each term of a sum a \emph{weight}. This is the number you multiply
+the term by. A weight of $+1$ keeps the term, $-1$ subtracts it and $0$
+leaves it out.
 
-A periodic function repeats when we shift its input. Alpöge uses
-\emph{automorphic forms}, functions with symmetry laws for a whole group
-of transformations. One example is the square-lattice theta series $F$.
-It repeats under $z\mapsto z+2$ and obeys $F(-1/z)=-izF(z)$ in the upper
-half-plane. Its fifth Fourier coefficient counts the eight integer pairs
-with $a^2+b^2=5$ (p.~\pageref{lifts}).
+A \emph{Dirichlet character} $\chi$ assigns a weight $\chi(n)$ to each
+integer $n$. The weights repeat with a period $q$, so $\chi(n+q)=\chi(n)$.
+They also multiply when the inputs multiply, so $\chi(ab)=\chi(a)\chi(b)$.
+In the example $\chi_4$, the four weights starting at $n=1$ are
+$+1,0,-1,0$. Read across to see the repetition. Then square the weight
+at $3$ to predict the weight at $9$.
 
-How could forms help locate a zero? Write $H(x)$ for a weighted sum
-over prime powers up to $x$ with an explicit main term subtracted
-(pp.~\pageref{ramp}--\pageref{window}). Suppose $\re\rho>1/2$ for a zero
-in the strip. Choose an exponent $\theta$ strictly between $1/2$ and $\re\rho$.
+\ill[.98]{character-line}{Moving four places to the right preserves each weight. The two products below the line show how to read the weight at $9$ or $6$ from the weights of its factors.}
+
+\subt{From the weights to a function}
+Take the terms $1/n^2$. At $n=3$ the weight is $-1$, so the term contributes
+$-1/9$. At $n=4$ the weight is zero. Applying all the weights gives
+\[
+ L(2,\chi_4)=1-\frac{1}{3^2}+\frac{1}{5^2}-\frac{1}{7^2}
+                  +\frac{1}{9^2}-\cdots .
+\]
+Now let the exponent vary. Write it as $s=\sigma+it$, with real part
+$\sigma$. A \emph{Dirichlet $L$-function} is given by the series
+\[
+                 L(s,\chi)=\sum_{n=1}^{\infty}\frac{\chi(n)}{n^s}
+                 \qquad(\sigma>1).
+\]
+Each weight has size at most $1$, so the $n$th term has size at most
+$1/n^\sigma$. When $\sigma>1$, even the sum of these bounds is finite.
+Giving every integer weight $1$ produces the
+\emph{Riemann zeta function}, written $\zeta(s)$.
+
+\sources{This independent companion expands our \href{\repo blob/main/proof-sketch.pdf}{four-page sketch} of
+Alpöge's \pub{1}{announcement}. For the character laws and the series see the NIST Digital Library of Mathematical Functions,
+\href{https://dlmf.nist.gov/27.8}{§27.8} and \href{https://dlmf.nist.gov/25.15}{§25.15}.}
+
+\sheet{Reader's guide}{Where can a zero lie?}{criticalstrip}
+Plot the complex number $s=\sigma+it$ as a point. Its horizontal coordinate
+is the real part $\sigma$, and its vertical coordinate is the imaginary
+part $t$. The input $s=2$ from p.~\pageref{firstweights} sits on the real axis.
+At every point to the right of the vertical line through $1$, the series
+converges absolutely.
+
+These functions extend farther by \emph{analytic continuation}. The idea is
+to extend a function using formulas that agree with it wherever their domains
+overlap. Page~\pageref{lseries} works through a geometric-series example.
+For Dirichlet $L$-functions, this gives values throughout the
+\emph{critical strip}, the open band $0<\sigma<1$. It stretches indefinitely
+up and down, between the vertical lines through $0$ and $1$.
+
+Its middle line, $\sigma=1/2$, is called the \emph{critical line}.
+For example, $s=3/4+i$ sits inside the strip, one unit above the real axis
+and to the right of that middle line.
+
+\ill[.95]{critical-plane}{The shaded band is the critical strip. The two dots locate the example inputs $3/4+i$ and $2$. Moving either point straight up changes only its imaginary part.}
+
+\subt{What the hypothesis says}
+A \emph{zero} is an input $\rho$ for which $L(\rho,\chi)=0$. The generalized
+Riemann hypothesis for Dirichlet $L$-functions says that every zero in the
+critical strip lies on the critical line. In symbols,
+\[
+        L(\rho,\chi)=0,\quad 0<\re\rho<1
+        \quad\Longrightarrow\quad \re\rho=\tfrac12 .
+\]
+For the Riemann zeta function, this is the classical Riemann hypothesis.
+
+\sources{For analytic continuation and the distribution of zeros see
+\href{https://dlmf.nist.gov/25.15}{NIST, Dirichlet $L$-functions, §25.15}.
+The release gives its precise statement in \src{Statements}{10}{Statements.lean}.}
+
+\sheet{Reader's guide}{How a prime sum could detect a zero}{openingclaims}
+Suppose a zero $\rho$ lies in the strip to the right of the critical line.
+Choose an exponent $\theta$ strictly between $1/2$ and $\re\rho$.
+Write $H(x)$ for a weighted sum over prime powers up to $x$ with an explicit
+main term subtracted (pp.~\pageref{ramp}--\pageref{window}).
+Alpöge approaches this sum using functions with arithmetic symmetries.
+
+\noindent\begin{minipage}[c]{.49\linewidth}\raggedright
+The character $\chi_4$ repeats after a shift by $4$. An \emph{automorphic
+form} obeys symmetry laws for a whole group of transformations. The
+square-lattice theta series $F$ takes inputs $z$ above the real axis, in the
+\emph{upper half-plane}. It repeats after a shift by $2$. Under inversion
+it obeys $F(-1/z)=-izF(z)$. Its fifth Fourier coefficient counts the
+eight integer pairs with $a^2+b^2=5$ (p.~\pageref{lifts}).
+\end{minipage}\hfill
+\begin{minipage}[c]{.47\linewidth}
+\ill[1]{theta-plane}{The horizontal arrow gives $F(1+i)=F(3+i)$. The curved arrow takes $1+i$ to $-\tfrac12+\tfrac12i$ by inversion.}
+\end{minipage}\par
+
+\subt{Two claims about the same interval}
 
 \textbf{The arithmetic window bound} asks for intervals $[Y,Y^{3/2}]$,
 with $Y$ as large as we please, on which $H(x)\le x^\theta$ at every point.
@@ -119,8 +191,8 @@ The orange dot is one possible location where the same bound is exceeded.}
 \pagego{transform}{The argument from a zero}\sep \pagego{finite}{The arithmetic construction}\\
 \pagego{assembly}{Where the two claims meet}\sep \pagego{lean}{Reading the Lean statements}\par}
 
-\sources{This independent companion expands our \href{\repo blob/main/proof-sketch.pdf}{four-page sketch} of
-Alpöge's \pub{1}{announcement}. The uniform arithmetic construction and the end-to-end Lean build remain open checks in this guide.}
+\sources{Alpöge outlines the construction in his \pub{3}{announcement, pp.~3--4}.
+The uniform arithmetic construction and the end-to-end Lean build remain open checks in this guide.}
 
 \sheet{I\enspace Prime sums}{Characters and residue classes}{characters}
 Divide an odd integer by $4$. The remainder is $1$ or $3$. Give the first
@@ -692,7 +764,7 @@ integral measures. Their periods will have to be compared across twists.
 The different twists enter the \pub{4}{announcement, items 12--16}.}
 
 \sheet{III\enspace The arithmetic construction}{What travels through a theta lift}{lifts}
-The theta series on the opening page had two symmetries, a shift and an
+The theta series on p.~\pageref{openingclaims} had two symmetries, a shift and an
 inversion. A modular form also satisfies analytic and growth conditions.
 For a form of integer weight $k$ with no extra phase factor, the symmetry
 law for integer matrices of determinant $1$ in its group is
@@ -714,9 +786,10 @@ unitary groups there are compact. At finite places, level again specifies
 subgroups under which a form is invariant.
 
 \subt{A kernel that can see two groups}
-The series on p.~1 is $F(z)=\sum_{(a,b)\in\Z^2}e^{\pi iz(a^2+b^2)}$
+The series on p.~\pageref{openingclaims} is $F(z)=\sum_{(a,b)\in\Z^2}e^{\pi iz(a^2+b^2)}$
 for $\operatorname{Im}z>0$. Shifting $z$ by $2$ multiplies each term by
-$e^{2\pi i(a^2+b^2)}=1$. The coefficient of $e^{5\pi iz}$ is eight,
+$e^{2\pi i(a^2+b^2)}=1$. At $z=1+i$, inversion gives $(-1+i)/2$
+and the factor $-iz=1-i$. The coefficient of $e^{5\pi iz}$ is eight,
 from $(\pm1,\pm2)$ and their swaps.
 A theta kernel also sums over rational vectors, now with actions of two
 groups on the underlying data. If $g$ and $h$ are variables on the old and

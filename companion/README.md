@@ -2,7 +2,7 @@
 
 [Read the illustrated companion (PDF)](companion.pdf) · [Read the TeX source](companion.tex) · [Four-page sketch](https://github.com/robbiemu/dirichlet-grh-sketch/blob/67229c2f8412210e319691c1e4b45fde81027a0d/proof-sketch.pdf) · [Worked lift estimate](https://github.com/robbiemu/dirichlet-grh-sketch/blob/67229c2f8412210e319691c1e4b45fde81027a0d/lift-estimate.pdf)
 
-This companion to Levent Alpöge’s proposed proof of Dirichlet GRH assumes calculus, linear algebra and familiarity with finite groups. It starts with the symmetry of a periodic function and a theta series whose coefficients count lattice points. Along the way readers compute a conductor from a character table, follow a prime in the Gaussian integers, extract a weight by integration and restrict a cohomology class to a subgroup.
+This companion to Levent Alpöge’s proposed proof of Dirichlet GRH assumes calculus, linear algebra and familiarity with finite groups. It begins by reading a character from a number line, using its weights in a series and locating the critical strip in the complex plane. Along the way readers compute a conductor from a character table, follow a prime in the Gaussian integers, extract a weight by integration and restrict a cohomology class to a subgroup.
 
 The analytic chapters derive how a hypothetical zero forces a large value of a smoothed prime sum on each sufficiently late window. The arithmetic chapters trace the valuation gained at each theta lift, the fractional ideal that divides the periods and the four error terms that give the conditional exponent $1/2+9\varepsilon$. The closing pages explain which estimates must hold together on whole windows and how to inspect the final Lean declarations. The companion checks the displayed reductions and examples. The uniform arithmetic construction and full Lean build remain unverified here.
 
@@ -12,6 +12,9 @@ The figures are separate vector PDFs. Each has a standalone TeX source in the sa
 
 | Figure | What it shows | Reproducible source |
 | --- | --- | --- |
+| [Character weights on the number line](figures/character-line.pdf) | Period four and the weights of two products | [Diagram](figures/character-line.tex) |
+| [Where a zero could lie](figures/critical-plane.pdf) | The critical strip, its middle line and two sample inputs | [Diagram](figures/critical-plane.tex) |
+| [Symmetries in the upper half-plane](figures/theta-plane.pdf) | A shift by two preserves the theta value and inversion takes the input to a different point | [Diagram](figures/theta-plane.tex) |
 | [Two window claims](figures/windows.pdf) | The arithmetic window bound and the prediction from a zero on the same interval | [Diagram](figures/windows.tex) |
 | [Residue classes](figures/residue-classes.pdf) | Sorting odd primes through 13 modulo four gives a signed difference of two minus three | [Diagram](figures/residue-classes.tex) |
 | [Prime ramps](figures/prime-ramp.pdf) | Prime-power sums for the character that gives every integer weight 1 | [Plot](figures/prime-ramp.tex) · [Data](figures/prime-ramp.dat) |
@@ -24,7 +27,7 @@ The figures are separate vector PDFs. Each has a standalone TeX source in the sa
 
 ## Rebuild
 
-With a full TeX Live installation, Make and Python 3, run these commands from this directory. They regenerate both data tables, all nine figure PDFs and the companion, including internal page references.
+With a full TeX Live installation, Make and Python 3, run these commands from this directory. They regenerate both data tables, all twelve figure PDFs and the companion, including internal page references.
 
 ```sh
 make data
