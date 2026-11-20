@@ -1,8 +1,8 @@
 # Understanding the proposed proof of Dirichlet GRH
 
-[Read the four-page sketch (PDF)](proof-sketch.pdf) · [TeX source](proof-sketch.tex)
+This repository is a playground for exploring Levent Alpöge’s proposed proof of the generalized Riemann hypothesis for Dirichlet L-functions. We use it to work through the arguments, trace individual steps in the released Lean source, and record what we can verify.
 
-Codex wrote this independent exposition to explain Levent Alpöge’s proposed proof of the generalized Riemann hypothesis for Dirichlet L-functions.
+Codex wrote the four-page sketch as an independent exposition. [Read the four-page sketch (PDF)](proof-sketch.pdf) · [TeX source](proof-sketch.tex)
 
 A zero to the right of the critical line would force a weighted prime sum to exceed a threshold somewhere in every sufficiently late interval of the form $[Y,Y^{3/2}]$. The proposed theta-lift construction is meant to produce arbitrarily late intervals on which the sum stays at or below that threshold throughout. The sketch works through this contradiction and identifies the uniform estimates the construction needs. Those estimates and the full Lean build remain unverified in this exposition.
 
