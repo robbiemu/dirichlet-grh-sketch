@@ -1,0 +1,17 @@
+\documentclass[border=4pt]{standalone}
+\input{style}
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.45cm},
+  companion,width=6.2cm,height=3.35cm,scale only axis,xlabel={length $x$}]
+\nextgroupplot[title={Sum of the ramps $R_{\mathbf1}(x)$},xmin=1,xmax=12,ymin=0,ymax=13.5,
+  xtick={2,4,6,8,10,12},ytick={0,4,8,12}]
+\addplot[sea,line width=1.3pt,restrict x to domain=1:12] table[x=x,y=R]{prime-ramp.dat};
+\addplot[only marks,mark=*,mark size=1.6pt,color=clay] coordinates {(4,1.05935127678)};
+\node[anchor=west,text=clay,font=\sffamily\footnotesize] at (axis cs:4.05,2.75){$x=4$};
+\nextgroupplot[title={After centering, $G_{\mathbf1}(x)$},xmin=8,xmax=96,
+  ymin=1.56,ymax=2.15,xtick={8,32,64,96},ytick={1.6,1.8,2.0}]
+\addplot[sea,line width=1pt,restrict x to domain=8:96] table[x=x,y=G]{prime-ramp.dat};
+\end{groupplot}
+\end{tikzpicture}
+\end{document}

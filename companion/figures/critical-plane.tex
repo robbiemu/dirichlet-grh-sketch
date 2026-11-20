@@ -1,0 +1,26 @@
+\documentclass[border=4pt]{standalone}
+\input{style}
+\begin{document}
+\begin{tikzpicture}[x=4.2cm,y=1.33cm]
+\fill[wash] (0,-1.23) rectangle (1,1.94);
+\draw[muted,densely dashed] (1,-1.23)--(1,1.94);
+\draw[sea,line width=1.2pt] (.5,-1.23)--(.5,1.94);
+\draw[arrow] (-.57,0)--(2.45,0) node[below left] {$\operatorname{Re}s$};
+\draw[arrow] (0,-1.37)--(0,2.17)
+  node[above left,inner sep=2pt] {$\operatorname{Im}s$};
+\foreach \x/\tick in {0/0,.5/{1/2},1/1,2/2}{
+  \draw[muted] (\x,-.044)--(\x,.044);
+  \node[below,fill=white,inner sep=1pt] at (\x,-.08) {$\tick$};
+}
+\draw[muted] (-.013,1)--(.013,1) node[left=3pt] {$1$};
+\draw[muted,densely dotted] (.75,0)--(.75,1)--(0,1);
+\fill[ink] (.75,1) circle (2.3pt);
+\node[anchor=south west,inner sep=3pt] at (.75,1) {$\tfrac34+i$};
+\fill[ink] (2,0) circle (2.3pt);
+\node[above,inner sep=3pt] at (2,0) {$s=2$};
+\node[above,text=sea,font=\sffamily\bfseries] at (.5,1.97) {critical strip};
+\node[anchor=west,text=sea,inner sep=2pt] at (.55,-.86) {critical line};
+\draw[sea,line width=.6pt] (.5,-.86)--(.55,-.86);
+\node[align=center,text=muted] at (1.70,1.23) {absolute convergence\\of the series};
+\end{tikzpicture}
+\end{document}

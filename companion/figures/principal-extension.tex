@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  row name/.style={anchor=west,inner sep=0pt},
+  heading/.style={row name,font=\sffamily\bfseries,text=sea}]
+\node[heading] at (0,-1.50) {Weights of the principal character modulo $4$};
+\node[row name] at (0,-2.00) {Residue class};
+\foreach \x/\residue in {3.25/0,4.65/1,6.05/2,7.45/3}
+  \node at (\x,-2.00) {$\residue$};
+\node[row name] at (0,-2.49) {On the units};
+\node[row name,font=\sffamily\footnotesize,text=sea] at (0,-2.93) {Fill the blanks with $0$};
+\node[row name] at (0,-3.37) {On all four classes};
+
+\foreach \x in {3.25,6.05}{
+  \node[text=muted] at (\x,-2.49) {\textemdash};
+  \draw[-{Stealth[length=1.7mm]},draw=sea,line width=.7pt]
+    (\x,-2.67) -- (\x,-3.10);
+  \node[rounded corners=2pt,fill=wash,minimum width=6.5mm,inner sep=2pt]
+    at (\x,-3.37) {$0$};
+}
+\foreach \x in {4.65,7.45}{
+  \node at (\x,-2.49) {$+1$};
+  \node at (\x,-3.37) {$+1$};
+}
+\end{tikzpicture}
+\end{document}

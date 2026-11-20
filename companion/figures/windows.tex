@@ -1,0 +1,20 @@
+\documentclass[border=4pt]{standalone}
+\input{style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[anchor=west,font=\sffamily\bfseries,text=sea] at (0,2.9){The arithmetic window bound};
+\node[anchor=west,font=\sffamily\bfseries,text=clay] at (0,1.08){The prediction from a zero};
+\foreach \y in {2.03,.15}{
+  \draw[muted,line width=.6pt] (0,\y) -- (14.25,\y);
+  \draw[muted] (2.15,\y-.12) -- (2.15,\y+.12);
+  \draw[muted] (12.15,\y-.12) -- (12.15,\y+.12);
+  \node[below,text=muted] at (2.15,\y-.1) {$U$};
+  \node[below,text=muted] at (12.15,\y-.1) {$3U/2$};
+}
+\draw[sea,line width=3pt] (2.15,2.03)--(12.15,2.03);
+\node[above,text=sea] at (7.15,2.08){arbitrarily late windows with $H(x)\le x^\theta$ throughout};
+\draw[clay,line width=.9pt] (2.15,.15)--(12.15,.15);
+\fill[clay] (8.65,.15) circle (2.8pt);
+\node[above,text=clay] at (7.15,.23){every sufficiently late window contains an $x$ with $H(x)>x^\theta$};
+\end{tikzpicture}
+\end{document}

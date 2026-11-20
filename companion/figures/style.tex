@@ -1,0 +1,25 @@
+% Shared by the independently buildable vector figures.
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,newpxtext,newpxmath}
+\usepackage[semibold]{sourcesans}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,calc,positioning}
+\usepgfplotslibrary{groupplots}
+\definecolor{ink}{HTML}{19303A}
+\definecolor{sea}{HTML}{00675E}
+\definecolor{clay}{HTML}{A24725}
+\definecolor{muted}{HTML}{4C636C}
+\definecolor{rulegray}{HTML}{CAD4D4}
+\definecolor{wash}{HTML}{EAF4F0}
+\definecolor{warm}{HTML}{F7EEE5}
+\color{ink}
+\tikzset{every picture/.style={font=\sffamily\small},
+  arrow/.style={-{Stealth[length=2mm]},line width=.8pt,draw=muted}}
+\pgfplotsset{companion/.style={axis lines=left,axis line style={draw=muted},
+  tick style={draw=muted},ticklabel style={font=\sffamily\footnotesize,text=muted},
+  label style={font=\sffamily\small},grid=major,grid style={draw=rulegray!64,line width=.25pt},
+  tick align=outside,enlarge x limits=false,scaled ticks=false,
+  every axis plot/.append style={line join=round},
+  legend style={draw=none,fill=none,font=\sffamily\footnotesize},
+  title style={font=\sffamily\bfseries\small,anchor=south west,at={(0,1.03)}}}}

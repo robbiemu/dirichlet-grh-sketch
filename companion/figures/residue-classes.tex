@@ -1,0 +1,25 @@
+\documentclass[border=4pt]{standalone}
+\input{style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  number/.style={circle,draw,minimum size=6.5mm,inner sep=1pt},
+  counted/.style={draw=\tone,fill=\tone,text=white},
+  uncounted/.style={draw=\tone,text=\tone},
+  class arrow/.style={-{Stealth[length=1.8mm]},line width=.65pt}]
+\foreach \remainder/\y/\tone/\tally/\entries in {
+  1/.56/sea/{$2\times(+1)$}/{1/uncounted,5/counted,9/uncounted,13/counted},
+  3/-.36/clay/{$3\times(-1)$}/{3/counted,7/counted,11/counted,15/uncounted}}{
+  \node[anchor=west,text=\tone] at (0,\y) {remainder $\remainder$};
+  \foreach \entry/\markstyle [count=\j from 0] in \entries {
+    \node[number,\markstyle] (n\remainder-\j) at ({3+2.05*\j},\y) {$\entry$};
+  }
+  \foreach \j/\k in {0/1,1/2,2/3}{
+    \draw[class arrow,color=\tone] (n\remainder-\j.east) -- (n\remainder-\k.west);
+  }
+  \node[anchor=west,text=\tone] at (10.15,\y) {\tally};
+}
+\draw[rulegray] (0,-.95) -- (12.1,-.95);
+\node[anchor=east,font=\sffamily\bfseries,text=ink] at (12.1,-1.3)
+  {signed count through $13$ \qquad $(+2)+(-3)=-1$};
+\end{tikzpicture}
+\end{document}

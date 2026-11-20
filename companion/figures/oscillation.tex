@@ -1,0 +1,17 @@
+\documentclass[border=4pt]{standalone}
+\input{style}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[companion,axis on top,width=13.8cm,height=3.35cm,scale only axis,xmin=0,xmax=6.2,
+  ymin=-2.65,ymax=2.75,xtick={0,1,2,3,4,5,6},ytick={-2,-1,0,1,2},
+  xlabel={$u=\log x$},ylabel={model divided by $x^{3/5}$},ylabel style={font=\sffamily\footnotesize}]
+\path[fill=wash] (axis cs:2,-2.65) rectangle (axis cs:3,2.75);
+\path[fill=wash] (axis cs:4,-2.65) rectangle (axis cs:6,2.75);
+\addplot[muted,densely dashed,line width=.8pt] coordinates {(0,1) (6.2,1)};
+\addplot[sea,line width=1.15pt,domain=0:6.2,samples=400] {exp(.15*x)*cos(360*x)};
+\addplot[only marks,mark=*,mark size=1.6pt,clay,domain=2:6,samples=5] {exp(.15*x)};
+\node[anchor=south west,font=\sffamily\footnotesize,text=muted,fill=white,inner sep=1.3pt]
+  at (axis cs:.06,1.05){threshold $1$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

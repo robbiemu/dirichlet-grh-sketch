@@ -1,0 +1,17 @@
+\documentclass[border=4pt]{standalone}
+\input{style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \x/\name/\grp in {1/a/0,4.5/b/1,10.1/c/{m-1},13.6/d/m}{
+  \node[draw=sea,fill=wash,rounded corners=1pt,minimum width=1.9cm,minimum height=.8cm]
+       (\name) at (\x,1.6) {$U(V_{\grp})$};
+  \node[below,text=muted] at (\x,1.1) {form $f_{\grp}$};
+}
+\draw[arrow] (a)--node[above]{$\Theta_1$}(b);
+\draw[arrow] (c)--node[above]{$\Theta_m$}(d);
+\draw[muted,densely dotted,thick] (b.east)--(c.west);
+\node[above,fill=white,font=\sffamily\footnotesize,text=muted] at (7.3,1.68){intermediate lifts};
+\draw[arrow] (13.6,.60)--(13.6,-.02)--(10.7,-.02);
+\node[anchor=east] at (10.6,-.02){period of the lifted form};
+\end{tikzpicture}
+\end{document}

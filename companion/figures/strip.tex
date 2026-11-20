@@ -1,0 +1,21 @@
+\documentclass[border=4pt]{standalone}
+\input{style}
+\begin{document}
+\begin{tikzpicture}[x=11.6cm,y=1.32cm]
+\fill[wash] (.5,-.88) rectangle (1,.88);
+\draw[rulegray] (0,-.88)--(0,.88) (1,-.88)--(1,.88);
+\draw[sea,line width=1pt] (.5,-.88)--(.5,.88);
+\draw[clay,densely dashed] (.625,-.88)--(.625,.88);
+\draw[arrow] (-.04,0)--(1.075,0) node[right] {$\Re s$};
+\foreach \x/\label in {0/0,.5/{1/2},.625/{\theta},1/1}{
+  \draw[muted] (\x,-.055)--(\x,.055);
+  \node[anchor=north,fill=white,inner sep=1pt] at (\x,-.07) {$\label$};
+}
+\draw[densely dotted,muted] (.25,-.5)--(.75,.5);
+\fill[clay] (.75,.5) circle (2pt);
+\node[anchor=west,text=clay] at (.767,.53) {$\rho$};
+\fill[ink] (.25,-.5) circle (2pt);
+\node[anchor=east] at (.237,-.52) {$1-\rho$};
+\node[above,text=sea,font=\sffamily\footnotesize] at (.5,.90) {critical line};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt]{standalone}
+\input{style}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[companion,width=13.5cm,height=3.15cm,scale only axis,
+  xmin=.2,xmax=.8,ymin=.18,ymax=.83,xtick={.25,.4,.5,.6,.75},ytick={.25,.5,.75},
+  xlabel={chain exponent $\alpha$ when $m=x^\alpha$},ylabel={power of $x$}]
+\addplot[sea,line width=1.4pt] coordinates {(.2,.8)(.5,.5)(.8,.8)};
+\addplot[muted,densely dashed] coordinates {(.2,.2)(.5,.5)(.8,.2)};
+\addplot[only marks,mark=*,mark size=2pt,color=clay] coordinates {(.5,.5)};
+\node[anchor=south west,font=\sffamily\small,text=sea] at (axis cs:.27,.715){$x/m$};
+\node[anchor=south east,font=\sffamily\small,text=sea] at (axis cs:.74,.725){$m$};
+\node[anchor=north,font=\sffamily\footnotesize,text=clay] at (axis cs:.5,.48){balanced at $\tfrac12$};
+\end{axis}
+\end{tikzpicture}
+\end{document}
