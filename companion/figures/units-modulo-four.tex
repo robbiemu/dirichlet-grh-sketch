@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  residue/.style={circle,minimum size=5.5mm,inner sep=1pt,draw=#1,text=#1},
+  product/.style={-{Stealth[length=1.8mm]},line width=.7pt,draw=#1}]
+\node[anchor=west,font=\sffamily\bfseries,text=sea] at (0,.69) {Units modulo $4$};
+\node[anchor=west,font=\sffamily\bfseries,text=muted] at (6.95,.69) {Nonunits modulo $4$};
+\draw[rulegray] (6.6,-.32) -- (6.6,.89);
+\foreach \start/\inputclass/\factor/\result/\tone in {
+  .35/1/1/{$1$}/sea, 3.67/3/3/{$1$}/sea,
+  7.3/0/b/{$0$}/muted, 10.5/2/b/{$0$ or $2$}/muted}{
+  \node[residue=\tone] (input) at (\start,0) {$\inputclass$};
+  \draw[product=\tone] (input.east) -- ++(1.35,0)
+    node[midway,above=1pt,text=ink] {$\times\factor$}
+    node[right=2pt,text=\tone] {\result};
+}
+\end{tikzpicture}
+\end{document}
