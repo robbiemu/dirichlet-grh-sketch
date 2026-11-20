@@ -96,15 +96,15 @@ at $3$ to predict the weight at $9$.
 
 \ill[.98]{character-line}{Moving four places to the right preserves each weight. The two products below the line show how to read the weight at $9$ or $6$ from the weights of its factors.}
 
-\subt{From the weights to a function}
-Take the terms $1/n^2$. At $n=3$ the weight is $-1$, so the term contributes
+\subt{Applying weights to functions of the integers}
+Start with the function $n\mapsto 1/n^2$. At $n=3$ the weight is $-1$, so the term contributes
 $-1/9$. At $n=4$ the weight is zero. Applying all the weights gives
 \[
  L(2,\chi_4)=1-\frac{1}{3^2}+\frac{1}{5^2}-\frac{1}{7^2}
                   +\frac{1}{9^2}-\cdots .
 \]
-Now let the exponent vary. Write it as $s=\sigma+it$, with real part
-$\sigma$. A \emph{Dirichlet $L$-function} is given by the series
+Now apply the same weights to $n\mapsto 1/n^s$. Write $s=\sigma+it$, with
+real part $\sigma$. A \emph{Dirichlet $L$-function} is given by the series
 \[
                  L(s,\chi)=\sum_{n=1}^{\infty}\frac{\chi(n)}{n^s}
                  \qquad(\sigma>1).
@@ -153,36 +153,42 @@ For the Riemann zeta function, this is the classical Riemann hypothesis.
 The release gives its precise statement in \src{Statements}{10}{Statements.lean}.}
 
 \sheet{Reader's guide}{How a prime sum could detect a zero}{openingclaims}
-Suppose a zero $\rho$ lies in the strip to the right of the critical line.
-Choose an exponent $\theta$ strictly between $1/2$ and $\re\rho$.
-Write $H(x)$ for a weighted sum over prime powers up to $x$ with an explicit
-main term subtracted (pp.~\pageref{ramp}--\pageref{window}).
-Alpöge approaches this sum using functions with arithmetic symmetries.
+Suppose a zero $\rho$ lies in the strip to the right of the critical line,
+and choose $1/2<\theta<\re\rho$. The zero predicts large values of $H(x)$,
+a weighted sum over prime powers up to $x$ with its main term subtracted
+(pp.~\pageref{ramp}--\pageref{window}). To get an independent upper bound
+on that sum, Alpöge studies integrals of \emph{automorphic forms}, functions
+with symmetry laws for a group of transformations. How can such a function
+record the weight of a prime?
 
 \noindent\begin{minipage}[c]{.49\linewidth}\raggedright
-The character $\chi_4$ repeats after a shift by $4$. An \emph{automorphic
-form} obeys symmetry laws for a whole group of transformations. The
-square-lattice theta series $F$ takes inputs $z$ above the real axis, in the
-\emph{upper half-plane}. It repeats after a shift by $2$. Under inversion
-it obeys $F(-1/z)=-izF(z)$. Its fifth Fourier coefficient counts the
-eight integer pairs with $a^2+b^2=5$ (p.~\pageref{lifts}).
+Take the square-lattice theta series $F$. The diagram shows its shift and
+inversion in the \emph{upper half-plane}, above the real axis. Write
+$w=e^{\pi iz}$. Each integer pair $(a,b)$ contributes $w^{a^2+b^2}$ to $F$.
+The pairs $(\pm1,\pm2)$ and their swaps give eight copies of $w^5$.
+No pair gives $w^3$. For every odd prime $p$, the coefficient of $w^p$ in this
+Fourier expansion is $4(1+\chi_4(p))$. So the counts $8$ and $0$ give back
+the weights $+1$ at $5$ and $-1$ at $3$.
 \end{minipage}\hfill
 \begin{minipage}[c]{.47\linewidth}
-\ill[1]{theta-plane}{The horizontal arrow gives $F(1+i)=F(3+i)$. The curved arrow takes $1+i$ to $-\tfrac12+\tfrac12i$ by inversion.}
+\ill[1]{theta-plane}{A shift by $2$ preserves $F$, just as a shift by $4$ preserves $\chi_4$. Inversion gives $F(-1/z)=-izF(z)$ and takes $1+i$ to $(-1+i)/2$ (p.~\pageref{lifts}).}
 \end{minipage}\par
+
+To control many prime powers at once, Alpöge transfers forms between
+groups by \emph{theta lifting} and puts their integrals in a matrix.
+Comparing the size and prime divisibility of its determinant is meant to
+bound $H(x)$ throughout an interval. The zero $\rho$ makes a competing
+prediction there.
 
 \subt{Two claims about the same interval}
 
 \textbf{The arithmetic window bound} asks for intervals $[Y,Y^{3/2}]$,
 with $Y$ as large as we please, on which $H(x)\le x^\theta$ at every point.
-Alpöge proposes to construct them by \emph{theta lifting}, transferring
-forms between groups and comparing the size and divisibility of a
-determinant built from their integrals.
 
-\textbf{The prediction from a zero} is that every sufficiently late interval
-of this shape contains a point where $H(x)>x^\theta$. Choose one of the
-arithmetic intervals late enough and the two claims disagree on that interval.
-The figure draws it in the coordinate $u=\log x$, from $U=\log Y$ to $3U/2$.
+\textbf{The prediction from a zero} gives $H(x)>x^\theta$ somewhere in
+every sufficiently late interval of this shape. In a late arithmetic window
+the claims disagree at that point. In the figure $u=\log x$ turns the
+interval into $[U,3U/2]$, with $U=\log Y$.
 
 \ill{windows}{The green segment covers every point of the chosen interval.
 The orange dot is one possible location where the same bound is exceeded.}
@@ -191,8 +197,9 @@ The orange dot is one possible location where the same bound is exceeded.}
 \pagego{transform}{The argument from a zero}\sep \pagego{finite}{The arithmetic construction}\\
 \pagego{assembly}{Where the two claims meet}\sep \pagego{lean}{Reading the Lean statements}\par}
 
-\sources{Alpöge outlines the construction in his \pub{3}{announcement, pp.~3--4}.
-The uniform arithmetic construction and the end-to-end Lean build remain open checks in this guide.}
+\sources{For the count of two squares see \href{https://mathweb.ucsd.edu/~jmckerna/Teaching/17-18/Spring/104C/l_4.pdf}{McKernan, Theorem~4.6}.
+For the proposed lifts see \pub{4}{Alpöge's announcement, items 7--10}.
+The uniform arithmetic construction and the end-to-end Lean build remain open checks here.}
 
 \sheet{I\enspace Prime sums}{Characters and residue classes}{characters}
 Divide an odd integer by $4$. The remainder is $1$ or $3$. Give the first
