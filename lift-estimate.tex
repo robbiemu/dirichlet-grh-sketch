@@ -1,0 +1,176 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=0.9in,top=0.86in,bottom=0.8in,headheight=23pt,headsep=15pt,footskip=28pt]{geometry}
+\usepackage{amsmath,amssymb,booktabs,newpxtext,newpxmath}
+\usepackage[semibold]{sourcesans}
+\usepackage{microtype,xcolor,fancyhdr,hyperref}
+\definecolor{ink}{HTML}{172A38}
+\definecolor{accent}{HTML}{176866}
+\definecolor{muted}{HTML}{526570}
+\hypersetup{colorlinks=true,urlcolor=accent,linkcolor=accent,
+  pdftitle={How the theta lifts enter the square-root estimate},pdfauthor={Codex}}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 0.4pt minus 0.4pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{3pt}
+\linespread{1.04}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{muted}Dirichlet GRH}
+\fancyhead[R]{\small\sffamily\color{muted}The lift estimate}
+\fancyfoot[L]{\footnotesize\sffamily\color{muted}Independent reading of Alpöge's release, 20 November 2026}
+\fancyfoot[R]{\footnotesize\sffamily\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{muted!45}\leaders\hrule height \headrulewidth\hfill}}
+\newcommand{\heading}[1]{{\sffamily\bfseries\fontsize{22}{25}\selectfont #1\par}\vspace{2pt}}
+\newcommand{\subhead}[1]{\par\addvspace{4pt}{\sffamily\bfseries\large\color{accent}#1\par}\nobreak\vspace{-2pt}}
+\newcommand{\links}[1]{\unskip\ {\small\sffamily\color{muted}#1}}
+\newcommand{\repo}{https://github.com/TomasOrtega/RH/blob/a6ac91a412dcbaab31801355ec5707024a71bf65/extracted/lean/src/}
+\newcommand{\src}[3]{\href{\repo#1.lean\#L#2}{#3}}
+\newcommand{\growth}{Formalism/SharpRestriction/GrowthBounds/}
+\newcommand{\multi}{Formalism/SharpRestriction/GrowthBounds/MultisetValuation/}
+\newcommand{\third}{Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/}
+\newcommand{\divs}{Formalism/LocalToGlobal/Divisibility/}
+\newcommand{\latt}{Formalism/LocalToGlobal/GroupLattices/}
+\newcommand{\swin}{Formalism/SizeWindowBrackets/}
+\newcommand{\core}{Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/}
+\newcommand{\prim}{Development/AutomorphicArithmetic/PrimitiveCosets/}
+\newcommand{\chars}{Development/AutomorphicArithmetic/CharacterBoxes/}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\NN}{\mathcal N}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\pp}{\mathfrak p}
+\newcommand{\QQ}{\mathbb Q}
+\newcommand{\CC}{\mathbb C}
+\begin{document}
+\pdfbookmark[1]{How the lifts accumulate}{chain}
+\heading{How the theta lifts enter the\\square-root estimate}
+Alpöge proposes to bound a centered sum over prime powers of length \(x\) using a chain of \(m\) theta lifts. There are two appearances of \(m\) to account for. At a finite prime the valuations earned at successive lifts add. In the character average, the same prime sum occurs once for each lift. Dividing the total error by that second factor of \(m\) is worthwhile only if the first calculation also controls the cost of the chain. \links{\href{https://alpo.ge/remark.pdf\#page=4}{Announcement, items 8--18}.}
+
+The construction even specifies an integer. It rounds \(\sqrt{x\delta_1}\) up to the next even integer (allowing equality), where \(\delta_1=x^{-\eps/8}\). Thus its chosen length is
+\[
+              m=2\left\lceil\tfrac12 x^{1/2-\eps/16}\right\rceil .
+\]
+It lies within two of the displayed power. A family can use different chains at different \(x\) in the same window. \links{\src{Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EvenCeil}{21}{Rank prescription} $\cdot$ \src{Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/EventuallyThickCardLeCyclicOrder}{60}{chosen ranks} $\cdot$ \src{Formalism/LocalRingCardinality/DataParams\%E2\%82\%82}{45}{density scale}.}
+
+\subhead{The calculation at one finite prime}
+Fix a discrete valuation ring with uniformizer \(\pi\), valuation \(v(\pi)=1\), and ramification index \(e=v(p)\) over a rational prime \(p\). If \(\Lambda\) is a lattice, saying that a vector has normalized valuation at least \(s\) means that it belongs to \(\pi^{\lceil es\rceil}\Lambda\). If a step sends \(\Lambda_j\) into \(\pi^{d_j}\Lambda_{j+1}\) for an integer \(d_j\), linearity sends \(\pi^a\Lambda_j\) into \(\pi^{a+d_j}\Lambda_{j+1}\). Iterating proves the sum of the exponents, including any negative ones. \links{\src{\growth DataGChain}{85}{Composition} $\cdot$ \src{\growth FormalGroupSystem}{309}{valuation convention}.}
+
+In the release the improved bound holds on a specially prepared input sublattice. Let \(J\) index the local components of the model at \(p\), and let \(V\subseteq J\) be the components where an auxiliary operator is available. At step \(j\), write \(b_{vj}\) for a basic valuation bound and \(g_{vj}\) for an improved bound with a commutation cost \(c_{vj}\). Write \(d_j\) for the denominator cost of the step. On the prescribed sublattice the output has normalized valuation at least
+\[
+  \sum_{j=1}^{m}\left(
+     \sum_{v\in V}\max\{b_{vj},g_{vj}-c_{vj}\}
+        +\sum_{v\notin V}b_{vj}-d_j\right).                         \tag{1}
+\]
+For \(v\in V\), put \(s_v\geq\sum_j\max\{g_{vj}-c_{vj}-b_{vj},0\}\). A generator uses the \(m\)th iterate of the auxiliary operator at each \(v\) in a subset of \(V\). At omitted components it pays \(\lceil e s_v\rceil\) in the uniformizer exponent of its input. This guarantees the same lower bound for all generators. \links{\src{\growth FormalGroupSystem}{361}{Input lattice} $\cdot$ \src{\growth FormalGroupSystem}{708}{exact bound}.}
+
+The improved bound uses a Hecke operator \(Z=\sum_{\ell=0}^R(-1)^\ell\beta_\ell\widetilde T_{R-\ell}\) on the output. For one selected component, the positive-index operators on the lifted vector already give the improved bound, and their coefficients are integral. The zero-index operator is the identity. Its vector can fall short by \(\alpha_v\), a sum of weight differences at even positions. Its coefficient satisfies \(v(\beta_R)/e\ge\alpha_v\), so that term also reaches the bound. The valuation of a sum is at least the minimum of the valuations of its terms. This calculation uses the entry estimates on the theta kernel. \links{\src{\growth FormalGroupSystem}{352}{Hecke polynomial} $\cdot$ \src{\growth FormalGroupSystem}{661}{entry and coefficient bounds} $\cdot$ \src{\multi AofUpdate}{172}{one step}.}
+
+At step \(j\), use the improved term whenever \(g_{vj}-c_{vj}\ge b_{vj}\) and that component is available on the generator. Moving \(Z\) across the composed lift introduces the recorded power of \(p\). Linearity carries forward the gain already earned. For an omitted component \(s_v\) covers the deficit. Closure under integral linear combinations extends the estimate to the span. \links{\src{\multi YEPEComm}{131}{Induction} $\cdot$ \src{\multi LiftBoundOfIntegrality}{103}{span argument}.}
+
+\newpage
+\pdfbookmark[1]{A common divisor across twists}{ideal}
+\heading{What is divided out of the periods?}
+Fix one member \(u\) of the auxiliary family and let \(\mu\) vary over the auxiliary Hecke-character tuples. The release identifies the associated period pairings through one bilinear form \(B_u\) over a number field \(K\). With the projection and change of coordinates collected in \(A_\mu\), the identity has the form
+\[
+               P_{u,\mu}(\phi,F)=\zeta_{u,\mu}\, B_u(\phi,A_\mu F).
+\]
+The scalar at the reference tuple is \(1\). At each finite place \(w\), the scalar for the tuple \(\mu(w)\) used there has valuation zero. Thus divisibility of that local period transfers to \(B_u\). The complex Bessel-period identity also allows isometries and a nonzero scalar. These normalizations are part of the comparison. \links{\src{Formalism/LocalToGlobal/IndefiniteForms/IndefSide}{383}{Pairing and Bessel identities}.}
+
+One can check the descent to \(K\) by elementary linear algebra. Suppose over \(\CC\) that \(\Psi_{\CC} A_\mu=r_\mu^{-1}V_\mu\), with \(A_\mu,V_\mu,r_\mu\) defined over \(K\). The reference \(A_0\) is onto, so it has a right inverse \(R\) over \(K\). Then \(\Psi_{\CC}=(r_0^{-1}V_0)R\) has entries in \(K\). The equations for the other tuples descend through the same embedding \(K\hookrightarrow\CC\). Obtaining the initial equations for the automorphic periods requires the common period formula and its nonvanishing inputs. \links{\src{\third OneMapOfRows}{39}{Period formula} $\cdot$ \src{Development/AbelianVarietyTheory/Proofs/DivisorProofs/ComplexMatrixDescendsOfRationalOnTuple}{5}{descent}.}
+
+\subhead{From a valuation to a fractional ideal}
+Write \(g^D_{jw}\) for the usable gain at the \(j\)th lift (zero on the discarded primes), \(F_{jw}\) for the twisting term and \(E_{ujw}\) for the loss. The release sets
+\[
+ s_{uw}=\sum_{j=1}^{m}(g^D_{jw}+F_{jw}-E_{ujw}),\qquad
+ q_{uw}=\lfloor e_w s_{uw}\rfloor,\qquad
+ I_u=\prod_w\pp_w^{-q_{uw}} .
+\]
+Only finitely many exponents are nonzero. For every vector of the input lattice \(\NN_u\) and every allowed test form at \(\mu(w)\), the required local statement says the period is the image of a \(y\in K\) with \(y=0\) or \(v_w(y)\ge q_{uw}\). The release handles the level prime, two distinguished type primes and the other places separately. \links{\src{Formalism/LocalRingCardinality/DataParams\%E2\%82\%82}{212}{Net gain} $\cdot$ \src{Formalism/SharpRestriction/Divisibility/LocalQuadraticParts}{206}{period inequality} $\cdot$ \src{\latt AdmissibleAtGeneratorPlaces}{214}{place cases}.}
+
+At an ordinary place over \(p\), there is a concrete denominator to track. The terminal period on the integral test lattice can lose \(v_p(D_\Gamma)\), where \(D_\Gamma\) is a common multiple of stabilizer orders. The column estimate supplies at least \(s_{uw}+v_p(D_\Gamma)\) in normalized valuation. A period there is a scalar from the column times a terminal period. Their valuations add, leaving at least \(s_{uw}\), before rounding. \links{\src{Formalism/LocalRingCardinality/DataErr}{71}{Stabilizers} $\cdot$ \src{\latt AdmissibleAtGeneratorPlaces}{72}{multiplication} $\cdot$ \src{\latt AdmissibleAtGeneratorPlaces}{187}{net valuation}.}
+
+For a test lattice locally generated by these columns, bilinearity gives \(B_u(I_u\NN_u,R_{\rm test})\subseteq\OO_K\). A local scalar from \(I_u\) has valuation at least \(-q_{uw}\), and the pairing supplies at least \(q_{uw}\). Integrality at every finite place gives global integrality. This fractional ideal implements the announcement's “gcd” by a common valuation bound. The calculation works even for a nonprincipal ideal. \links{\src{Formalism/LocalRingCardinality/DataDIVDefs}{15}{The ideal} $\cdot$ \src{Formalism/QuotientMetricDivisors/DivIntoDualShift}{133}{dual lattice}.}
+
+\textbf{A two-lift example.} Over \(\mathbb Z_{(3)}\), take the two maps
+\(3\bigl(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\bigr)\) and
+\(3\bigl(\begin{smallmatrix}1&0\\1&1\end{smallmatrix}\bigr)\), in that order, followed by the row \((1,1)\). The resulting row is \((18,27)\). Its entries have valuations \(2\) and \(3\). On \(3^{-2}\mathbb Z_{(3)}^2\) the row has integral values with coefficients \((2,3)\). This illustrates the division once the bounds are known.
+
+\newpage
+\pdfbookmark[1]{Where the main costs cancel}{cost}
+\heading{What is left of the cost of a lift?}
+Shifting a rank-\(d\) lattice by \(\pp_w^{-q}\) changes its local determinant exponent by \(-dq\). An arithmetic slope divides the logarithmic covolume change by the rank. In the release's squared-norm convention for a totally complex coefficient field, the change for all finite places is
+\[
+ \mu(I_u\NN_u)-\mu(\NN_u)=2\sum_w \ell_w q_{uw},\qquad
+             \ell_w=\frac{\log N\pp_w}{[K:\QQ]} .
+\]
+At the finite places \(v_w(P)=v_w(\zeta)+v_w(B)\) for a nonzero evaluation in the pairing identity. The unit condition makes the transfer exact. At an infinite place, composing operators multiplies norm bounds. The squared norm on a quotient component \(\alpha\) is rescaled by \(\kappa\prod_j\lambda_{j,\alpha}\). Recovering the norm on the common quotient therefore subtracts \(\log\kappa+\min_\alpha\sum_j\log\lambda_{j,\alpha}\) from the log bound for the squared norm. The arithmetic input must control the average of these minima over infinite places as the chain grows. \links{\src{Formalism/QuotientMetricDivisors/HermitianTwistDivisors/TwistedLatticeNaturality}{145}{Slope change} $\cdot$ \src{\divs ConstantGeTwentyEight}{123}{archimedean norm comparison}.}
+
+\subhead{Two cancellations in the slope estimate}
+Let \(\mathcal F\) be the weighted sum of the \(F_{jw}\) on page 2, \(\mathcal E\) the corresponding sum of the losses, and \(\mathcal G\) the usable gain after the source's correction. The lower bound on the quotient slope contains \(+\mathcal G+\mathcal F-\mathcal E\). The upper bound on the dual slope plus the map height contains the same \(+\mathcal F\). Comparing the two removes \(\mathcal F\). \links{\src{\swin QuotientSlopeBoundsWith}{19}{Quotient slope} $\cdot$ \src{Formalism/RankGapBounds/MeanBoundSecondForm}{118}{dual slope and height}.}
+
+The remaining main term of \(\mathcal E\) also cancels. Put \(A=\sum_t a_t\), and let \(\ell_g\) be the log of the product of the two distinguished type primes. Write \(T\) for the chosen level, \(W\) for the sum over \(j\) of the averages of \(\log(w_{j\rho}v_0/\pi)\) over the \(f\) weight indices \(\rho\), and \(D_{\rm cnt}=c_{\rm cnt}L_a(1+m^2/k)\) for the counting allowance. The comparisons give
+\[
+ \mathcal E\le mA\ell_g+c_E m B_0,\qquad
+ \log T\ge W+m\ell_g-D_{\rm cnt}.
+\]
+The height calculation contains \(\mathcal E-A\log T\). Since \(A\ge0\), substitution gives
+\(\mathcal E-A\log T\le -AW+c_E m B_0+A D_{\rm cnt}\).
+The term \(mA\ell_g\) cancels with its entire coefficient. The remaining \(-AW\) combines with the archimedean main term to give the main term for the weighted prime counts. \links{\src{\swin QuotientSlopeBoundsWith}{24}{Loss and counting estimates} $\cdot$ \src{\swin ChainSlopeWindows/LevelOfCongruence}{105}{main-term identity}.}
+
+\subhead{A cost that survives division}
+For a lift \(j\), the source bounds a weighted sum of congruence corrections \(\eta_j\) at the twisted places by
+\[
+ \eta_j\le d_0\bigl[C_0(fmb L^2+(\log x)^2 N_c)+V\bigr],
+ \qquad L=x^\eps,\quad B_0=fmbL .
+\]
+Here the base rank must agree with \(d_0\), \(f\) is a positive integer, and \(V\) is a sum of lengths of locally trivial global cohomology groups, weighted by the logarithms of the primes. The window input gives \(V\le\sqrt b\). Since \(b\ge1\), \(f,m,L\ge1\) and eventually \((\log x)^2\le L\), the displayed bound implies \(\eta_j\le d_0(|C_0|+1)L(B_0+N_c)\). Summing costs over \(m\) lifts still matters. Uniform cohomology control and the rank equality enter before that sum. \links{\src{Formalism/SharpRestriction/GlobalTheoremInputs}{36}{Congruence bound} $\cdot$ \src{\chars DivinNOfHypV}{76}{absorption} $\cdot$ \src{\chars MainConclusion}{7}{source of the window input}.}
+
+\newpage
+\pdfbookmark[1]{The square-root exponent term by term}{budget}
+\heading{Why the remaining budget fits \(\sqrt{x}\)}
+Let \(n=|H|\) for the finite auxiliary group, and let \(t=|TT|\) and \(r=|T_2|\) be the sizes of two distinguished subsets. Put \(\delta=r/n\) and \(Q=tmb\), with \(b>0\) the weight scale, \(a=xb\) its associated size in the construction, and \(k>0\) an auxiliary rank parameter. After finite character averaging the same prime contribution appears for each \(j\). Writing \(G=H_\psi(x)-\Sigma\), with \(\Sigma\) the residual character sum, the two inequalities to compare are
+\[
+ Q\frac{\delta}{2}\bigl(G-4x^{1/2+\eps}\bigr)\le {\rm Err}+\frac{2Q}{x},
+ \qquad {\rm Err}\le x^{C\eps}B .
+\]
+Here \(H_\psi\) is the centered prime sum for the cyclic character family in the sketch. The factor \(m\) in \(Q\) follows by summing a term independent of \(j\). The arithmetic slope and loss estimates give the explicit bracket
+\[
+ B=t a(1+m^2/k)+m\left(2nmb\,x^\eps+\frac{r k b\,x^{2\eps}}{n^2}\right).
+\]
+\links{\src{\core ChCore}{302}{Repeated prime signal} $\cdot$ \src{\core ChTop}{37}{error bound} $\cdot$ \src{\swin SChain}{33}{two size budgets}.}
+
+On admissible scales, \(a\le2xb\), \(t\ge \tfrac12 n x^{-\eps/8}\),
+\(x^{-\eps}\le\delta\le1\), and
+\[
+ x^{1/2-\eps}\le m\le x^{1/2+\eps/2},\qquad
+                    xm\le k\le n^2 x^{1/2-\eps}.
+\]
+Divide the four terms of \(B\) by \(Q\). Each row follows directly from these inequalities. \links{\src{\swin SChain}{53}{Lower scales} $\cdot$ \src{\core ChCore}{343}{upper scales}.}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.24}
+\begin{tabular*}{0.94\linewidth}{@{\extracolsep{\fill}}lll@{}}
+\toprule
+Term of \(B/Q\) & Intermediate bound & Upper bound\\
+\midrule
+\(a/(mb)\) & \(2x/m\) & \(2x^{1/2+\eps}\)\\
+\(am/(kb)\) & \(2xm/k\) & \(2\)\\
+\(2(n/t)m x^\eps\) & \(4m x^{9\eps/8}\) & \(4x^{1/2+13\eps/8}\)\\
+\((r/t)(k/n^2)x^{2\eps}\) & \(2(k/n^2)x^{17\eps/8}\) & \(2x^{1/2+9\eps/8}\)\\
+\bottomrule
+\end{tabular*}
+\end{center}
+
+For \(m=x^\nu\), the first and third rows have competing exponents \(1-\nu\) and \(\nu\), up to \(O(\eps)\). They balance at \(\nu=1/2\). The size laws center \(n\) at \(x^{2+8\eps}\) and \(k\) at \(x^{9/2+10\eps}\), each within a factor \(x^{\eps/100}\). Thus \(k/n^2\) in the last row centers at \(x^{1/2-6\eps}\). \links{\src{Formalism/SharpRestriction/ElevenLe}{24}{Size laws} $\cdot$ \src{Formalism/LocalRingCardinality/DataArith}{200}{rank and size budgets}.}
+
+For \(x\ge3\), the sum of the four rows is at most \(10x^{1/2+13\eps/8}\). Dividing by \(\delta/2\) costs at most \(2x^\eps\). For \(C\ge0\) this gives \(G\le26x^{1/2+(C+21/8)\eps}\), hence \(G\le x^{1/2+(C+3)\eps}\) once \(x^{3\eps/8}\ge26\). The release takes \(e_D=2,\ e_L=0\) and can use \(C=e_D+e_L+3=5\). Finally \(\Sigma\le4\,\mathrm{ord}(\psi)x^{1/2+\eps}\). For fixed \(\psi\), another \(x^\eps\) absorbs the coefficient, giving
+\[
+                            \boxed{H_\psi(x)\le x^{1/2+9\eps}.}
+\]
+\links{\src{\swin ChainSlopeWindows/LipschitzWeightAndMinimum}{507}{Numerical proof} $\cdot$ \src{\third TopShape}{52}{constants} $\cdot$ \src{\prim SigALe}{38}{residual characters} $\cdot$ \src{\prim CoreGm}{55}{assembly}.}
+
+Given \(\theta>1/2\), choose \(0<\eps<(\theta-1/2)/9\) also inside the family's range. The construction must supply \emph{every} scale in an arbitrarily late window \([Y,Y^{3/2}]\) with these hypotheses. We reproduced the local algebra, the cancellations and the exponent calculation. The one-step automorphic estimates, their simultaneous realization on those windows and the complete Lean build still require independent verification here. The \(2/3\) in the announcement describes an earlier cost calculation. \links{\src{\third TopPlug}{12}{Window assembly}.}
+\end{document}

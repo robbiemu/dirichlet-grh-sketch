@@ -125,7 +125,7 @@ A pole to the right of $\theta$ gives a conflicting lower bound. The source isol
 
 \newpage
 \pdfbookmark[1]{What the theta lifts contribute}{lifts}
-\heading{What the theta lifts are meant to do}
+\heading{How the theta lifts enter the estimate}
 \subhead{An exact calculation in the finite-field model}
 Let $e_q$ be a nontrivial additive character of $\F_q$, let $t:\F_q\to\C$, and put $M=\sum_x t(x)$. On $k\geq2$ variables take the path quadratic form $Q(\mathbf x)=\sum_{j=1}^{k-1}x_jx_{j+1}$ and $T(\mathbf x)=\prod_j t(x_j)$. Summing over the additive frequency first, or separating its zero term first, gives
 \[
@@ -138,11 +138,11 @@ This recovers the announcement's $qN=M^k+R$. There is a concrete saving for each
 \subhead{From vanishing order to arithmetic divisibility}
 In Stepanov's method a nonzero auxiliary function vanishing to order $m$ at each of $N$ points has at least $mN$ zeros counted with multiplicity. A degree bound then controls $N$. The proposed arithmetic analogue builds an auxiliary determinant from periods of automorphic forms. A period is an integral of a form over a subgroup. The determinant and the branching of representations are supposed to enforce simultaneous vanishing or divisibility conditions.
 
-One local prototype in the note is the congruence $D^p\equiv0\bmod p$ for an invariant derivation on a CM elliptic curve at a good inert prime. It gives a source of divisibility in high theta derivatives. The note reports multiplicity two on $\mathrm O(2,n)$, then iterates theta lifts between definite unitary groups $U(V_0),\ldots,U(V_m)$. A theta lift integrates a form against a theta kernel to obtain a form on the next group. Chaining $m$ lifts is supposed to accumulate $m$ conditions on the periods. For a prime sum of length $x$ the release uses
+One local prototype in the note is the congruence $D^p\equiv0\bmod p$ for an invariant derivation on a CM elliptic curve at a good inert prime. It gives a source of divisibility in high theta derivatives. The note reports multiplicity two on $\mathrm O(2,n)$, then iterates theta lifts between definite unitary groups $U(V_0),\ldots,U(V_m)$. A theta lift integrates a form against a theta kernel to obtain a form on the next group. On the chosen input lattice, each lift carries forward the valuation already earned and adds a local gain less its denominator cost. In the comparison with primes, the same signal occurs once for each of the $m$ lifts. For a prime sum of length $x$ the release uses
 \[
                 x^{1/2-\varepsilon}\ \leq\ m\ \leq\ x^{1/2+\varepsilon/2}.
 \]
-At this scale both $m$ and $x/m$ are at most $x^{1/2+\varepsilon}$. The cost from the norms, levels and denominators of the lifted forms has to fit at the same time. \notes{\note{3}{Announcement, items 2 and 7--14} $\cdot$ \src{Formalism/SizeWindowBrackets/SChain}{53}{lower scale} $\cdot$ \src{\landau ChCore}{343}{upper scale}.}
+After division by the repeated signal, the leading costs are of order $x/m$ and $m$, up to powers of $x^\varepsilon$. This explains the choice of scale. \notes{\note{3}{Announcement, items 2 and 7--14} $\cdot$ \src{Formalism/SizeWindowBrackets/SChain}{53}{lower scale} $\cdot$ \src{\landau ChCore}{343}{upper scale}.}
 
 \subhead{How the cost of a lift enters}
 For a nonzero algebraic integer $a$ in a number field $K$, finite divisibility and archimedean size are linked by the norm identity
@@ -150,7 +150,7 @@ For a nonzero algebraic integer $a$ in a number field $K$, finite divisibility a
  \sum_{\mathfrak p}v_{\mathfrak p}(a)\log N\mathfrak p
  =\sum_{\sigma:K\hookrightarrow\C}\log|\sigma(a)|.
 \]
-Bost's slope inequality makes a related comparison for lattices and determinants. The note says the first calculation of the cost of a lift reaches exponent $2/3$. Its proposed improvement uses a seesaw identity to express lifted periods through a Bessel period common to different Hecke characters. Placing the periods in one integral lattice is meant to permit division by a common factor. A relative trace formula controls correlations between columns, while congruence indices and lattice covolumes enter the remaining loss. \notes{\note{4}{Announcement, items 9--18}.}
+A slope comparison applies this principle to lattices. For fixed auxiliary member $u$, the periods at different Hecke twists factor through one bilinear form. At each prime ideal $\mathfrak p$, let $q_{\mathfrak p}$ be the certified integer lower bound on the valuations of its entries on the chosen local lattices. Multiplying the input lattice by $\prod_{\mathfrak p}\mathfrak p^{-q_{\mathfrak p}}$ still gives integral pairings. This is the common division in the announcement. The archimedean norm and the remaining congruence losses must also be bounded. \notes{\note{4}{Announcement, items 12--18} $\cdot$ \href{https://github.com/robbiemu/dirichlet-grh-sketch/blob/main/lift-estimate.pdf}{worked lift estimate, pp.\ 1--3}.}
 
 \newpage
 \pdfbookmark[1]{The arithmetic estimate and its status}{arithmetic}
@@ -169,7 +169,7 @@ The connection with primes is finite Fourier inversion. In a finite abelian grou
 \]
 At an unramified prime, inserting $g=\mathrm{Frob}_p^r$ converts a condition on a Frobenius class into character weights on $p^r$. The arithmetic side bounds the excess of such weighted counts over their main term. Averaging the resulting identities gives (1). \notes{\src{\chars ZeroFreeAllOfTopG}{12}{Compatible families} $\cdot$ \src{\landau ChBalance}{42}{orthogonality} $\cdot$ \src{\landau ChTop}{37}{excess bound} $\cdot$ \src{\prim CoreGm}{12}{comparison}.}
 \end{enumerate}
-The order of quantifiers matters. The two loss exponents are fixed \emph{before} $\varepsilon$ is chosen. Given $\theta>\tfrac12$, take $\varepsilon$ small enough that $(e_D+e_L+7)\varepsilon<\theta-\tfrac12$, then choose the whole interval beyond the comparison threshold. Equation (1) now gives (W). A bound with a loss of $1/6$ independent of $\varepsilon$ would only reach $2/3$. \notes{\src{\frames TopWin}{68}{Exponent choice} $\cdot$ \src{\chars EveryCharacter}{8}{the choice $3/2$}.}
+The release takes $e_D=2$ and $e_L=0$ before $\varepsilon$ is chosen. Thus (1) reads $H_\psi(x)\le x^{1/2+9\varepsilon}$. Choose $0<\varepsilon<\min\{\varepsilon_0,(\theta-1/2)/9\}$ and a whole window beyond the comparison threshold to obtain (W). The four remaining error terms and their exponents are calculated separately in the companion. \notes{\src{Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape}{52}{Choice of constants} $\cdot$ \src{\frames TopWin}{68}{exponent choice} $\cdot$ \href{https://github.com/robbiemu/dirichlet-grh-sketch/blob/main/lift-estimate.pdf}{worked lift estimate, p.\ 4}.}
 
 \subhead{An example of what the construction has to prove}
 The announcement mentions a weakening of Vandiver. Its role can be stated quantitatively. For specified auxiliary cyclotomic subfields $E$, write $b_{\ell,j}(E)$ for the $\Z_\ell$-length of the locally trivial subgroup of the relevant $H^1$ with coefficients $\Q_\ell/\Z_\ell(-j)$. On certain auxiliary windows the release requires these lengths to be finite and, for every finite set $P$ of primes, requires
@@ -180,5 +180,5 @@ The announcement mentions a weakening of Vandiver. Its role can be stated quanti
 The source specifies the fields and the allowed levels in \texttt{VWinAt}, with its own auxiliary intervals $[Z,Z^2]$. This bound controls the contribution of the surviving cohomology classes to the cost of division. The announcement also singles out a Behrend construction in choosing its Iwasawa tower. \notes{\src{Formalism/GaloisCohomology/Statement}{67}{Cohomology group} $\cdot$ \src{\chars ExistsPageN}{12}{field and window conditions} $\cdot$ \src{\chars DivinNOfHypV}{17}{use in divisibility}.}
 
 \subhead{What was reproduced}
-I worked out the finite Fourier identity, the Mellin transform and its residues, and the deduction of Dirichlet GRH from (W) and the analytic window criterion. I traced the latter criterion and the arithmetic inputs in the released source. The uniform construction of the theta-lift families, their divisibility and covolume estimates, and the full Lean kernel check remain unverified in this reconstruction. The extended Riemann hypothesis is mentioned in the announcement as a future direction. \notes{\note{1}{Original release} $\cdot$ \src{\chars MainConclusion}{7}{assembly} $\cdot$ \src{Statements}{3}{formal statements}.}
+We worked out the finite Fourier identity, the Mellin residues, and the implication from (W) to Dirichlet GRH using the analytic window criterion. For the lifts we reconstructed the local valuation induction, the common lattice division, the main-term cancellations and the final error calculation. Independent verification of the automorphic period and norm inputs, the uniform construction on the same windows, and the full Lean build remains open here. \notes{\src{\chars MainConclusion}{7}{Released assembly} $\cdot$ \src{Statements}{3}{formal statements}.}
 \end{document}
