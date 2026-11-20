@@ -63,11 +63,12 @@
   colframe=wash,borderline west={2pt}{0pt}{sea},left=9pt,right=9pt,top=6pt,
   bottom=6pt,before skip=5pt,after skip=5pt}
 \newcounter{illustration}
+\newcommand{\illustrationcaption}[1]{\raggedright\refstepcounter{illustration}
+  {\footnotesize\sffamily\color{muted}\textbf{\color{sea}Figure \theillustration.}\enspace #1\par}}
 \newcommand{\ill}[3][.99]{\par\addvspace{5pt}\noindent
   \begin{minipage}{\linewidth}\centering
     \includegraphics[width=#1\linewidth]{figures/#2.pdf}\par\vspace{3pt}
-    \raggedright\refstepcounter{illustration}
-    {\footnotesize\sffamily\color{muted}\textbf{\color{sea}Figure \theillustration.}\enspace #3\par}
+    \illustrationcaption{#3}
   \end{minipage}\par}
 \newcommand{\R}{\mathbb R}\newcommand{\C}{\mathbb C}\newcommand{\Z}{\mathbb Z}
 \newcommand{\Q}{\mathbb Q}\newcommand{\F}{\mathbb F}\newcommand{\one}{\mathbf1}
@@ -230,7 +231,12 @@ class weight $+1$ and the second $-1$. Among the odd primes up to $13$,
 $5$ and $13$ each contribute $+1$, while $3,7,11$ each contribute $-1$.
 Adding these weights gives the first class's count minus the second's.
 
-\ill[.94]{residue-classes}{Each arrow adds four. Filled circles mark the primes in the count. The total $-1$ means the remainder-three class has one more prime through $13$.}
+\noindent\begin{minipage}[c]{.62\linewidth}\centering
+\includegraphics[width=\linewidth]{figures/residue-classes.pdf}
+\end{minipage}\hfill
+\begin{minipage}[c]{.355\linewidth}
+\illustrationcaption{Each arrow adds four. Filled circles mark the primes in the count. The total $-1$ means the remainder-three class has one more prime through $13$.}
+\end{minipage}\par
 
 \subt{Recovering a residue class from two weights}
 For a modulus $q\ge1$, the \emph{units} $(\Z/q\Z)^\times$ are the classes
@@ -240,7 +246,13 @@ coprime to $q$, precisely those with a multiplicative inverse modulo $q$.
 
 A character on the units satisfies $\chi(ab)=\chi(a)\chi(b)$ and
 $\chi(1)=1$. Setting $\chi(n)=0$ on the other classes gives a Dirichlet
-character. Its nonzero values are roots of unity because each unit has
+character.
+
+\noindent\begin{minipage}[c]{.49\linewidth}
+\ill[1]{principal-extension}{A dash marks an undefined weight. The last row gives $\chi_{0,4}$.}
+\end{minipage}\hfill
+\begin{minipage}[c]{.48\linewidth}\raggedright
+Its nonzero values are roots of unity because each unit has
 some power $a^k=1$, giving $\chi(a)^k=1$.
 The \emph{principal} character has value $1$ on every unit. The nonprincipal
 character $\chi_4$ above and the principal $\chi_{0,4}$ have the table
@@ -251,6 +263,7 @@ n\bmod4&0&1&2&3\\\hline
 \chi_4(n)&0&1&0&-1
 \end{array}
 \]
+\end{minipage}\par
 The signs multiply because $3\cdot3\equiv1\bmod4$ and $(-1)^2=1$.
 Now $(\chi_{0,4}(n)+\chi_4(n))/2$ gives $1$ for $n\equiv1\bmod4$
 and $0$ in the other three columns. This recovers the indicator of one class.

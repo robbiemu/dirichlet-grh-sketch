@@ -1,4 +1,4 @@
-FIGURES = character-line critical-plane theta-plane windows residue-classes units-modulo-four prime-ramp strip oscillation kernel path lift balance
+FIGURES = character-line critical-plane theta-plane windows residue-classes units-modulo-four principal-extension prime-ramp strip oscillation kernel path lift balance
 VECTOR_PDFS = $(addprefix figures/,$(addsuffix .pdf,$(FIGURES)))
 LATEX_FLAGS = -interaction=nonstopmode -halt-on-error -file-line-error
 
