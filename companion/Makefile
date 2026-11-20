@@ -1,4 +1,4 @@
-FIGURES = windows prime-ramp oscillation kernel path lift balance strip
+FIGURES = windows residue-classes prime-ramp strip oscillation kernel path lift balance
 VECTOR_PDFS = $(addprefix figures/,$(addsuffix .pdf,$(FIGURES)))
 LATEX_FLAGS = -interaction=nonstopmode -halt-on-error -file-line-error
 

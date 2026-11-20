@@ -74,61 +74,69 @@
 \newcommand{\re}{\operatorname{Re}}\newcommand{\Res}{\operatorname*{Res}}
 \newcommand{\W}{\mathrm{W}}\newcommand{\e}{\varepsilon}
 \newcommand{\Lder}{\frac{L'}{L}}
-\newcommand{\pagego}[2]{\hyperref[#1]{#2}\hfill\pageref{#1}}
+\newcommand{\pagego}[2]{\hyperref[#1]{#2, p.~\pageref*{#1}}}
 \begin{document}
 \thispagestyle{opening}\pdfbookmark[1]{A prime sum and its zeros}{opening}
 {\sffamily\bfseries\fontsize{38}{42}\selectfont A prime sum and its zeros\par}
 {\sffamily\fontsize{16}{20}\selectfont\color{sea}
 An illustrated companion to Levent Alpöge's\\proposed proof of Dirichlet GRH\par}
 \vspace{7pt}
-The generalized Riemann hypothesis for Dirichlet $L$-functions (Dirichlet
-GRH) says that for every character $\chi$, every zero $\rho$ of $L(s,\chi)$
-in the strip $0<\re\rho<1$ has $\re\rho=\tfrac12$. At conductor one this
-is the Riemann hypothesis for the zeta function.
+A Dirichlet character $\chi$ assigns periodic weights to integers, with
+$\chi(ab)=\chi(a)\chi(b)$. For complex $s$ with real part $\re s>1$ these give
+$L(s,\chi)=\sum_{n\ge1}\chi(n)n^{-s}$. The constant weight $1$ gives the
+Riemann zeta function $\zeta(s)$. These functions extend into the strip
+$0<\re s<1$. The generalized Riemann hypothesis for Dirichlet $L$-functions
+says every zero $\rho$ there has real part $1/2$. For $\zeta$ this is the
+classical Riemann hypothesis.
 
-Can a sum over ordinary prime powers detect a zero off that line?
-In this argument it would detect one by how often the sum rises above a threshold.
-A second construction, using automorphic forms, is meant to keep the same sum
-below the threshold across some very long intervals. The contradiction is about
-\emph{where} a large value must occur.
+A periodic function repeats when we shift its input. Alpöge uses
+\emph{automorphic forms}, functions with symmetry laws for a whole group
+of transformations. One example is the square-lattice theta series $F$.
+It repeats under $z\mapsto z+2$ and obeys $F(-1/z)=-izF(z)$ in the upper
+half-plane. Its fifth Fourier coefficient counts the eight integer pairs
+with $a^2+b^2=5$ (p.~\pageref{lifts}).
 
-\ill{windows}{The horizontal coordinate is $u=\log x$. The dot marks a possible
-  location of a violation. Both rows concern the same sum and threshold.}
+How could forms help locate a zero? Write $H(x)$ for a weighted sum
+over prime powers up to $x$ with an explicit main term subtracted
+(pp.~\pageref{ramp}--\pageref{window}). Suppose $\re\rho>1/2$ for a zero
+in the strip. Choose an exponent $\theta$ strictly between $1/2$ and $\re\rho$.
 
-\subt{How to read the argument}
-The first part constructs the sum and explains why a zero has consequences on
-every sufficiently late interval. The second asks what arithmetic information
-could produce even one good interval beyond each prescribed starting point.
-A reader familiar with calculus, linear algebra and finite groups can begin at the
-first line. Complex analysis first enters in the discussion of the transform.
+\textbf{The arithmetic window bound} asks for intervals $[Y,Y^{3/2}]$,
+with $Y$ as large as we please, on which $H(x)\le x^\theta$ at every point.
+Alpöge proposes to construct them by \emph{theta lifting}, transferring
+forms between groups and comparing the size and divisibility of a
+determinant built from their integrals.
 
-{\sffamily\small
-\begin{tabularx}{\linewidth}{@{}p{1.52in}X@{}}
-\toprule
-Prime sums & \pagego{characters}{Characters, ramps and the window estimate}\\
-Complex analysis & \pagego{transform}{How a zero survives smoothing and averaging}\\
-Arithmetic & \pagego{finite}{From a finite Fourier calculation to iterated lifts}\\
-Assembly & \pagego{frobenius}{How the estimates reach the prime sum}\\
-Verification & \pagego{lean}{How to read and check the released statements}\\
-\bottomrule
-\end{tabularx}}
+\textbf{The prediction from a zero} is that every sufficiently late interval
+of this shape contains a point where $H(x)>x^\theta$. Choose one of the
+arithmetic intervals late enough and the two claims disagree on that interval.
+The figure draws it in the coordinate $u=\log x$, from $U=\log Y$ to $3U/2$.
 
-\sources{This independent exposition expands the repository's
-\href{\repo blob/main/proof-sketch.pdf}{four-page sketch}. Alpöge describes the proposal and its
-formalization in his \pub{1}{announcement}. The calculations and models below can be
-reproduced. The uniform arithmetic construction and an end-to-end Lean kernel check
-remain outside the results established here.}
+\ill{windows}{The green segment covers every point of the chosen interval.
+The orange dot is one possible location where the same bound is exceeded.}
+
+{\sffamily\small \pagego{characters}{Prime sums}\sep
+\pagego{transform}{The argument from a zero}\sep \pagego{finite}{The arithmetic construction}\\
+\pagego{assembly}{Where the two claims meet}\sep \pagego{lean}{Reading the Lean statements}\par}
+
+\sources{This independent companion expands our \href{\repo blob/main/proof-sketch.pdf}{four-page sketch} of
+Alpöge's \pub{1}{announcement}. The uniform arithmetic construction and the end-to-end Lean build remain open checks in this guide.}
 
 \sheet{I\enspace Prime sums}{Characters and residue classes}{characters}
-Among the odd primes, $5$ and $13$ are $1$ modulo $4$, while $3$ and $7$ are
-$3$ modulo $4$. Give the first class weight $+1$ and the second weight $-1$.
-The resulting signed sum records the difference between the classes. Its
-weights multiply because $3\cdot3\equiv1\bmod4$.
+Divide an odd integer by $4$. The remainder is $1$ or $3$. Give the first
+class weight $+1$ and the second $-1$. Among the odd primes up to $13$,
+$5$ and $13$ each contribute $+1$, while $3,7,11$ each contribute $-1$.
+Adding these weights gives the first class's count minus the second's.
 
-\subt{A finite Fourier coordinate}
-For an integer $q\ge1$, a Dirichlet character $\chi$ is a homomorphism from
-the units $(\Z/q\Z)^\times$ to $\C^\times$, extended periodically to the
-integers and set to zero on nonunits. The values on units are roots of unity.
+\ill[.94]{residue-classes}{Each arrow adds four. Filled circles mark the primes in the count. The total $-1$ means the remainder-three class has one more prime through $13$.}
+
+\subt{Recovering a residue class from two weights}
+For a modulus $q\ge1$, the \emph{units} $(\Z/q\Z)^\times$ are the classes
+coprime to $q$, precisely those with a multiplicative inverse modulo $q$.
+A character on the units satisfies $\chi(ab)=\chi(a)\chi(b)$ and
+$\chi(1)=1$. Setting $\chi(n)=0$ on the other classes gives a Dirichlet
+character. Its nonzero values are roots of unity because each unit has
+some power $a^k=1$, giving $\chi(a)^k=1$.
 The \emph{principal} character has value $1$ on every unit. The nonprincipal
 character $\chi_4$ above and the principal $\chi_{0,4}$ have the table
 \[
@@ -138,8 +146,43 @@ n\bmod4&0&1&2&3\\\hline
 \chi_4(n)&0&1&0&-1
 \end{array}
 \]
-For instance, $\one_{n\equiv1\,(4)}=(\chi_{0,4}(n)+\chi_4(n))/2$, including
-at even $n$. Character sums let us recover a count for an individual class.
+The signs multiply because $3\cdot3\equiv1\bmod4$ and $(-1)^2=1$.
+Now $(\chi_{0,4}(n)+\chi_4(n))/2$ gives $1$ for $n\equiv1\bmod4$
+and $0$ in the other three columns. This recovers the indicator of one class.
+It is the finite Fourier calculation we will use again for primes.
+
+\subt{How small a modulus do the weights need?}
+For a divisor $f$ of $q$, reduce the units modulo $q$ to units modulo $f$.
+A character $\psi$ modulo $f$ \emph{induces} $\chi$ modulo $q$ if its
+values give those of $\chi$ on these units. At every integer sharing a
+prime factor with $q$ set $\chi(n)=0$. The \emph{conductor} is the smallest
+such $f$. A character whose modulus equals its conductor is \emph{primitive}.
+
+For example, induce $\chi_4$ to modulus $12$. Reading the unit classes
+at the smaller modulus gives
+\[
+\begin{array}{c|rrrr}
+ n\bmod12&1&5&7&11\\\hline
+ n\bmod4&1&1&3&3\\
+ \chi_{12}(n)&1&1&-1&-1
+\end{array}
+\]
+Why is the conductor $4$? The entries at $1$ and $7$ differ, although
+$1\equiv7\bmod6$. That rules out $6$ and its divisors $1,2,3$. Of the
+divisors of $12$, the smallest that works is $4$.
+
+\sources{For induction and the unique primitive representative see
+\href{https://math.mit.edu/classes/18.785/2019fa/LectureNotes18.pdf\#page=7}{Andrew Sutherland's notes, Theorem 18.13 and Definition 18.14}.
+The release uses the primitive representatives to build its
+\src{\frDir ExplicitFormulaErrorOfHostConditions}{105}{cyclic family}.}
+
+\sheet{I\enspace Prime sums}{From character weights to a prime product}{lseries}
+In the table on p.~\pageref{characters}, the principal character $\chi_{0,4}$
+assigns $1$ to both units. The single class modulo $1$ determines those
+values, so its conductor is $1$. Its primitive representative is the constant
+weight $\one(n)=1$, although $\chi_{0,4}$ vanishes on even integers.
+Likewise, $\chi_{12}(3)=0$ because $3\mid12$, while $\chi_4(3)=-1$.
+These differences have a visible effect on the $L$-functions.
 
 \subt{Why a product over primes knows about their powers}
 Write $s=\sigma+it$ and $n^{-s}=\exp(-s\log n)$, using natural logarithms.
@@ -148,7 +191,19 @@ For $\sigma>1$, absolute convergence and unique prime factorization give
 L(s,\chi)=\sum_{n\ge1}\frac{\chi(n)}{n^s}
 =\prod_p (1-\chi(p)p^{-s})^{-1}.
 \]
-Expand the logarithm of each factor and differentiate term by term. Cancelling
+The factor for $p$ is the geometric series in $\chi(p)p^{-s}$. For $\chi_4$
+the one for $3$ is $(1+3^{-s})^{-1}$. For $\chi_{12}$ it is $1$, and every
+other prime has the same weight for the two characters. Hence
+\[
+             L(s,\chi_{12})=(1+3^{-s})L(s,\chi_4).
+\]
+Removing all even terms from $\zeta(s)$ likewise gives
+$L(s,\chi_{0,4})=(1-2^{-s})\zeta(s)$. The modulus tells us which
+prime factors to omit when using the primitive representative.
+
+\subt{A logarithmic derivative picks out powers of primes}
+Take the logarithmic derivative $L'/L$, the derivative divided by the
+function. Expand the logarithm of each prime factor and differentiate. Cancelling
 the $r$ from the derivative of $p^{-rs}$ against the $1/r$ in the logarithm gives
 \[
  -\Lder(s,\chi)=\sum_p\sum_{r\ge1}\frac{\chi(p)^r\log p}{p^{rs}}
@@ -158,12 +213,14 @@ Here $\Lambda(p^r)=\log p$ for $r\ge1$ and $\Lambda(n)=0$ otherwise, including
 at $n=1$. Thus $9$ carries weight $\log3$, and $6$ carries weight zero.
 
 \subt{What happens beyond convergence}
-Analytic continuation gives meaning to $L(s,\chi)$ in the strip $0<\sigma<1$.
-The conductor is the least modulus from which the character is induced. A
-character at its conductor is \emph{primitive}. The principal character of
-conductor one gives $\zeta(s)$, with a simple pole at $1$. A nonprincipal
-Dirichlet $L$-function is regular and nonzero at $1$. These classical facts
-determine what must be subtracted from the prime sum on the next page.
+The series $1+z+z^2+\cdots$ converges for $|z|<1$. There it equals
+$(1-z)^{-1}$, a formula we can also evaluate at $z=-2$ to obtain $1/3$.
+Extending an analytic function by agreement on an overlap is
+\emph{analytic continuation}. Dirichlet $L$-functions similarly have a
+continuation into the critical strip. At $s=1$, $\zeta(s)$ has a simple
+pole. Subtracting $1/(s-1)$ leaves a function analytic there. For a
+nonprincipal $\chi$, $L(s,\chi)$ is analytic and nonzero at $1$. These
+different behaviors determine the centerings of the prime sum.
 
 \sources{For the character expansion, continuation and functional equation see the
 \href{https://dlmf.nist.gov/25.15}{NIST Digital Library of Mathematical Functions, §25.15}.
@@ -180,7 +237,7 @@ Its slope changes by $\Lambda(n)\chi(n)/n$ at $n$. This choice of shape will
 make its integral transform a particularly simple multiple of $-L'/L$.
 
 \subt{Two sums that can be checked by hand}
-At $x=4$ the conductor-one ramp has received contributions from $2$ and $3$.
+At $x=4$ the ramp for the constant character $\one$ has received contributions from $2$ and $3$.
 The term for $4$ is still zero, so $R_{\one}(4)=\log2+\tfrac13\log3$.
 For $\chi_4$ at $x=10$, the contributing prime powers are $3,5,7,9$. Thus
 \[
@@ -188,10 +245,6 @@ For $\chi_4$ at $x=10$, the contributing prime powers are $3,5,7,9$. Thus
  =-\tfrac73\log3+\log5-\tfrac37\log7+\tfrac19\log3 .
 \]
 The $9$ term has positive sign because $\chi_4(3)^2=1$.
-
-\ill{prime-ramp}{Direct sums at quarter-integer spacings. At left, interpolation is
-exact between adjacent integers. At right, straight segments join samples of a
-curved function. The panels have different axes.}
 
 \subt{The fluctuation we want to bound}
 Let $\gamma=\lim_{n\to\infty}(\sum_{j=1}^n1/j-\log n)$. For the conductor-one
@@ -202,11 +255,15 @@ character $\one$ and for nonprincipal $\chi$, respectively, put
  G_\chi(x)&=R_\chi(x)+x\,L'(1,\chi)/L(1,\chi).
 \end{aligned}
 \]
-For example $G_{\one}(4)\simeq1.82304$. Although $R_{\one}$ has grown past
-$12$ by $x=12$, its centered value is of order one in this example. The
-subtractions reflect an exact pole cancellation (p.~\pageref{transform}).
-The graph covers a finite range. An upper bound on arbitrarily late intervals
-demands an argument at unbounded $x$.
+For example $G_{\one}(4)\simeq1.82304$. Figure~\ref{fig:prime-ramp} shows
+$R_{\one}$ on the left and the centered sum $G_{\one}$ on the right. The
+subtractions come from a pole cancellation (p.~\pageref{transform}).
+
+\ill[.94]{prime-ramp}{\label{fig:prime-ramp}Direct sums at quarter-integer spacings.
+The ramps are linear between integers. In the right panel the segments join
+samples of a curved function on a longer interval.}
+
+These samples show the fluctuation on a finite range. The proof needs bounds at unbounded $x$.
 
 \sources{The released definitions are \src{\dcDir CharFamily}{10}{ramp and Gchi}.
 The accompanying \texttt{figures/figure\_data.py} generates the numerical table
@@ -214,8 +271,8 @@ by sieving for prime powers.}
 
 \sheet{I\enspace Prime sums}{One fixed sum, an entire window}{window}
 Fix a primitive target $\psi$ of order $h$, the least positive power
-giving the principal character. Take the inducing primitive characters
-of all powers of $\psi$ at its modulus. The resulting set
+giving the principal character. Raise $\psi$ to each of its powers in turn,
+then reduce each power to its primitive representative as on p.~\pageref{characters}. The resulting set
 $F_\psi$ contains $\psi$, its inverse and $\one$. The release measures
 \[
  H_\psi(x)=G_{\one}(x)
@@ -226,14 +283,15 @@ target pole and arise from averaging over residue classes (p.~\pageref{frobenius
 
 \subt{An example with a nonreal character}
 The units modulo $5$ are generated by $2$. Choose $\psi(2)=i$, so $\psi$
-has values $1,i,-1,-i$ on $1,2,4,3$ in that order. Its square is the
-quadratic character, its cube is $\bar\psi$, and its fourth power induces
-$\one$ at conductor one. Here $h=4$ and the weight is $1/13$ for each of
+has values $1,i,-1,-i$ on $1,2,4,3$ in that order. Its square is $+1$
+on the nonzero squares $1,4$ and $-1$ on $2,3$, the \emph{quadratic character}.
+Its cube is $\bar\psi$, the complex conjugate. Its fourth power is principal
+modulo $5$ and is induced by $\one$ modulo $1$. Here $h=4$ and the weight is $1/13$ for each of
 the three nonprincipal characters. For $\chi_4$ the weight is $1/7$.
 The family and weights stay fixed as the window moves.
 
 \begin{statement}
-\smallhead{The window estimate $(\W)$}\quad
+\smallhead{The arithmetic window bound $(\W)$}\quad
 For every primitive $\psi$, every real $\theta$ with
 $\tfrac12<\theta<1$, and every $Y_0\ge2$, there exists a real $Y\ge Y_0$
 such that
@@ -250,11 +308,12 @@ $\theta=(\beta+\tfrac12)/2$. The analytic criterion implies that there is a
 $Y_*$ such that \emph{for every} $Y\ge Y_*$ there is \emph{some}
 $x\in[Y,Y^{3/2}]$ with $H_\psi(x)>x^\theta$. Apply $(\W)$ with
 $Y_0=\max(2,Y_*)$. The violating point lies inside the very interval on
-which the arithmetic upper bound holds.
+which the arithmetic upper bound holds. The figure takes $\rho=3/4+i/2$,
+so this rule puts $\theta$ at $5/8$. The functional equation puts the
+reflected zero for $\bar\psi$ at $1-\rho=1/4-i/2$ (p.~\pageref{assembly}).
 
-\ill[.84]{strip}{Critical strip with hypothetical $\rho=3/4+i/2$ and $\theta=5/8$.
-The functional equation pairs $\rho$ for $\psi$ with $1-\rho$ for $\bar\psi$
-(p.~\pageref{assembly}). The coordinates are chosen to show the symmetry.}
+\ill[.84]{strip}{The critical line separates the hypothetical zero on the right
+from its reflected partner on the left. The dashed vertical line marks the test exponent.}
 
 \sources{The cyclic family is built in \src{\frDir ExplicitFormulaErrorOfHostConditions}{105}{Level.ofSub and Level.cyc}.
 See also its \src{\prDir LevelFamily}{41}{conversion to a positive family}.
@@ -288,7 +347,8 @@ The right-hand side gives a meromorphic continuation. Integrals will only be
 differentiated in a half-plane of convergence.
 
 \subt{Cancel the singularity at one}
-Put $z=s-1$. From $\zeta(1+z)=1/z+\gamma+O(z)$ we get
+Put $z=s-1$. Here $O(z)$ denotes a remainder bounded by a constant times
+$|z|$ near zero. From $\zeta(1+z)=1/z+\gamma+O(z)$ we get
 $-\zeta'/\zeta=1/z-\gamma+O(z)$. Multiplication by
 $1/[s(s-1)]=1/z-1+O(z)$ gives the two singular terms
 $z^{-2}-(1+\gamma)z^{-1}$. The transforms of $x\log x$ and $x$ are $z^{-2}$
@@ -374,12 +434,16 @@ The integrand on the right sees only positive values of $g$. On a good window
 $[U,3U/2]$, where $g(u)\le C e^{\theta u}$ with $C>0$, its integral is at
 most $2C/(\sigma-\theta)^{k+1}$, by integration of $u^k e^{-(\sigma-\theta)u}/k!$.
 
-\ill{kernel}{The weight divided by its maximum, at $u/U=5/4$, for two choices used
-in the tail estimate. The shaded window is fixed in these rescaled coordinates.}
+The weight peaks where $k/u-\sigma=0$, by differentiating $\log w_k$.
+Take $\sigma=336$ and $k=\lceil420U\rceil$. For $U=1$ or $4$ the peak
+is at $u/U=5/4$, inside $[1,3/2]$. The figure divides each curve by its
+peak height so one can compare their widths.
+
+\ill{kernel}{The shaded interval is the good window in the coordinate $u/U$.
+The curve for the larger $U$ is narrower around $5/4$.}
 
 \subt{A tail calculation for this window length}
-The release's choices specialize to $\sigma=336$, $k=\lceil420U\rceil$ for
-$U\ge1$. Outside the window, multiplying the weight by the crude growth bound
+For $U\ge1$ with these choices, multiplying the weight outside the window by the crude growth bound
 leaves $u^ke^{-334u}/k!$. On $u>3U/2$, majorize it by multiplying by
 $e^{14(u-3U/2)}$. On $u<U$, use $e^{14(U-u)}$. Extending the integrals of
 the resulting positive functions over all $u>0$ bounds their sum by
@@ -450,9 +514,12 @@ $\eta>0$. Taking $\eta<\log(E/d)$ absorbs that factor since $k\ge U$.
 
 \sheet{III\enspace The arithmetic construction}{A Fourier calculation over a finite field}{finite}
 Why introduce a chain? The announcement starts with an identity in which
-neighboring variables interact. Over a field $\F_q$ of $q$ elements choose a
-nontrivial additive character $e_q$, so $\sum_a e_q(az)$ equals $q$ when
-$z=0$ and zero otherwise. For prime $q$ take $e_q(z)=e^{2\pi iz/q}$.
+neighboring variables interact. On a field $\F_q$ of $q$ elements, an
+\emph{additive character} turns addition into multiplication,
+$e_q(y+z)=e_q(y)e_q(z)$. For prime $q$ use $e_q(z)=e^{2\pi iz/q}$.
+When $z\ne0$, shifting $a$ in $\sum_a e_q(az)$ multiplies the sum by a
+phase different from $1$ for a suitable shift and any nontrivial character.
+The sum must then be zero. For $z=0$ all $q$ summands are $1$.
 For a function $t:\F_q\to\C$ let $M=\sum_x t(x)$. On $k\ge2$ variables set
 \[
  Q(\mathbf x)=\sum_{j=1}^{k-1}x_jx_{j+1},\qquad
@@ -465,9 +532,12 @@ frequency $a=0$ instead makes the variables independent. The same sum gives
  R=\sum_{a\ne0}\sum_{\mathbf x}T(\mathbf x)e_q(aQ(\mathbf x)).
 \]
 
-\ill[.95]{path}{An exact example over $\F_5$. The right panel lists $Q$ modulo $5$ for
-$t=\one_{\{1,4\}}$ and $k=3$. Four triples give zero, hence $N=4$,
-$M=2$ and $R=5\cdot4-2^3=12$.}
+For the figure take $q=5$, $k=3$ and $t=\one_{\{1,4\}}$. Of the eight
+supported triples, $Q=x_2(x_1+x_3)$ vanishes exactly when the endpoints
+differ. Each edge contributes one product to $Q$.
+
+\ill[.89]{path}{Four triples give zero in the table, hence $N=4$, $M=2$
+and $R=5\cdot4-2^3=12$.}
 
 \subt{Why the edges of a path matter}
 For $a\ne0$ let $U_{xy}=q^{-1/2}e_q(axy)$. Orthogonality gives
@@ -477,13 +547,11 @@ $t$-values. The inner sum is $q^{(k-1)/2}v^{\mathsf T}U(DU)^{k-2}v$.
 If $|t|\le1$, then $\|D\|\le1$ and $\|v\|\le\sqrt q$. Cauchy--Schwarz
 therefore bounds each nonzero-frequency sum by $q^{(k+1)/2}$.
 
-This calculation controls the remainder. To deduce cancellation in $M$
-one also needs information about $N$. For instance $t\equiv1$ gives $M=q$
-while satisfying exactly the same norm assumptions. The note describes a
-geometric sign for its special trace functions. The path identity and the
-eight-triple example establish no such sign. Over the integers, finding a
-replacement for this geometric input is the reason the construction turns
-to periods and divisibility.
+To bound $M$ one still needs information about $N$. For instance $t\equiv1$
+gives $M=q$ under the same norm assumptions. The note attributes a sign
+for its particular functions to geometry. Over the integers it seeks
+comparable control through \emph{periods}, numbers obtained by integrating
+forms, and the divisibility of those numbers.
 
 \sources{The finite-field identity, the path and the proposed role of geometry appear
 in the \pub{3}{announcement, p.~3, footnote 3}. The example evaluates its defining sum directly.}
@@ -496,34 +564,76 @@ least $m$. The corresponding $m$th powers of the linear factors divide $P$,
 so $mN\le d$. Over $\F_5$, $P(X)=(X^2-1)^3$ counts $1$ and $4$ three
 times each. Its degree $6$ gives equality. The requirement $P\ne0$ matters.
 
-In Stepanov's method on a curve, one bounds the degree of a pole divisor of
-an auxiliary function. A nonzero rational function has zero and pole
-divisors of equal degree, giving the same kind of budget. Forcing larger
-orders is worth doing only if the cost of constructing the function grows
-slowly enough. This principle survives the passage to number fields.
+In Stepanov's method one keeps a \emph{divisor}, a formal sum of points
+weighted by the orders of the zeros or poles. On the projective line take
+$f(X)=(X-1)^2/(X+1)$ over $\Q$. It has a double zero at $1$ and a simple
+pole at $-1$. At infinity use $t=1/X$. Then $f(1/t)=(1-t)^2/[t(1+t)]$ has
+a simple pole at $t=0$. The zero divisor $2[1]$ and pole divisor
+$[-1]+[\infty]$ both have degree $2$. On a smooth projective curve the
+same equality holds for a nonzero rational function, counting degrees
+of the points as well as multiplicities. A bound on its poles budgets its zeros.
 
 \subt{The norm measures divisibility}
-A number field $K$ is a finite extension of $\Q$. Its algebraic integers
-are the elements satisfying a monic polynomial with integer coefficients.
-Take a nonzero algebraic integer $a$.
-Factor $(a)$ into prime ideals $\mathfrak p$, writing $v_{\mathfrak p}(a)$
-for each exponent and $N\mathfrak p$ for the size of the residue field.
+A number field $K$ is a field of finite dimension over $\Q$. Its ring of
+integers $\mathcal O_K$ consists of the elements satisfying a monic polynomial
+over $\Z$. An \emph{ideal} is an additive subgroup closed under multiplication
+by any ring element. The principal ideal $(a)=a\mathcal O_K$ is the set of
+multiples of $a$. For nonzero $a\in\mathcal O_K$ it factors uniquely into
+prime ideals. At a nonzero prime ideal $\mathfrak p$, reduction modulo
+$\mathfrak p$ gives a finite \emph{residue field} $\mathcal O_K/\mathfrak p$.
+Write $v_{\mathfrak p}(a)$ for the exponent of $\mathfrak p$ in $(a)$ and
+$N\mathfrak p$ for the number of elements in this residue field.
 Two evaluations of the absolute norm give
 \[
  \sum_{\mathfrak p}v_{\mathfrak p}(a)\log N\mathfrak p
        =\log|N_{K/\Q}(a)|=\sum_{\sigma:K\hookrightarrow\C}\log|\sigma(a)|.
 \]
-The last sum counts both members of a complex-conjugate pair. In $\Z[i]$
-take $a=3+4i=(2+i)^2$. The ideal $(2+i)$ has norm $5$. The left side is
-$2\log5$, and each of the two complex embeddings gives absolute value $5$.
+An embedding $\sigma$ is a map into $\C$ preserving addition, multiplication
+and $1$. For $K=\Q(i)$ its two choices send $i$ to $i$ or $-i$.
+Take $a=3+4i=(2+i)^2$ in $\mathcal O_K=\Z[i]$. Modulo $2+i$ we have
+$i=-2$ and $5=0$, giving $\Z[i]/(2+i)\simeq\F_5$. The left side is
+$2\log5$. The two complex values $3\pm4i$ both have absolute value $5$,
+so the right side also gives $2\log5$.
+
+\sources{The polynomial and Gaussian-integer examples demonstrate the counting
+and norm calculations used in the \pub{3}{announcement, items 1--4}.}
+
+\sheet{III\enspace The arithmetic construction}{What happens to a prime in a larger field?}{places}
+In $\Z[i]$ an ordinary prime $p$ can behave in three different ways.
+Factoring $X^2+1$ modulo $p$ tells us what happens when we adjoin a root $i$.
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}llX@{}}
+\toprule
+$p$ & $X^2+1$ modulo $p$ & Consequence in $\Z[i]$\\
+\midrule
+$5$ & $(X-2)(X+2)$ & $5=(2+i)(2-i)$ gives two different primes. It \emph{splits}.\\
+$3$ & has no root & $(3)$ stays prime. Its residue field has nine elements $a+bi$ with $a,b\in\F_3$. It is \emph{inert}.\\
+$2$ & $(X+1)^2$ & $2=-i(1+i)^2$. A prime factor occurs twice. It \emph{ramifies}.\\
+\bottomrule
+\end{tabularx}
+\end{center}
+Each prime ideal above $p$ gives a \emph{finite place} $w$. Its valuation
+$v_w$ counts powers of that prime ideal and subtracts exponents for
+denominators. If $\pi$ generates the prime ideal locally, it is a
+\emph{uniformizer}, with $v_w(\pi)=1$. Every nonzero local number is
+$\pi^k u$ with $u$ a \emph{unit}, meaning both $u$ and $u^{-1}$ are integral
+there. A \emph{discrete valuation ring} consists of zero and the elements
+with $k\ge0$. The ramification index is $e_w=v_w(p)$.
+At the prime $(1+i)$, $v_w(2)=2$ and $v_w((1+i)^3)/e_w=3/2$.
+This division by $e_w$ measures gains in units of the rational prime.
 
 \subt{Where repeated divisibility might come from}
-The announcement gives a local prototype on a CM elliptic curve. Here CM
-means that the curve has extra endomorphisms from an imaginary quadratic
-field. At a good inert prime $p$, the note reports $D^p\equiv0\bmod p$ for
-the invariant derivation $D$ in its integral setting. Inert means that $p$
-stays prime in the quadratic field. Applied to an integral function, such a
-congruence makes a string of derivatives acquire a factor of $p$.
+An elliptic curve carries an addition law. \emph{Complex multiplication}
+(CM) gives extra maps preserving that law. For instance, on $y^2=x^3-x$
+the map $(x,y)\mapsto(-x,iy)$ fixes the point at infinity and preserves the
+equation. Applying it twice gives $(x,-y)$, the negative of $(x,y)$.
+It acts as multiplication by $i$. The announcement uses a derivative $D$
+that commutes with translation on a CM curve. At a good inert prime
+(the reduced curve is smooth and $p$ stays prime in its CM field),
+it reports $D^p f\in pR$ on its ring $R$ of integral functions. Write
+$D^p f=pg$ with $g\in R$. Applying $D^p$ once more gives
+$D^{2p}f=pD^p g\in p^2R$. Repetition turns an order of differentiation
+into divisibility.
 
 The global proposal uses a determinant of periods. Linear relations modulo a
 prime make a determinant divisible there. High multiplicity calls for
@@ -534,68 +644,166 @@ multiplicity two on $\mathrm O(2,n)$, the group preserving a real quadratic
 form of signature $(2,n)$. The next construction tries to make this
 multiplicity grow with the number of lifts.
 
-\sources{Alpöge describes the differential congruence and the first determinant in
-the \pub{3}{announcement, items 1--4}, and the iterated version in
-\pub{4}{items 7--10}. The polynomial and Gaussian-integer computations are models
-with their own exact conclusions.}
+\sources{See the \pub{3}{announcement, items 1--4}, and
+\pub{4}{items 7--10}. For splitting and ramification see
+\href{https://math.mit.edu/classes/18.785/2021fa/LectureNotes7.pdf}{Sutherland's notes on primes in extensions}.}
+
+\sheet{III\enspace The arithmetic construction}{Measuring the same number at different places}{completions}
+At the rational prime $5$, use $|x|_5=5^{-v_5(x)}$ for $x\ne0$ and
+$|0|_5=0$. For instance, $v_5(75/2)=2$ and $|75/2|_5=1/25$.
+The distance between $26$ and $1$ is also $1/25$ because they agree
+modulo $25$. Increasing agreement modulo powers of $5$ means decreasing
+distance. Completing $\Q$ in this metric gives $\Q_5$, just as completing
+it in ordinary distance gives $\R$. Its ring $\Z_5$ consists of elements
+with $|x|_5\le1$. A unit of $\Z_5$ has $|x|_5=1$.
+
+A number field $K$ has a completion $K_w$ at each of its places. Its
+real embeddings and pairs of conjugate complex embeddings give the
+\emph{infinite}, or \emph{archimedean}, places. The two embeddings of
+$\Q(i)$ give one complex place. Finite places measure divisibility,
+while infinite places measure ordinary sizes, as in the norm identity.
+
+\subt{What gets integrated over in a lift?}
+An \emph{adele} is a tuple with one coordinate in each completion, integral
+at all but finitely many finite places. Over $\Q$ it has the form
+$(x_\infty,(x_p)_p)$ with $x_\infty\in\R$ and $x_p\in\Q_p$.
+Coordinatewise addition and multiplication give the ring $\mathbb A_\Q$.
+An invertible tuple is an \emph{idele}. Each coordinate is nonzero and
+all but finitely many $x_p$ are units. A rational number $r\ne0$ gives
+one such tuple by using $r$ in every coordinate.
+
+Here is a character one can actually evaluate. For an idele $x$ put
+$M(x)=|x_\infty|\prod_p|x_p|_p$. Only finitely many factors differ
+from $1$. On the diagonal rational $3$, the real factor is $3$, the
+$3$-adic factor is $1/3$, and $M(3)=1$. Factoring a general rational
+number gives the same identity. On the idele $y$ whose $3$-adic coordinate
+is $3$ and whose other coordinates are all $1$, we get $M(y)=1/3$.
+
+A \emph{Hecke character} is a continuous multiplicative character of the
+ideles that equals $1$ on diagonal field elements. Thus for real $t$,
+$\mu_t(x)=M(x)^{it}$ is an example over $\Q$, with $\mu_t(y)=e^{-it\log3}$.
+Multiplying an integrand by such a character is called a \emph{twist}.
+In the lift argument the chosen twists change which local data the
+integral measures. Their periods will have to be compared across twists.
+
+\sources{For the local metrics and the product formula see
+\href{https://math.mit.edu/classes/18.785/2017fa/LectureNotes8.pdf}{Sutherland's notes on completions} and
+\href{https://math.mit.edu/classes/18.785/2021fa/LectureNotes13.pdf}{his product formula}.
+The different twists enter the \pub{4}{announcement, items 12--16}.}
 
 \sheet{III\enspace The arithmetic construction}{What travels through a theta lift}{lifts}
-An automorphic form is a function on a group with arithmetic symmetries and
-regularity conditions. A classical example lives on the upper half-plane
-and transforms with a prescribed weight under integral matrices. Here the
-groups are unitary groups $U(V)$ preserving a Hermitian form on a vector
-space over a CM field, a totally imaginary quadratic extension of a totally
-real number field. Total definiteness makes the unitary groups compact
-at the real places. The finite primes still carry arithmetic information.
-A \emph{level} specifies invariance under subgroups at those finite primes.
+The theta series on the opening page had two symmetries, a shift and an
+inversion. A modular form also satisfies analytic and growth conditions.
+For a form of integer weight $k$ with no extra phase factor, the symmetry
+law for integer matrices of determinant $1$ in its group is
+\[
+ f\!\left(\frac{az+b}{cz+d}\right)=(cz+d)^k f(z).
+\]
+At principal \emph{level} $N$ those matrices are congruent to the identity
+entry by entry modulo $N$. Taking $a=d=1$, $b=N$, $c=0$ gives
+$f(z+N)=f(z)$. Level selects the symmetries a form is required to have.
+
+In the proposed lifts a group $U(V)$ consists of the linear changes of
+variables preserving a Hermitian form on $V$. For the usual form on
+$\C^n$ this is the matrix equation $g^*g=I$, where $g^*$ is the conjugate
+transpose. The construction uses a CM field, such as $\Q(i)$ in the
+simplest case. Such a field is a quadratic extension with no real
+embeddings of a field whose embeddings are all real. The Hermitian forms
+are definite at every real place of that base field, so the corresponding
+unitary groups there are compact. At finite places, level again specifies
+subgroups under which a form is invariant.
 
 \subt{A kernel that can see two groups}
-The classical series $\sum_{(a,b)\in\Z^2}e^{-\pi t(a^2+b^2)}$, $t>0$,
-records the number of lattice vectors on each circle. For instance the
-coefficient of $e^{-5\pi t}$ is eight, from $(\pm1,\pm2)$ and their swaps.
+The series on p.~1 is $F(z)=\sum_{(a,b)\in\Z^2}e^{\pi iz(a^2+b^2)}$
+for $\operatorname{Im}z>0$. Shifting $z$ by $2$ multiplies each term by
+$e^{2\pi i(a^2+b^2)}=1$. The coefficient of $e^{5\pi iz}$ is eight,
+from $(\pm1,\pm2)$ and their swaps.
 A theta kernel also sums over rational vectors, now with actions of two
 groups on the underlying data. If $g$ and $h$ are variables on the old and
 new groups, an integral transform has the schematic shape
 \[
         f_{j+1}(h)=\int_{[U(V_j)]} f_j(g)\,\Theta_{j+1}(g,h)\,dg .
 \]
-Brackets denote the quotient by rational points in the adelic group, which
-combines all completions of the number field. The kernel, pairings, measures
-and choices of test vectors must be specified to evaluate actual periods.
+Here $[U(V_j)]$ identifies two tuples of local group elements that differ
+by left multiplication by one global group element. This is the group
+version of taking a periodic integral over a single copy of $\R/\Z$.
+The function $\Theta_{j+1}$ is the integral kernel. In the figure, each
+arrow integrates in the old variable $g$, leaving a form in the new variable
+$h$. After the last lift one more integral gives the period of $f_m$.
 
 \ill{lift}{The proposed chain contains $m$ transforms. The diagram records the
 groups and the order of integration. Nonvanishing and integrality at the
 successive stages are mathematical requirements.}
 
-\subt{From a function to a number}
-A period pairs a form with a character or another form and integrates along a
-subgroup. It probes how a representation behaves on restriction to that
-subgroup. Branching rules can force periods to vanish. For example in the
-classical $U(2)$ to $U(1)$ restriction, the representation with highest weight
-$(a,b)$, $a\ge b$, contains the weights $b,b+1,\ldots,a$ on
-$\operatorname{diag}(z,1)$. This follows by writing it as
-$\operatorname{Sym}^{a-b}(\C^2)\otimes\det^b$. A weight $c$ outside that interval
-cannot pair with the $c$-component. This illustrates the interlacing conditions
-in the note. The proposed chain uses such structure to accumulate multiplicity.
+\sources{For the square lattice, $F(z)=\vartheta_3(0\mid z)^2$.
+See the \href{https://dlmf.nist.gov/20.7.E32}{NIST transformation formula},
+\href{https://www.jmilne.org/math/CourseNotes/MF.pdf\#page=48}{Milne on modular forms, §4},
+and \pub{4}{Alpöge's announcement, item 8} for the direction of the lifts.}
 
-\sources{The underlying suggestions about interlacing, definite groups and length
-appear in the \pub{4}{announcement, items 7--10}. The kernel above specifies
-the direction of the transform. The figure is a schematic of the proposed construction.}
+\sheet{III\enspace The arithmetic construction}{How a period selects a weight}{periods}
+A \emph{period} here is a number obtained by integrating a form along
+a subgroup against a specified character or another form. Fourier
+coefficients on the circle $U(1)=\{z\in\C:|z|=1\}$ give a model.
+If $z=e^{it}$ and $f(z)=z+z^2+z^3$, integrate against $z^c$ by taking
+\[
+ P_c(f)=\frac1{2\pi}\int_0^{2\pi} f(e^{it})\,e^{-ict}\,dt .
+\]
+For an integer $n\ne0$ the integral of $e^{int}$ over one turn is zero.
+The constant function has average one. Thus $P_2(f)=1$ and $P_4(f)=0$.
+Choosing the function $f$ or the character against which to integrate
+changes the period. Such choices are part of the \emph{test data}.
+
+\subt{Restricting a representation to a subgroup}
+A representation assigns linear maps to group elements so that
+composition agrees with multiplication in the group. A vector on which
+the circle acts as multiplication by $z^c$ has \emph{weight} $c$.
+For a concrete representation of $U(2)$ take symmetric degree-two products
+of the basis vectors $e_1,e_2$ and multiply the action by the determinant.
+On the subgroup $\operatorname{diag}(z,1)$, $e_1$ acquires a factor $z$,
+$e_2$ stays fixed, and the determinant contributes one more $z$. Therefore
+\[
+\begin{array}{c|ccc}
+ \text{basis vector}& e_2^2 & e_1e_2 & e_1^2\\\hline
+ \text{factor with determinant included}& z & z^2 & z^3
+\end{array}
+\]
+Taking the trace gives precisely the function $f$ above. Its three
+Fourier coefficients count the three weights in the restriction.
+
+Generally the irreducible $U(2)$ representation indexed by the pair
+$(a,b)$, $a\ge b$, is $\operatorname{Sym}^{a-b}(\C^2)\otimes\det^b$.
+The pair is its \emph{highest weight}. A monomial with $j$ copies of $e_1$
+has weight $j+b$ for $0\le j\le a-b$. Hence a subgroup weight $c$ occurs
+exactly when $b\le c\le a$. This is an \emph{interlacing} or branching
+rule. It translates the question of a vanishing period into an inequality
+one can check on the weights. Alpöge uses restrictions of representations
+in constructing his determinant.
+
+\subt{Sums over neighboring lattices}
+A Hecke operator sums a function over prescribed arithmetic neighbors.
+For example, sum over the sublattices of $\Z^2$ of index two. Each such
+sublattice and one translate of it together partition $\Z^2$.
+Each is the kernel of one of the three nonzero maps to $\Z/2\Z$ given
+by $x$, $y$, or $x+y$ modulo $2$. Thus this operator sends the constant
+function $1$ to $3$ at $\Z^2$. The lifts use operators on unitary groups
+with specified normalizations.
+
+\sources{The role of interlacing and the proposed periods appears in the
+\pub{4}{announcement, items 7--12}. The circle integral computes the
+multiplicities in this restriction directly.}
 
 \sheet{III\enspace The arithmetic construction}{How one lift earns divisibility}{local}
-At a finite prime, how much of a lifted form can one divide out? Work in a
-discrete valuation ring. Choose a generator $\pi$ of its maximal ideal,
-called a uniformizer, so the valuation
-is normalized by $v(\pi)=1$, and write $e=v(p)$ for the ramification
-index above the rational prime $p$. A vector has normalized valuation at least
+At a finite place, how much of a lifted form can one divide out? Use the
+uniformizer $\pi$ and $e=v(p)$ of p.~\pageref{places}. A local lattice
+is the integral span of a basis in a vector space over the local field.
+A vector has normalized valuation at least
 $s$ in a lattice $\Lambda$ if it belongs to $\pi^{\lceil es\rceil}\Lambda$.
 If a linear map sends $\Lambda$ into $\pi^a\Lambda'$, it sends
 $\pi^b\Lambda$ into $\pi^{a+b}\Lambda'$. This addition is how successive
 lifts can earn a large common divisor.
 
 \subt{Why one coefficient matters}
-The construction uses Hecke operators, which sum a form over arithmetic
-translates. At one chosen local component it combines normalized operators
+At one chosen local component the construction combines normalized Hecke operators
 $\widetilde T_i$ into
 \[
             Z=\sum_{\ell=0}^{R}(-1)^\ell\beta_\ell\widetilde T_{R-\ell}.
@@ -639,13 +847,11 @@ there. The bound then passes to the integral span of the generators.
 See also the \src{\growthDir MultisetValuation/AofUpdate}{172}{one-step argument}.}
 
 \sheet{III\enspace The arithmetic construction}{Why the periods must share a lattice}{division}
-An idele chooses a nonzero element of each completion of a number field,
-with a unit at all but finitely many finite places. A Hecke character is a
-continuous multiplicative character of the ideles that is trivial on the
-diagonally embedded nonzero field elements. It packages local character data
-into a global twist. The construction varies this twist while comparing
-periods. Rescaling each complex period would destroy the meaning of a
-common divisor. One needs a shared integral normalization.
+As on p.~\pageref{completions}, a Hecke character supplies a global twist
+from local multiplicative data. The construction varies this character
+while comparing periods. Before speaking of a common divisor one needs a
+shared normalization. Multiplying a single column by $3$ would, by itself,
+change the powers of $3$ in every entry of that column.
 
 \subt{A division that can be computed}
 Take two period columns in the model lattice $\Z^2$ and form
@@ -654,8 +860,10 @@ Take two period columns in the model lattice $\Z^2$ and form
        =3\begin{pmatrix}2&1\\1&2\end{pmatrix}.
 \]
 Their determinant is $27$. Division of each column by the common factor $3$
-removes $3^2$ from the determinant. The new columns still span an index-$3$
-sublattice of $\Z^2$. Thus a residual covolume survives after exact division.
+removes $3^2$ from the determinant. The new columns span the pairs of
+integers whose sum is divisible by $3$. There are three cosets, so
+the \emph{index} is $3$. The \emph{covolume} is the area of a fundamental
+parallelogram, here the absolute determinant $3$.
 For a column matrix $B$ of full rank, $\det(B^*B)=|\det B|^2$ in the square
 case. Pairings of the columns control the volume, and near dependence makes
 it small. Both the divisibility and the metric enter a determinant estimate.
@@ -677,12 +885,13 @@ unit. Its valuation is zero, so the local divisibility of the period passes
 to the common form. The complex comparison also involves isometries and a
 nonzero scalar. Its metric information enters the estimate at infinity.
 
-A relative trace formula compares pairings of periods with orbital integrals
-to control correlations among columns. A slope inequality of Bost's type compares degrees
-of metrized lattices with norms of maps between them. For rank $r$ over
-$\Z$, the elementary model of the mean slope is
-$-r^{-1}\log(\operatorname{covolume})$. Its sign explains why division and
-index losses have to be tracked together.
+A relative trace formula groups an integral by orbits of a group action and
+compares the resulting integrals with pairings of periods. In this argument
+it is meant to control correlations among columns. A slope inequality of
+Bost's type compares sizes of lattices with norms of maps between them.
+For rank $r$ over $\Z$, the model for the mean slope is
+$-r^{-1}\log(\operatorname{covolume})$. Our two-column division changes
+this from $-\tfrac12\log27$ to $-\tfrac12\log3$, a gain of $\log3$.
 
 \sources{See the \pub{4}{announcement, items 12--18},
 \src{\aaDir ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/SeesawFirstReductionLevel}{25}{the seesaw reduction with local hypotheses}
@@ -700,12 +909,15 @@ Here $g$ is the usable gain (zero at discarded primes), $F$ the
 twisting contribution and $E$ the loss. On the finite support the
 integer exponent is $\sigma_w(u)=\lfloor e_w s_w(u)\rfloor$, where
 $e_w$ is the ramification index. The floor is taken \emph{after} summation.
-Terms from rounding matter once weighted by the logarithmic norms of
-many places.
+Only finitely many exponents are nonzero. Rounding at many places can
+matter once the exponents are weighted by logarithmic norms.
 
 \subt{What is divided and what remains}
-For finitely supported integers $\nu_w$ put
-$I(\nu)=\prod_w\mathfrak p_w^{\nu_w}$, a fractional ideal of $K$.
+A \emph{fractional ideal} allows a common denominator in an ordinary ideal.
+For instance $(2+i)^{-1}\Z[i]=\{z/(2+i):z\in\Z[i]\}$. Multiplying by $2+i$
+recovers $\Z[i]$. For finitely supported integers $\nu_w$ put
+$I(\nu)=\prod_w\mathfrak p_w^{\nu_w}$. Negative exponents implement
+division prime by prime, including when no single element generates the ideal.
 The lattice entering the slope comparison is
 \[
          N'=I(-\sigma)N_0,\qquad N_0\subseteq I(\tau)M,\qquad
@@ -784,22 +996,29 @@ and the \pub{4}{announcement, items 8 and 14--16}.}
 
 \sheet{III\enspace The arithmetic construction}{What cancels in the height estimate}{cancel}
 At an ordinary place above $p$, a denominator already occurs in the final
-period integral. Let $D_\Gamma$ be a common multiple of the orders of the
-finite stabilizers in that sum. The terminal period can lose
+period integral. A \emph{stabilizer} is the group of symmetries fixing a
+point. An orbit sum weighted by $1/|\operatorname{Stab}|$ can have denominators.
+Let $D_\Gamma$ be a common multiple of these stabilizer orders. The terminal period can lose
 $v_p(D_\Gamma)$ in normalized valuation. The column supplied by the lifts
 must have valuation at least $s_w(u)+v_p(D_\Gamma)$. Multiplying the two
-leaves at least $s_w(u)$ before rounding. The level prime and the two
-distinguished type primes have their own local comparisons.
+leaves at least $s_w(u)$ before rounding. The prime defining the level
+and two primes where a particular local representation is prescribed
+(the \emph{type} primes) have their own comparisons.
 
 \subt{Comparing the same main term twice}
 Write $\mathcal F$ and $\mathcal E$ for the weighted sums of the local
 twisting contributions and losses on p.~\pageref{ideal}. The lower bound on
 the quotient slope contains $+\mathcal F-\mathcal E$ alongside the
-divisibility gain. The upper bound on the dual slope plus the map height
+divisibility gain. A dual lattice consists of linear functionals taking
+integral values on the original lattice, as $(3\Z)^\vee=\tfrac13\Z$.
+The upper bound on the dual slope plus the map height
 contains the same $+\mathcal F$. Subtraction removes the twisting term.
 Finite-place divisibility still leaves a height to estimate at the infinite
-places. There one must bound the norms of the composed maps for the same
-quotient metrics used to compute the slopes.
+places. Here the height records logarithms of operator norms, using squared
+norms at infinity in the source's convention. For example a Euclidean
+map $\operatorname{diag}(1,2)$ contributes $\log4$ at a single such place.
+The norm on a quotient uses the least norm among representatives of each
+class. The height and slope calculations must use the same quotient metric.
 
 For the next cancellation let $A=\sum_t a_t\ge0$ be the total weight,
 $\ell_g=\log(g_1g_2)$ for the two distinguished primes, and $T$ the chosen
@@ -834,13 +1053,19 @@ The repository's \href{\repo blob/main/lift-estimate.pdf}{worked lift estimate} 
 
 \sheet{IV\enspace Back to the primes}{Frobenius turns a count into characters}{frobenius}
 How does a determinant bound say anything about the $\Lambda$-weighted sum
-from p.~\pageref{ramp}? An abelian extension of number fields supplies a
-finite abelian group $A$ of symmetries. An unramified rational prime $p$
-in an abelian extension of $\Q$ determines an element $\mathrm{Frob}_p$
-whose action on the residue field at a prime above $p$ is $z\mapsto z^p$.
-In $\Q(i)$ and at odd $p$, this sends $i$ to $i^p$. It is the identity at
-$5$, conjugation at $3$, and its square is the identity at $3$. This last
-observation accounts for the sign of the $9$ term in our earlier example.
+from p.~\pageref{ramp}? Take a number field $K$ containing all the conjugates
+over $\Q$ of each of its elements. Such an extension is \emph{Galois}.
+The field symmetries fixing $\Q$ form its Galois group $A$. The extension is abelian
+when these symmetries commute. At an \emph{unramified} prime $p$ every
+prime above it has ramification index one. In an abelian extension there
+is a well-defined symmetry $\mathrm{Frob}_p$ that reduces to $z\mapsto z^p$
+in the residue field. It is called the \emph{Frobenius element}.
+
+Return to $\Q(i)$ on p.~\pageref{places}. The two possible symmetries send
+$i$ to $i$ or $-i$. At $5$ we have $i^5=i$, so $\mathrm{Frob}_5$ is the
+identity. At $3$, $i^3=-i$, so $\mathrm{Frob}_3$ is conjugation.
+Its square sends $i$ back to $i$. The character sending conjugation to
+$-1$ therefore gives $+1$ at $3^2$, as in the signed ramp.
 
 \subt{A prime-power identity}
 Let $\widehat A$ be the characters of $A$. For $a,g\in A$, orthogonality gives
@@ -852,8 +1077,9 @@ When $g=a$ every summand is one. Otherwise multiplying the sum by
 $\xi_0(ga^{-1})\ne1$ for a separating character $\xi_0$ permutes its terms,
 so it vanishes. Set $g=\mathrm{Frob}_p^r$ and multiply by
 $(\log p)(x/p^r-1)$ for $p^r\le x$. A count of prime powers in a prescribed
-class becomes a linear combination of character ramps. At ramified primes
-there is inertia, the subgroup acting trivially on the residue field.
+class becomes a linear combination of character ramps. At a ramified
+prime the symmetries fixing that prime and acting trivially on its
+residue field form a nontrivial subgroup, called \emph{inertia}.
 The release handles those local terms separately in its balance identity.
 
 \subt{Where the fraction $1/(3h+1)$ comes from}
@@ -866,20 +1092,12 @@ the coefficient is $1/(3h+1)$. For $h=2$ this is just $4/7-3/7=1/7$.
 In the finite sets used by the release, each observed coset fraction must
 differ from its target by at most $x^{-1+\e}$.
 
-In source notation \texttt{ch\_balance} identifies the measured quantity
-$\mathrm{ASK}$ minus its explicit main term with a sum of centered character
-contributions. The determinant estimates are applied to this difference.
+The release writes $\mathrm{ASK}$ for the measured prime-power quantity and
+$\mathrm{MAIN}$ for its predicted main term. Its identity
+\texttt{ch\_balance} expresses their difference as a sum of centered
+character contributions. The determinant estimates apply to this difference.
 Terms from characters outside the retained family and the errors in the
 shares must also be bounded before the answer can be $H_\psi(x)$.
-
-\subt{Why the prime signal occurs $m$ times}
-At fixed group indices $u,t$, the comparison replaces each lift's expression
-by a common character sum evaluated at $a(t)/b$, within controlled errors.
-Call this common term $T(u,t)$. Summing over the $m$ lift labels gives
-$\sum_{j=1}^m\re T(u,t)=m\re T(u,t)$. Averaging over the subgroup kills
-characters nontrivial on it and supplies the density factor $\delta/2$ on
-the next page. This explains the multiplier on the prime sum while allowing
-the error to grow with the chain length.
 
 \sources{Compare \src{\laDir ChBalance}{200}{the balance identity and its local cases},
 \src{\frDir ExplicitFormulaErrorOfHostConditions}{135}{coset shares},
@@ -887,6 +1105,13 @@ the error to grow with the chain length.
 and \src{\prDir SigALe}{38}{the bound on discarded characters}.}
 
 \sheet{IV\enspace Back to the primes}{Accounting for the four error terms}{cost}
+At fixed group indices $u,t$, the comparison replaces each lift's
+expression by the same character sum $T(u,t)$ evaluated at $a(t)/b$,
+up to controlled errors. Thus $\sum_{j=1}^m\re T(u,t)=m\re T(u,t)$.
+Averaging over the subgroup cancels the characters nontrivial on it and
+supplies a density factor $\delta/2$. The signal grows exactly $m$ times,
+while the errors can grow at different rates.
+
 Here is the size calculation after the arithmetic data have supplied the
 bound on $\mathrm{ASK}-\mathrm{MAIN}$. Use the release's notation $n$ for
 the order of an auxiliary group, $n_T,n_2$ for the sizes of two chosen sets,
@@ -941,23 +1166,59 @@ giving the conditional exponent $\tfrac12+9\e$.
 \src{\prDir CoreGm}{12}{core\_gm} and
 \src{\thirdDir TopShape}{52}{the chosen constants}.}
 
-\sheet{IV\enspace Back to the primes}{A cohomology bound on auxiliary windows}{cohomology}
-What could obstruct the division of a family of periods? The announcement
-identifies classes left over after twisting. The quantitative input in the
-release concerns number fields $E$ chosen inside cyclotomic fields. For a
-prime $\ell$ use Galois cohomology unramified away from the primes above
-$\ell$, with coefficients $\Q_\ell/\Z_\ell(-j)$. The twist means that Galois
-acts by the inverse $j$th power of the cyclotomic character, the character
-describing its action on $\ell$-power roots of unity.
+\sheet{IV\enspace Back to the primes}{Computing a cohomology class}{cocycles}
+Some conditions on periods can be tested at each prime separately. The
+construction still has to bound classes that pass every one of these local
+tests. We can perform the operation behind such a test in a small group.
 
-In degree one a class can be represented by a cocycle, a function satisfying
-$c(gh)=c(g)+g\,c(h)$, taken modulo functions $c(g)=g v-v$. Restriction to
-local groups tests whether a global class becomes trivial there. Write
-$b_{\ell,j}(E)$ for the $\Z_\ell$-length of the kernel of the release's
-localization map at the primes above $\ell$. For a finite module, length
-counts powers of $\ell$ in its order. For example
-$\Z/\ell^2\Z\oplus\Z/\ell\Z$ has length $3$ and contributes $3\log\ell$
-to a logarithmic size estimate.
+Let a group $G$ act on an additive group $M$ by linear or additive maps.
+A \emph{cocycle} is a function $c:G\to M$ satisfying
+$c(gh)=c(g)+g\,c(h)$. Two cocycles represent the same element of
+$H^1(G,M)$ if their difference is a \emph{coboundary}, a function
+$g\mapsto g v-v$ for some fixed $v\in M$. In particular, the class of $c$
+is zero precisely when one $v$ accounts for all its values by this formula.
+
+Take $G=(\Z/2\Z)^2$ and $M=\Z/2\Z$, with every element of $G$ acting
+as the identity on $M$. Then cocycles are additive functions and every
+coboundary is zero. A cocycle is determined by the two values
+$r=c(1,0)$, $s=c(0,1)$. Its value at $(a,b)$ is $ra+sb$ modulo $2$.
+Restricting to the subgroup generated by $(1,0)$ reads off $r$.
+Its kernel consists of the two classes $(0,0)$ and $(0,1)$. Testing also
+on the subgroup generated by $(0,1)$ leaves only $(0,0)$.
+This is how restricting a class can reveal it or leave it undetected.
+
+\subt{What the negative twist does}
+For a number field, Galois cohomology uses continuous cocycles of a group
+of field symmetries. A \emph{cyclotomic field} $\Q(\zeta_N)$ is obtained by
+adjoining $\zeta_N=e^{2\pi i/N}$. A symmetry sends $\zeta_N$ to $\zeta_N^a$
+with $\gcd(a,N)=1$. For $N=\ell,\ell^2,\ldots$, these compatible
+exponents form an $\ell$-adic unit, the value of the \emph{cyclotomic
+character}. The coefficient group $\Q_\ell/\Z_\ell$ records $\ell$-adic
+numbers up to addition of an $\ell$-adic integer. For example the class of
+$1/5$ has order $5$ in $\Q_5/\Z_5$.
+
+The notation $(-j)$ prescribes multiplication by the inverse $j$th power
+of the cyclotomic character. For $j=1$, a symmetry sending $\zeta_5$ to
+$\zeta_5^2$ acts on the class of $1/5$ by $2^{-1}=3\bmod5$, giving the
+class of $3/5$. This is the action $g\,c(h)$ in the cocycle equation for
+these coefficients.
+
+\sources{For degree one see \href{https://kskedlaya.org/cft/sec_cohom2.html}{Kiran Kedlaya's notes on cocycles and coboundaries, §3.2}.
+The release defines \src{Formalism/GaloisCohomology/Statement}{67}{the coefficient action, restriction kernel and its length}.}
+
+\sheet{IV\enspace Back to the primes}{A cohomology bound on auxiliary windows}{cohomology}
+For each auxiliary field $E$, prime $\ell$ and integer $j$, the release
+uses coefficients $\Q_\ell/\Z_\ell(-j)$ from p.~\pageref{cocycles}.
+Its global Galois group allows ramification only at primes above $\ell$
+among the finite primes. At each such prime, restrict the cocycle to the
+symmetries of the corresponding local field. A global class lies in the
+kernel of all these restrictions if it becomes a coboundary at each one.
+The element $v$ witnessing this may depend on the prime.
+
+Write $b_{\ell,j}(E)$ for the $\Z_\ell$-\emph{length} of that kernel.
+For a finite $\Z_\ell$-module of order $\ell^a$, its length is $a$.
+For example $\Z/\ell^2\Z\oplus\Z/\ell\Z$ has $\ell^3$ elements, hence
+length $3$ and logarithmic size $3\log\ell$.
 
 \begin{statement}
 \smallhead{The demanded bound.}\quad Put $t=\lfloor x^{401}\rfloor$.
@@ -986,11 +1247,13 @@ $x\in[Z,Z^2]$ and every field meeting the prescribed conditions at
 $(\psi,e(x),q,d)$. All choices of algebraic closure and local data in the
 definition are quantified.
 
-Alpöge calls this a weakening of Vandiver. Classically Vandiver's conjecture
-says that a prime $\ell$ does not divide the class number of the maximal
-real subfield of $\Q(\zeta_\ell)$ for odd $\ell$. Here the imposed statement
-is a length bound for particular twisted groups in varying fields. The release
-uses its bound on square windows to supply hosts for the $3/2$-power windows.
+Alpöge calls this a weakening of Vandiver. The \emph{class number} counts
+fractional ideals up to multiplication by a nonzero field element, so
+$(2+i)\Z[i]$ and $\Z[i]$, for example, give the same class. For odd
+$\ell$, Vandiver's conjecture says $\ell$ does not divide that number for
+the subfield of $\Q(\zeta_\ell)$ fixed by complex conjugation. The release
+uses the displayed length bound on square windows to choose fields for the
+$3/2$-power windows.
 
 \sources{Exact field and prime-pair conditions are in
 \src{\chDir ExistsPageN}{12}{VVle, IsChiField, WinPair and VWinAt}.
@@ -1012,9 +1275,9 @@ Write $Y=X^{1/J}$ and $B=Y^{\e/5}$. The primes $q,d$ obey
 \]
 Further, $q\equiv3\bmod8$, $d\equiv7\bmod16$, $q\mid d+1$, and
 $p\mid d+1$ for every odd prime $p\le B$. The cohomological window
-statement is conditional on a pair satisfying these constraints. Producing
-the hosts used by the prime-sum argument also needs the corresponding
-existence and admissibility results.
+statement is conditional on a pair satisfying these constraints. A
+\emph{host} packages the auxiliary field, characters and Frobenius data for
+the prime-sum argument. Producing one requires compatible choices of them all.
 
 For the chosen $e=e(x)$, embed $E$ into a cyclotomic field $\Q(\zeta_N)$
 with $N$ divisible by $2^{e+2}$, the conductor of $\psi$, $q$ and $d$.
@@ -1023,8 +1286,12 @@ An automorphism $\zeta_N\mapsto\zeta_N^a$ fixes $E$ pointwise precisely when
  a\equiv\pm1\bmod 2^{e+2},\qquad \psi(a)=1,\qquad
  \left(\frac{a}{q}\right)=\left(\frac{a}{d}\right)=1 .
 \]
-The last two symbols are quadratic characters for the odd primes $q,d$.
-This specifies the field used in the host's Frobenius comparisons.
+The symbol $(a/q)$ is $+1$ for a nonzero square modulo $q$, $-1$ for the
+other units and $0$ for a multiple of $q$. For instance modulo $7$ the
+nonzero squares are $1,2,4$, so $(2/7)=1$ and $(3/7)=-1$.
+The joint conditions select a subgroup of symmetries. Its \emph{fixed field}
+consists of the numbers left unchanged by every member. This specifies
+the field in the Frobenius comparison.
 The growing real cyclotomic layers give a concrete example
 of a tower of fields in the construction.
 
@@ -1080,11 +1347,16 @@ $1/\e$, shrinking $\e$ would not close the exponent gap.
 
 \subt{From the right half of the strip to all characters}
 By the criterion of p.~\pageref{separation}, $(\W)$ excludes a zero
-$\rho$ of a primitive $\psi$ with $\tfrac12<\re\rho<1$. A primitive zero
-with $0<\re\rho<\tfrac12$ gives a zero for $\bar\psi$ at $1-\rho$ by the
-functional equation. The gamma and conductor factors are finite and
-nonzero in the open strip. Applying the same exclusion to $\bar\psi$ gives
-a contradiction. Finally, if $\chi$ modulo $q$ is induced by $\psi$ of
+$\rho$ of a primitive $\psi$ with $\tfrac12<\re\rho<1$. The functional
+equation reflects a zero on the left to the right. For a primitive $\psi$
+of conductor $f$, put $a=0$ if $\psi(-1)=1$ and $a=1$ otherwise. Complete
+the function by multiplying it by $(f/\pi)^{(s+a)/2}\Gamma((s+a)/2)$.
+Here $\Gamma(z)=\int_0^\infty t^{z-1}e^{-t}\,dt$ for $\re z>0$.
+The functional equation equates the resulting function at $s$ to a
+constant of absolute value one times the completion for $\bar\psi$ at
+$1-s$. Both extra factors are finite and nonzero in the open strip.
+Thus a zero with $0<\re\rho<1/2$ gives a zero at $1-\rho$ for $\bar\psi$,
+which the same window argument excludes. Finally, if $\chi$ modulo $q$ is induced by $\psi$ of
 conductor $f$, then
 \[
        L(s,\chi)=L(s,\psi)
