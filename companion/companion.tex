@@ -165,27 +165,23 @@ record the weight of a prime?
 Take the square-lattice theta series $F$, written out on p.~\pageref{lifts}
 when we discuss theta lifts.
 For $z$ in the \emph{upper half-plane}, above the real axis, put $w=e^{\pi iz}$.
-Each integer pair $(a,b)$ with $a^2+b^2=n$ contributes one copy of $e^{\pi inz}=w^n$. If there
-are $c_n$ such pairs, their terms add to $c_n w^n$. Thus
-$F(z)=\sum_{n\ge0}c_n w^n$. At an odd prime $p$, the term is $c_p w^p$.
-The two-squares formula gives the Fourier coefficient $c_p=4(1+\chi_4(p))$.
-Divide the count by four and subtract one to recover the sign.
+Each pair $(a,b)$ with $a^2+b^2=n$ contributes one copy of $e^{\pi inz}=w^n$.
+If $c_n$ integer pairs have this exponent, their terms add to $c_n w^n$ in
+$F(z)=\sum_{n\ge0}c_n w^n$. Setting $n=p$ gives $c_p w^p$, with Fourier
+coefficient $c_p$. Jacobi’s two-square theorem counts the ordered integer
+pairs $(a,b)$ with $a^2+b^2=p$. For an odd prime $p$, it gives
+$c_p=4(1+\chi_4(p))$.
 \end{minipage}\hfill
 \begin{minipage}[c]{.42\linewidth}
 \ill[1]{theta-plane}{A shift by $2$ preserves $F$, just as a shift by $4$ preserves $\chi_4$. Inversion gives $F(-1/z)=-izF(z)$ and takes $1+i$ to $(-1+i)/2$.}
 \end{minipage}\par
 
-{\small\noindent\begin{tabularx}{\linewidth}{@{}lXll@{}}
-\toprule
-Prime $p$ & Pairs with $a^2+b^2=p$ & Term $c_p w^p$ & Weight $\chi_4(p)=c_p/4-1$\\
-\midrule
-$5$ & $1^2+2^2$ in two orders, four sign choices each & $(2\times4)w^5=8w^5$ & $8/4-1=+1$\\
-$3$ & Squares $\le3$ are $0,1$, and $1+1<3$. & $0w^3=0$ & $0/4-1=-1$\\
-\bottomrule
-\end{tabularx}\par}
+We can recover the sign by dividing the count by four and subtracting one.
+For $5=1^2+2^2$, two orders and four sign choices give $8w^5$, so
+$\chi_4(5)=8/4-1=+1$. No two squares sum to $3$, so $c_3=0$ and
+$\chi_4(3)=0/4-1=-1$. We add the term at $5$ and subtract the one at $3$.
 
-Thus $F$ tells us to add the term at $5$ and subtract the term at $3$ in a
-sum weighted by $\chi_4$. For the full prime-power sum, Alpöge transfers forms
+For the full prime-power sum, Alpöge transfers forms
 between groups by \emph{theta lifting} and puts their integrals in a matrix.
 The determinant's size and prime divisibility are meant to bound $H(x)$
 throughout an interval where the zero $\rho$ predicts large values.
