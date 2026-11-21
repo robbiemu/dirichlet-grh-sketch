@@ -293,9 +293,9 @@ The release uses the primitive representatives to build its
 \sheet{I\enspace Prime sums}{From character weights to a prime product}{lseries}
 \begingroup
 \fontsize{11}{12.7}\selectfont
-\setlength{\parskip}{2pt}
-\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
-\setlength{\abovedisplayshortskip}{3pt}\setlength{\belowdisplayshortskip}{3pt}
+\setlength{\parskip}{1pt}
+\setlength{\abovedisplayskip}{2pt}\setlength{\belowdisplayskip}{2pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
 In the table on p.~\pageref{characters}, the principal character $\chi_{0,4}$
 assigns $1$ to both units. The single class modulo $1$ determines those
 values, so its conductor is $1$. Its primitive representative is the constant character $\one(n)=1$.
@@ -351,7 +351,7 @@ $(1-z)^{-1}$, a formula we can also evaluate at $z=-2$ to obtain $1/3$.
 Extending an analytic function by agreement on an overlap is
 \emph{analytic continuation}. Dirichlet $L$-functions similarly have a
 continuation into the critical strip. At $s=1$, $\zeta(s)$ has a simple
-pole. Subtracting $1/(s-1)$ leaves a function analytic there. For a
+pole. Subtracting $1/(s-1)$ from $\zeta(s)$ leaves a function analytic (also called \emph{holomorphic}) at $1$, meaning that near $1$ it can be written as a convergent power series in $s-1$. For a
 nonprincipal $\chi$, $L(s,\chi)$ is analytic and nonzero at $1$. The behavior at $s=1$ tells us which main term to subtract from each prime sum so we can study its fluctuations.
 
 \sources{For the character expansion, continuation and functional equation see the
@@ -531,6 +531,7 @@ The exponent $3/2$ is chosen in \src{\chDir EveryCharacter}{8}{plugWin}.}
 \par\endgroup
 
 \sheet{II\enspace The analytic argument}{Turning a ramp into a pole}{transform}
+\begingroup\setlength{\parskip}{3pt plus .4pt minus .5pt}\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
 The Mellin transform of a function on $[1,\infty)$ is
 $\widehat f(s)=\int_1^\infty f(x)x^{-s-1}\,dx$ wherever the integral converges.
 It converts powers of $x$ into simple fractions. For instance,
@@ -562,37 +563,42 @@ The second uses the logarithmic-derivative identity from p.~\pageref{lseries} to
  =\frac{1}{s(s-1)}\sum_{n\ge1}\frac{\Lambda(n)\chi(n)}{n^s}
  =-\frac{1}{s(s-1)}\Lder(s,\chi).
 \]
-The right-hand side therefore gives a meromorphic continuation of the Mellin transform beyond $\re s>1$. Integrals will only be
+Page~\pageref{lseries} gives a continuation of $L(s,\chi)$ into the critical strip, so the expression on the right extends there as a meromorphic function. Since it agrees with the ramp transform for $\re s>1$, it gives a meromorphic continuation of that transform. Integrals will only be
 differentiated in a half-plane of convergence.
 
 \subt{Cancel the singularity at one}
 To see which terms to subtract from the ramp, we compute the singular part of its transform at $s=1$.
 Start with the constant character $\one$, so $L(s,\one)=\zeta(s)$.
-Write $z=s-1$, so the point of interest is now $z=0$. Near this point,
-$\zeta(1+z)=1/z+\gamma+O(z)$, where $\gamma$ is the constant used on
-p.~\pageref{ramp}. The remainder $O(z)$ is bounded by a constant times $|z|$.
+For real $s>1$, $\zeta(s)$ is the sum of $n^{-s}$, and $1/(s-1)$ is the
+integral of $x^{-s}$ from $1$ to infinity. As $s$ decreases to $1$, the
+difference tends to the familiar gap between the harmonic sum and the
+logarithm, $\gamma$ from p.~\pageref{ramp}. After subtracting the pole,
+what remains is analytic at $s=1$, so with $z=s-1$ we obtain
+\[
+ \zeta(1+z)=\frac1z+\gamma+O(z).
+\]
+The big-$O$ term means that as $z\to0$, the absolute error is at most a constant times $|z|$.
 
-To see what happens when we take the logarithmic derivative, first multiply
-by $z$ to remove the pole. The resulting function $h(z)=z\zeta(1+z)$
-has expansion $h(z)=1+\gamma z+O(z^2)$, so $h(0)=1$.
+For the constant character, the logarithmic-derivative identity gives the factor
+$-\zeta'(s)/\zeta(s)$ in the ramp formula above. To compute it near $s=1$, write
+$\zeta(1+z)=h(z)/z$. This isolates the pole in the factor $1/z$. From the expansion
+above, $h(z)=z\zeta(1+z)=1+\gamma z+O(z^2)$, so $h(0)=1$.
 Differentiating this expansion with respect to $z$ gives $h'(0)=\gamma$.
-Now write $\zeta(1+z)=h(z)/z$. Since $s=1+z$, taking the logarithmic
-derivative with respect to $z$ is the same as taking it with respect to $s$.
-For the factor $-\zeta'/\zeta$ in the ramp transform, we obtain
+Since $s=1+z$, differentiating with respect to $s$ is the same as differentiating with respect to $z$. Thus
 \[
  -\frac{\zeta'(1+z)}{\zeta(1+z)}=\frac1z-\frac{h'(z)}{h(z)}
  =\frac1z-\gamma+O(z).
 \]
 
-The other factor comes from integrating the ramp. Splitting it into
-fractions gives $1/[z(1+z)]=1/z-1/(1+z)=1/z-1+O(z)$.
-Multiplying gives
+\par\endgroup
+\newpage
+Near $z=0$, the ramp factor is $1/[z(1+z)]=1/z-1+O(z)$.
+Combining it with the logarithmic derivative from page~\pageref{transform} gives
 \[
  \widehat R_{\one}(1+z)
  =\left(\frac1z-1+O(z)\right)\left(\frac1z-\gamma+O(z)\right)
  =\frac1{z^2}-\frac{1+\gamma}{z}+O(1).
 \]
-\newpage
 The two copies of $1/z$ multiply to give the double pole. The cross terms
 contribute $-1/z$ and $-\gamma/z$. Removing $1/z^2$ still leaves $-(1+\gamma)/z$, which also blows up at $z=0$.
 Once we remove that term too, the remainder is regular at $z=0$.
@@ -613,9 +619,8 @@ This recovers the centered sum plotted on p.~\pageref{ramp},
  G_{\one}(x)=R_{\one}(x)-x\log x+(1+\gamma)x.
 \]
 
-For a nonprincipal character $\chi$, $L(1,\chi)$ is nonzero and $L$ is
-holomorphic there. Its logarithmic derivative has a finite value
-$c=L'(1,\chi)/L(1,\chi)$. The ramp factor still contributes $1/z$, so
+For a nonprincipal character $\chi$, $L(s,\chi)$ is analytic at $s=1$ and $L(1,\chi)\ne0$.
+Its logarithmic derivative therefore has a finite value there, $c=L'(1,\chi)/L(1,\chi)$. The ramp factor still contributes $1/z$, so
 $\widehat R_\chi(1+z)=-c/z+O(1)$. There is just one correction this time.
 Adding $cx$ contributes $c/z$ to the transform and gives the other
 centered sum from p.~\pageref{ramp},
@@ -626,9 +631,10 @@ In both cases the transform of the centered sum is now regular at $s=1$.
 
 \subt{Keep the singularity at a zero}
 At a strip zero $\rho$ of multiplicity $r$, write
-$L(s,\chi)=(s-\rho)^r h(s)$ with $h$ holomorphic and $h(\rho)\ne0$.
-Then $L'/L=r/(s-\rho)+h'/h$. Both centering terms are holomorphic at $\rho$,
-so the continued transform has a simple pole with residue
+$L(s,\chi)=(s-\rho)^r h(s)$ with $h$ analytic at $\rho$ and $h(\rho)\ne0$.
+Then $L'/L=r/(s-\rho)+h'/h$. Both centering terms are analytic at $\rho$,
+so the continued transform has a simple pole there.
+To see whether the pole survives when we combine characters, we need its residue.
 \begin{statement}
 \[
              \Res_{s=\rho}\widehat G_\chi(s)
@@ -730,7 +736,7 @@ and \src{\laDir landauWindow}{40}{its use for an integral majorant}.}
 
 \sheet{II\enspace The analytic argument}{A pole defeats the window bound}{separation}
 Why differentiate to high order? At a center $z$ the term $c/(s-\rho)$
-contributes exactly $c/(z-\rho)^{k+1}$ to $A_k(z)$. A holomorphic remainder
+contributes exactly $c/(z-\rho)^{k+1}$ to $A_k(z)$. An analytic remainder
 on a closed disk of radius $r$ contributes at most $M/r^k$ by Cauchy's
 estimate. If $d=|z-\rho|<r$, the pole eventually dominates. The extra
 $\re A_k(\sigma)$ in our one-sided test also needs control.
