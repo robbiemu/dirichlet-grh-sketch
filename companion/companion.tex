@@ -110,8 +110,8 @@ real part $\sigma$. A \emph{Dirichlet $L$-function} is given by the series
                  L(s,\chi)=\sum_{n=1}^{\infty}\frac{\chi(n)}{n^s}
                  \qquad(\sigma>1).
 \]
-Each weight has size at most $1$, so the $n$th term has size at most
-$1/n^\sigma$. When $\sigma>1$, even the sum of these bounds is finite.
+The weights of a Dirichlet character can be complex. Each nonzero weight has
+absolute value $1$, so the $n$th term has absolute value at most $1/n^\sigma$. When $\sigma>1$, even the sum of these bounds is finite.
 Giving every integer weight $1$ produces the
 \emph{Riemann zeta function}, written $\zeta(s)$.
 
@@ -158,10 +158,10 @@ The release gives its precise statement in \src{Statements}{10}{Statements.lean}
 \fontsize{11.5}{13.3}\selectfont
 \setlength{\parskip}{2.5pt plus .4pt minus .5pt}
 Suppose a zero $\rho$ lies in the strip to the right of the critical line,
-and choose $1/2<\theta<\re\rho$. The zero predicts large values of $H(x)$,
-a weighted sum over prime powers up to $x$ with its main term subtracted
-(pp.~\pageref{ramp}--\pageref{window}). To get an independent upper bound
-on that sum, Alpöge studies integrals of \emph{automorphic forms}, functions
+and choose $1/2<\theta<\re\rho$. The zero predicts points where $H(x)>x^\theta$.
+Here $H(x)$ combines the real parts of prime-power sums after their main terms
+are subtracted (pp.~\pageref{ramp}--\pageref{window}). For an independent upper bound,
+Alpöge studies integrals of \emph{automorphic forms}, functions
 with symmetry laws for a group of transformations. How can such a function
 record the weight of a prime?
 
@@ -273,7 +273,7 @@ prime factor with $q$ set $\chi(n)=0$. The \emph{conductor} is the smallest
 such $f$. A character whose modulus equals its conductor is \emph{primitive}.
 
 \noindent\begin{minipage}{.55\linewidth}
-Induce $\chi_4$ to modulus $12$. On the four units modulo $12$, the weights are $+1$ at $1$ and $5$, and $-1$ at $7$ and $11$.
+Induce $\chi_4$ to modulus $12$. The four units keep their weights. At $3$ and $9$, the weights $-1$ and $+1$ both become $0$ because both inputs share a factor of $3$ with $12$.
 \end{minipage}\hfill
 \begin{minipage}{.41\linewidth}\centering
 $\begin{array}{c|rrrr}
@@ -404,7 +404,10 @@ subtractions come from a pole cancellation (p.~\pageref{transform}).
 The ramps are linear between integers. In the right panel the segments join
 samples of a curved function on a longer interval.}
 
-The figure shows the fluctuation over a finite range. To use it in the proof, we need an estimate of how large it can be as $x$ ranges arbitrarily far along the real line.
+The right-hand plot shows one character's centered sum on a finite interval.
+To form the function $H(x)$ from p.~\pageref{openingclaims}, we choose a family of
+characters and add the real parts of their centered sums with fixed weights.
+We seek intervals arbitrarily far out on which $H(x)$ stays at or below $x^\theta$.
 
 \sources{The released definitions are \src{\dcDir CharFamily}{10}{ramp and Gchi}.
 The accompanying \texttt{figures/figure\_data.py} generates the numerical table
@@ -532,6 +535,8 @@ The Mellin transform of a function on $[1,\infty)$ is
 $\widehat f(s)=\int_1^\infty f(x)x^{-s-1}\,dx$ wherever the integral converges.
 It converts powers of $x$ into simple fractions. For instance,
 $\widehat{x^\alpha}(s)=1/(s-\alpha)$ when $\re s>\re\alpha$.
+At $s=\alpha$, the integrand becomes $1/x$. Each interval
+$[1,2],[2,4],[4,8],\ldots$ contributes another $\log 2$, so the integral diverges.
 This is a way to read an exponent from a singularity. More generally,
 near a simple pole at $\rho$ a function has the form $c/(s-\rho)+h(s)$,
 where $h$ has a convergent local power series. The number $c$ is the
@@ -545,24 +550,79 @@ For $\re s>1$, integrating the ramp that starts at $n$ gives
   =n^{-s}\left(\frac1{s-1}-\frac1s\right)
   =\frac{n^{-s}}{s(s-1)}.
 \]
+In $R_\chi$, the ramp starting at $n$ carries the weight $\Lambda(n)\chi(n)$.
+Multiplying the integral above by that weight gives $\Lambda(n)\chi(n)n^{-s}/[s(s-1)]$.
+We now sum these contributions over $n$.
 The sum of the absolute integrals converges there because
 $|\chi(n)|\le1$ and $\sum\Lambda(n)n^{-\sigma}<\infty$ for $\sigma>1$.
-We can therefore interchange integration and summation and obtain
+Absolute convergence justifies the first equality below, where we integrate one ramp at a time.
+The second uses the logarithmic-derivative identity from p.~\pageref{lseries} to evaluate the series.
 \[
-  \widehat R_\chi(s)=-\frac{1}{s(s-1)}\Lder(s,\chi).
+ \widehat R_\chi(s)
+ =\frac{1}{s(s-1)}\sum_{n\ge1}\frac{\Lambda(n)\chi(n)}{n^s}
+ =-\frac{1}{s(s-1)}\Lder(s,\chi).
 \]
-The right-hand side gives a meromorphic continuation. Integrals will only be
+The right-hand side therefore gives a meromorphic continuation of the Mellin transform beyond $\re s>1$. Integrals will only be
 differentiated in a half-plane of convergence.
 
 \subt{Cancel the singularity at one}
-Put $z=s-1$. Here $O(z)$ denotes a remainder bounded by a constant times
-$|z|$ near zero. From $\zeta(1+z)=1/z+\gamma+O(z)$ we get
-$-\zeta'/\zeta=1/z-\gamma+O(z)$. Multiplication by
-$1/[s(s-1)]=1/z-1+O(z)$ gives the two singular terms
-$z^{-2}-(1+\gamma)z^{-1}$. The transforms of $x\log x$ and $x$ are $z^{-2}$
-and $z^{-1}$, respectively. This gives exactly the two corrections in
-$G_{\one}$. For nonprincipal $\chi$, regularity and nonvanishing at one leave
-just $-(L'/L)(1,\chi)/z$ to cancel. This explains the plus sign in $G_\chi$.
+To see which terms to subtract from the ramp, we compute the singular part of its transform at $s=1$.
+Start with the constant character $\one$, so $L(s,\one)=\zeta(s)$.
+Write $z=s-1$, so the point of interest is now $z=0$. Near this point,
+$\zeta(1+z)=1/z+\gamma+O(z)$, where $\gamma$ is the constant used on
+p.~\pageref{ramp}. The remainder $O(z)$ is bounded by a constant times $|z|$.
+
+To see what happens when we take the logarithmic derivative, first multiply
+by $z$ to remove the pole. The resulting function $h(z)=z\zeta(1+z)$
+has expansion $h(z)=1+\gamma z+O(z^2)$, so $h(0)=1$.
+Differentiating this expansion with respect to $z$ gives $h'(0)=\gamma$.
+Now write $\zeta(1+z)=h(z)/z$. Since $s=1+z$, taking the logarithmic
+derivative with respect to $z$ is the same as taking it with respect to $s$.
+For the factor $-\zeta'/\zeta$ in the ramp transform, we obtain
+\[
+ -\frac{\zeta'(1+z)}{\zeta(1+z)}=\frac1z-\frac{h'(z)}{h(z)}
+ =\frac1z-\gamma+O(z).
+\]
+
+The other factor comes from integrating the ramp. Splitting it into
+fractions gives $1/[z(1+z)]=1/z-1/(1+z)=1/z-1+O(z)$.
+Multiplying gives
+\[
+ \widehat R_{\one}(1+z)
+ =\left(\frac1z-1+O(z)\right)\left(\frac1z-\gamma+O(z)\right)
+ =\frac1{z^2}-\frac{1+\gamma}{z}+O(1).
+\]
+\newpage
+The two copies of $1/z$ multiply to give the double pole. The cross terms
+contribute $-1/z$ and $-\gamma/z$. Removing $1/z^2$ still leaves $-(1+\gamma)/z$, which also blows up at $z=0$.
+Once we remove that term too, the remainder is regular at $z=0$.
+
+\pdfbookmark[1]{Recovering the corrections to the ramp}{bm-ramp-corrections}
+\subt{Read the two corrections back in the ramp}
+Which functions of $x$ produce those two terms? We already know that $x$
+has transform $1/(s-1)=1/z$. To get a factor of $\log x$, differentiate
+that transform in $\re s>1$. Differentiating the kernel $x^{-s-1}$
+brings down $-\log x$, so
+\[
+ \widehat{x\log x}(s)=-\frac{d}{ds}\frac1{s-1}=\frac1{(s-1)^2}.
+\]
+Now subtract $x\log x$ from the ramp to cancel $1/z^2$. The remaining
+singular term is negative, $-(1+\gamma)/z$, so add $(1+\gamma)x$ to cancel it.
+This recovers the centered sum plotted on p.~\pageref{ramp},
+\[
+ G_{\one}(x)=R_{\one}(x)-x\log x+(1+\gamma)x.
+\]
+
+For a nonprincipal character $\chi$, $L(1,\chi)$ is nonzero and $L$ is
+holomorphic there. Its logarithmic derivative has a finite value
+$c=L'(1,\chi)/L(1,\chi)$. The ramp factor still contributes $1/z$, so
+$\widehat R_\chi(1+z)=-c/z+O(1)$. There is just one correction this time.
+Adding $cx$ contributes $c/z$ to the transform and gives the other
+centered sum from p.~\pageref{ramp},
+\[
+ G_\chi(x)=R_\chi(x)+x\,\frac{L'(1,\chi)}{L(1,\chi)}.
+\]
+In both cases the transform of the centered sum is now regular at $s=1$.
 
 \subt{Keep the singularity at a zero}
 At a strip zero $\rho$ of multiplicity $r$, write
