@@ -10,7 +10,7 @@ The analytic chapters derive how a hypothetical zero forces a large value of a s
 
 ## Figures
 
-The figures are separate vector PDFs. Each has a standalone TeX source in the same directory. The numerical plots include their data and a standard-library Python generator.
+The thirteen numbered figures are separate vector PDFs. Each has a standalone TeX source in the same directory. The numerical plots include their data and a standard-library Python generator. The worked example “A crossing we can calculate” draws its plot directly in the [companion TeX source](companion.tex).
 
 | Figure | What it shows | Reproducible source |
 | --- | --- | --- |
@@ -32,7 +32,7 @@ The signed count of odd primes through 13 from the opening of “Characters and 
 
 ## Rebuild
 
-With a full TeX Live installation, Make and Python 3, run these commands from this directory. They regenerate both data tables, the thirteen figures in the companion and the companion PDF, including internal page references.
+With a full TeX Live installation, Make and Python 3, run these commands from this directory. They regenerate both data tables, the thirteen standalone figures used in the companion and the companion PDF, including internal page references.
 
 ```sh
 make data
